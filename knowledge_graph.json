@@ -1,0 +1,451 @@
+{
+  "masters": {
+    "Mst_AsahinaSogen": {
+      "id": "Mst_AsahinaSogen",
+      "name": "朝比奈宗源",
+      "title": "臨済宗大本山円覚寺 第10代管長",
+      "era": "昭和 (1891-1979, 管長在任 1941-1979)",
+      "core_philosophy": "仏心の信心、苦中の真楽、肚を据える覚悟、道は吾である"
+    },
+    "Mst_YokotaNanrei": {
+      "id": "Mst_YokotaNanrei",
+      "name": "横田南嶺",
+      "title": "臨済宗円覚寺派管長・花園大学総長",
+      "era": "現代 (1964年生, 2010年より現職)",
+      "core_philosophy": "不生の受容、共苦（コンパッション）の慈悲、身体呼吸への委ね、和の精神"
+    },
+    "Mst_Bankei": {
+      "id": "Mst_Bankei",
+      "name": "盤珪永琢",
+      "title": "江戸時代の臨済宗僧侶 (不生禅の祖)",
+      "era": "江戸初期 (1622-1693)",
+      "core_philosophy": "不生の仏心で一切の事は調う"
+    }
+  },
+  "discourses": {
+    "Dis_Asahina_Ocean": {
+      "id": "Dis_Asahina_Ocean",
+      "quote": "人間は仏心の大海に浮かぶ一滴の泡のようなもの。泡が浮かんでも海の命が増えるわけでもなく、泡が消えても海は減らない。人間は仏心から生まれ、仏心の中で生き、仏心へ還る。蟻のひげ一本も仏心の外にはない。",
+      "source_title": "『仏心に生きる』『仏心の信心』",
+      "source_url": "https://www.engakuji.or.jp/blog/35486/",
+      "speaker_id": "Mst_AsahinaSogen",
+      "tone": "超然的安心・宇宙的安堵",
+      "context": "死の恐怖や存在の小ささに脅かされる人々へ向けた提唱"
+    },
+    "Dis_Asahina_Kakugo": {
+      "id": "Dis_Asahina_Kakugo",
+      "quote": "静中の静は真静に非ず、苦中の楽こそ真の楽。道は吾である。どのような逆境にあっても環境を呪わず、自らが人生の責任を引き受けて立ち上がるのだ。",
+      "source_title": "『覚悟はよいか』『朝比奈宗源老師の獅子吼』",
+      "source_url": "https://www.engakuji.or.jp/blog/39003/",
+      "speaker_id": "Mst_AsahinaSogen",
+      "tone": "剛毅・覚悟・獅子吼",
+      "context": "人生の逆境や試練に直面し、逡巡する者への激動の励まし"
+    },
+    "Dis_Yokota_Bankei": {
+      "id": "Dis_Yokota_Bankei",
+      "quote": "親から生まれついたのは仏心ひとつ。不生の仏心で一切の事は調っている。作為や力みを手放し、本来具わっている心の清らかさに立ち戻ればよいのです。",
+      "source_title": "「不生の仏心」管長日記",
+      "source_url": "https://www.engakuji.or.jp/blog/38156/",
+      "speaker_id": "Mst_YokotaNanrei",
+      "tone": "受容・安堵・包摂",
+      "context": "成果主義や他者比較で自己無価値感に苦しむ現代人への言葉"
+    },
+    "Dis_Yokota_Compassion": {
+      "id": "Dis_Yokota_Compassion",
+      "quote": "坐禅によって澄まし顔でいるのではなく、生を喜び死を悲しみ、人の痛みを共に分かち合う『共苦の心』が発露してこそ真の禅です。仏さまは迷いながら必死に生きてきたあなたを見守っています。",
+      "source_title": "「慈悲とは理解 – 禅僧の祈り –」",
+      "source_url": "https://www.engakuji.or.jp/blog/34924/",
+      "speaker_id": "Mst_YokotaNanrei",
+      "tone": "共苦・深い慈悲・連帯",
+      "context": "孤立や自責の念に押しつぶされそうな人へ寄り添う法話"
+    },
+    "Dis_Asahina_OldWoman": {
+      "id": "Dis_Asahina_OldWoman",
+      "quote": "老農婦の『私には坐禅をする力がない、見放されているのか』という問いに私は言葉を失った。そして気付いた。悟りを求める前に、すでに私たちは大いなる仏心の中に抱きしめられているのだと。",
+      "source_title": "『仏心に生きる』浄智寺時代の回想",
+      "source_url": "https://www.engakuji.or.jp/blog/35486/",
+      "speaker_id": "Mst_AsahinaSogen",
+      "tone": "実存的開眼・無条件の救済",
+      "context": "修行主義の傲慢を破り、すべての人に開かれた禅への転換点"
+    },
+    "Dis_Asahina_Marukibashi": {
+      "id": "Dis_Asahina_Marukibashi",
+      "quote": "人が丸木橋から足を滑らせ、必死にしがみついている。『手を離せ、船の上に布団が敷いてあるから大丈夫だ』と言われても手放せない。だが力尽きて手を離せば布団の上だ。人はとっくに仏心の真只中にいる。信じて手放せばよいのだ。",
+      "source_title": "『碧巌録提唱』「仏心のうち」",
+      "source_url": "https://www.engakuji.or.jp/blog/39747/",
+      "speaker_id": "Mst_AsahinaSogen",
+      "tone": "超然的安心・執着の脱落",
+      "context": "人為の努力にしがみつき、不安で手を離せない人々への譬え"
+    },
+    "Dis_Asahina_SevenRecitations": {
+      "id": "Dis_Asahina_SevenRecitations",
+      "quote": "毎朝仏前に正坐して腰を立て、頭のてっぺんで大空を突き上げる心持ちで手を合わせ、腹の底から『南無釈迦牟尼仏』と七遍以上唱えよ。常に仏心を念じていると、心の暗い人は明るくなり、狭い人は広くなり、体も丈夫に、いざという時にもあわてることがない。",
+      "source_title": "『覚悟はよいか』「仏心光明の中」",
+      "source_url": "https://www.engakuji.or.jp/blog/39003/",
+      "speaker_id": "Mst_AsahinaSogen",
+      "tone": "剛毅・生命力喚起・肚の定着",
+      "context": "修行道場に行けぬ一般人が、日常で仏心の力を体得するための秘法"
+    },
+    "Dis_Yokota_OrdinarySamu": {
+      "id": "Dis_Yokota_OrdinarySamu",
+      "quote": "十年修行しても超人になどならぬ。今日も相変わらず落ち葉を掃くだけだ。何を思おうと皆妄想。ただ掃くに如くはない。落ち葉の散るも掃く人もみなもろともに仏心のうち。",
+      "source_title": "「仏心のうち」管長日記",
+      "source_url": "https://www.engakuji.or.jp/blog/39747/",
+      "speaker_id": "Mst_YokotaNanrei",
+      "tone": "等身大の安堵・無所得の日常",
+      "context": "特別な人間になろうと気負い焦る修行者・現代人への諭し"
+    },
+    "Dis_Yokota_CompassionIsUnderstanding": {
+      "id": "Dis_Yokota_CompassionIsUnderstanding",
+      "quote": "生も死も仏心の中と澄ましていていいわけではない。人は生を喜び死を悲しみ、苦しみ悩むもの。その苦しみを共に見つめ、分かち合う慈悲がなければ真の禅ではない。朝比奈老師は『慈悲とは理解である』と説かれた。",
+      "source_title": "「慈悲とは理解 – 禅僧の祈り –」",
+      "source_url": "https://www.engakuji.or.jp/blog/34924/",
+      "speaker_id": "Mst_YokotaNanrei",
+      "tone": "共苦・深い理解・温かな包摂",
+      "context": "冷徹な悟りにとどまらず、人々の苦しみに寄り添う禅の祈り"
+    },
+    "Dis_Yokota_JustLivingSacred": {
+      "id": "Dis_Yokota_JustLivingSacred",
+      "quote": "本当の尊さとは、大蔵経を諳んじることでも立派な話をすることでもない。只今こうして生かされて生きていることに尽きる。なにもかも失った時、あるいは失いかけて、この大いなる仏心の中に抱かれていることに気がつく。",
+      "source_title": "「失ってから気づくもの」管長日記",
+      "source_url": "https://www.engakuji.or.jp/blog/34067/",
+      "speaker_id": "Mst_YokotaNanrei",
+      "tone": "実存的尊厳・基底の肯定",
+      "context": "身体の自由や財産を失い、絶望の淵にある人へのまなざし"
+    }
+  },
+  "praxes": {
+    "Pra_TandenBreathing": {
+      "id": "Pra_TandenBreathing",
+      "name": "立腰・丹田呼気充実",
+      "action_type": "身体技法・呼吸法",
+      "description": "腰骨を垂直に立て、息を細く長く静かに吐き出しながら下腹（丹田）に気力を満たす。腹圧を保ち、肚を据える。",
+      "duration_min": 3,
+      "target_state": "肚の定着・主体性の確立",
+      "leads_to_id": "Pra_SurrenderBreath"
+    },
+    "Pra_SurrenderBreath": {
+      "id": "Pra_SurrenderBreath",
+      "name": "無意識呼吸への帰依（手放しの呼吸）",
+      "action_type": "身体技法・呼吸法",
+      "description": "作為的なコントロールや緊張を手放し、「生かされて自然に行われている呼吸」に身を委ねる。吐く息とともに思考を手放す。",
+      "duration_min": 3,
+      "target_state": "副交感神経優位・安心・受容",
+      "leads_to_id": null
+    },
+    "Pra_SweepingSamu": {
+      "id": "Pra_SweepingSamu",
+      "name": "掃き清めの作務",
+      "action_type": "身体技法・日常作務",
+      "description": "箒を持って足元や机周りを無心に掃き清める。環境と自己の境界を融解させ、ただ目の前の行為に没入する。",
+      "duration_min": 5,
+      "target_state": "今ここへの集中・孤立感の融解",
+      "leads_to_id": null
+    },
+    "Pra_GasshoRecitation": {
+      "id": "Pra_GasshoRecitation",
+      "name": "合掌・感謝の言霊",
+      "action_type": "身体技法・所作",
+      "description": "胸の前で静かに両手を合わせ、今生かされている縁や去りゆく命に対して「ありがとう」と心の中で念じる。",
+      "duration_min": 2,
+      "target_state": "全能感の錯覚の手放し・有限性の受容",
+      "leads_to_id": null
+    },
+    "Pra_ChairZazen": {
+      "id": "Pra_ChairZazen",
+      "name": "イス坐禅・息の礼拝",
+      "action_type": "身体技法・坐禅",
+      "description": "椅子に浅く腰掛け、背筋を伸ばし、両足を床につける。出入りする呼吸そのものの奇跡に意識を集中し、静かに目を閉じる。",
+      "duration_min": 5,
+      "target_state": "自己効力感の回復・老病の受容",
+      "leads_to_id": null
+    },
+    "Pra_MorningNamu": {
+      "id": "Pra_MorningNamu",
+      "name": "朝の立腰念誦法（七遍の礼拝）",
+      "action_type": "身体技法・姿勢と発声",
+      "description": "背筋を垂直に伸ばし、頭頂で天を衝く意識を持つ。両手を静かに合わせ、下腹（丹田）の底から『南無釈迦牟尼仏（または、生かされている生命への感謝）』を7回声に出して唱える。",
+      "duration_min": 2,
+      "target_state": "丹田の充実・気迫の覚醒・迷いの切断",
+      "leads_to_id": "Pra_TandenBreathing"
+    },
+    "Pra_OpenHandSurrender": {
+      "id": "Pra_OpenHandSurrender",
+      "name": "丸木橋の手放し（脱力と蒲団の瞑想）",
+      "action_type": "身体技法・脱力瞑想",
+      "description": "ぎゅっと握りしめた両手のこぶしを開き、手のひらを上に向ける。肩の力をストンと落とし、『もう抱え込まなくていい、落ちても蒲団の上だ』と息をフッと長く吐き出す。",
+      "duration_min": 2,
+      "target_state": "緊張の全解除・執着の手放し・絶対安心",
+      "leads_to_id": "Pra_SurrenderBreath"
+    }
+  },
+  "wisdoms": {
+    "Wis_UnbornMind": {
+      "id": "Wis_UnbornMind",
+      "name": "不生の仏心（本来の調い）",
+      "orientation": "accepting",
+      "function": "過緊張の緩和・自己否定の解除・基底肯定",
+      "summary": "人為的な作為を加えなくとも、生まれたままの心は完全であり、何ひとつ欠けていないという境地。",
+      "discourse_ids": [
+        "Dis_Yokota_Bankei"
+      ],
+      "praxis_ids": [
+        "Pra_SurrenderBreath"
+      ],
+      "complements_ids": [
+        "Wis_RealJoyInPain"
+      ]
+    },
+    "Wis_OceanAndDrop": {
+      "id": "Wis_OceanAndDrop",
+      "name": "大海と一滴の生命（宇宙的仏心）",
+      "orientation": "transcendent",
+      "function": "狭小な自我の解体・生死の脱落・視野拡大",
+      "summary": "個人の生と死は仏心という大洋の波紋に過ぎず、生まれる前も死後も一度たりとも生命の大海から離れることはない。",
+      "discourse_ids": [
+        "Dis_Asahina_Ocean",
+        "Dis_Asahina_OldWoman"
+      ],
+      "praxis_ids": [
+        "Pra_GasshoRecitation"
+      ],
+      "complements_ids": [
+        "Wis_RealJoyInPain",
+        "Wis_GreatCompassion"
+      ]
+    },
+    "Wis_RealJoyInPain": {
+      "id": "Wis_RealJoyInPain",
+      "name": "苦中の真楽・道は吾である（主体的覚悟）",
+      "orientation": "resolute",
+      "function": "自己責任の引受・逆境での活力喚起・主体的跳躍",
+      "summary": "困難から逃避せず、目前の苦境こそが自らを鍛える真の道であると肚を据え、人生の主人公として立ち上がる境地。",
+      "discourse_ids": [
+        "Dis_Asahina_Kakugo"
+      ],
+      "praxis_ids": [
+        "Pra_TandenBreathing"
+      ],
+      "complements_ids": [
+        "Wis_UnbornMind"
+      ]
+    },
+    "Wis_GreatCompassion": {
+      "id": "Wis_GreatCompassion",
+      "name": "共苦の慈悲・入鄽垂手（他者への連帯）",
+      "orientation": "solidarity",
+      "function": "孤立感の融解・他者理解・利他への昇華",
+      "summary": "自分の殻に閉じこもるのをやめ、他者の痛みに寄り添い、泥にまみれて街に出て手を差し伸べる実践的慈悲。",
+      "discourse_ids": [
+        "Dis_Yokota_Compassion"
+      ],
+      "praxis_ids": [
+        "Pra_SweepingSamu"
+      ],
+      "complements_ids": [
+        "Wis_OceanAndDrop"
+      ]
+    },
+    "Wis_FlowerLife": {
+      "id": "Wis_FlowerLife",
+      "name": "花のように生きる（老病の全肯定）",
+      "orientation": "accepting",
+      "function": "肉体衰弱への受容・存在そのものの尊厳確認",
+      "summary": "体が動かなくなっても、ただ静かに咲いて散る花のように、笑顔と感謝で生きること自体が仏心の尊い現れである。",
+      "discourse_ids": [
+        "Dis_Asahina_OldWoman"
+      ],
+      "praxis_ids": [
+        "Pra_ChairZazen"
+      ],
+      "complements_ids": [
+        "Wis_OceanAndDrop"
+      ]
+    },
+    "Wis_LettingGoBridge": {
+      "id": "Wis_LettingGoBridge",
+      "name": "丸木橋の手放し（蒲団の上の安心）",
+      "orientation": "accepting",
+      "function": "過度なコントロール欲求・強迫観念の解除",
+      "summary": "人為の力にしがみつくのをやめ、手を離したとき、すでに絶対的安全（仏心という蒲団）の上に落ちていたと気付く境地。",
+      "discourse_ids": [
+        "Dis_Asahina_Marukibashi"
+      ],
+      "praxis_ids": [
+        "Pra_OpenHandSurrender"
+      ],
+      "complements_ids": [
+        "Wis_RealJoyInPain"
+      ]
+    },
+    "Wis_OrdinaryMindSamu": {
+      "id": "Wis_OrdinaryMindSamu",
+      "name": "平常心是道（超人なき日常の尊さ）",
+      "orientation": "accepting",
+      "function": "自己顕示欲・焦燥・『何者かにならねば』という強迫の解体",
+      "summary": "特別な人間になる必要はない。ただ目の前の落ち葉を掃き、今日できることを淡々と成すこと自体が仏心の完全な顕現である。",
+      "discourse_ids": [
+        "Dis_Yokota_OrdinarySamu",
+        "Dis_Yokota_JustLivingSacred"
+      ],
+      "praxis_ids": [
+        "Pra_SweepingSamu"
+      ],
+      "complements_ids": [
+        "Wis_RealJoyInPain"
+      ]
+    }
+  },
+  "sufferings": {
+    "Suf_Anxiety": {
+      "id": "Suf_Anxiety",
+      "name": "焦燥・自己無価値感",
+      "description": "成果主義や他者比較による『今のままでは足りない』という欠乏動機と未来への焦り。",
+      "tension_level": "high",
+      "time_focus": "future",
+      "attribution": "self",
+      "transforms_to_ids": [
+        {
+          "target_id": "Wis_UnbornMind",
+          "phase": 1,
+          "description": "まずは不生を受容し過緊張を解く"
+        },
+        {
+          "target_id": "Wis_OceanAndDrop",
+          "phase": 2,
+          "description": "大海と一滴により自己の小ささを安心へ転換"
+        },
+        {
+          "target_id": "Wis_RealJoyInPain",
+          "phase": 3,
+          "description": "肚を据えて今ここから歩き出す覚悟を決める"
+        }
+      ]
+    },
+    "Suf_Grief": {
+      "id": "Suf_Grief",
+      "name": "死別・喪失の悲嘆",
+      "description": "大切な対象の喪失に伴う空虚感、過去への執着、自分を責める苦しみ。",
+      "tension_level": "high",
+      "time_focus": "past",
+      "attribution": "self",
+      "transforms_to_ids": [
+        {
+          "target_id": "Wis_GreatCompassion",
+          "phase": 1,
+          "description": "悲しみを無理に消さず共苦として受け止める"
+        },
+        {
+          "target_id": "Wis_OceanAndDrop",
+          "phase": 2,
+          "description": "命は仏心の大海へ還り、常に共にあることを覚知"
+        },
+        {
+          "target_id": "Wis_RealJoyInPain",
+          "phase": 3,
+          "description": "残された生を自らの足で精一杯生き抜く覚悟"
+        }
+      ]
+    },
+    "Suf_FearOfFailure": {
+      "id": "Suf_FearOfFailure",
+      "name": "重責・失敗の恐怖",
+      "description": "結果への過度な執着、失敗を許容できない完璧主義、重圧による逡巡。",
+      "tension_level": "high",
+      "time_focus": "future",
+      "attribution": "situation",
+      "transforms_to_ids": [
+        {
+          "target_id": "Wis_UnbornMind",
+          "phase": 1,
+          "description": "成否にとらわれない本来の心の静けさに戻る"
+        },
+        {
+          "target_id": "Wis_OceanAndDrop",
+          "phase": 2,
+          "description": "人間は全知全能ではない有限性を認める"
+        },
+        {
+          "target_id": "Wis_RealJoyInPain",
+          "phase": 3,
+          "description": "苦難こそが我が道と肚を据え、公案に成り切る"
+        }
+      ]
+    },
+    "Suf_Isolation": {
+      "id": "Suf_Isolation",
+      "name": "孤立感・承認渇愛",
+      "description": "世界からの疎外感、被害者意識、誰にも理解されないという閉塞感。",
+      "tension_level": "medium",
+      "time_focus": "present",
+      "attribution": "other",
+      "transforms_to_ids": [
+        {
+          "target_id": "Wis_GreatCompassion",
+          "phase": 1,
+          "description": "万象との見えないつながりと仏心の見守りを信じる"
+        },
+        {
+          "target_id": "Wis_OceanAndDrop",
+          "phase": 2,
+          "description": "自他の壁を融解させ、大いなる縁起を自覚する"
+        },
+        {
+          "target_id": "Wis_RealJoyInPain",
+          "phase": 3,
+          "description": "求める側から与える側（入鄽垂手・作務）へ回る覚悟"
+        }
+      ]
+    },
+    "Suf_Decline": {
+      "id": "Suf_Decline",
+      "name": "心身の衰え・老病の苦",
+      "description": "肉体的機能低下への絶望、社会的な役目を終えたことによる虚無感。",
+      "tension_level": "medium",
+      "time_focus": "present",
+      "attribution": "self",
+      "transforms_to_ids": [
+        {
+          "target_id": "Wis_FlowerLife",
+          "phase": 1,
+          "description": "動けなくとも病む姿も仏心。咲いて散る花として生きる"
+        },
+        {
+          "target_id": "Wis_OceanAndDrop",
+          "phase": 2,
+          "description": "身体の衰退を超えた永遠の生命の海を観ずる"
+        },
+        {
+          "target_id": "Wis_RealJoyInPain",
+          "phase": 3,
+          "description": "今日この息ひとつに感謝し、笑顔で向き合う覚悟"
+        }
+      ]
+    },
+    "Suf_PerfectionismBurnout": {
+      "id": "Suf_PerfectionismBurnout",
+      "name": "完璧主義・何者かにならねばという焦燥（燃え尽き）",
+      "description": "『特別にならねば価値がない』『もっと成果を出さねば』と自分を責め立て、限界まで背負い込んで手を離せない状態。",
+      "tension_level": "high",
+      "time_focus": "future",
+      "attribution": "self",
+      "transforms_to_ids": [
+        {
+          "target_id": "Wis_LettingGoBridge",
+          "phase": 1,
+          "description": "丸木橋の手放しにより、まず力みと強迫観念を脱落させる"
+        },
+        {
+          "target_id": "Wis_OrdinaryMindSamu",
+          "phase": 2,
+          "description": "超人になる必要はないという等身大の尊さに戻る"
+        },
+        {
+          "target_id": "Wis_RealJoyInPain",
+          "phase": 3,
+          "description": "道は吾である。今の足元から自らの歩みを肚を据えて再開する"
+        }
+      ]
+    }
+  }
+}
