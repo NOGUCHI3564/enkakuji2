@@ -9,7 +9,7 @@ import {
 } from "../types/zen";
 import { organizeLifeMemoriesWithAI } from "../services/zenAiService";
 import { soundEngine } from "../services/soundEngine";
-import { X, Send, Trash2, Sparkles, UserCheck } from "lucide-react";
+import { X, Send, Trash2, Sparkles, UserCheck, ShieldCheck } from "lucide-react";
 
 interface LifeMemoriesModalProps {
   profile: UserLifeProfile;
@@ -168,9 +168,15 @@ export const LifeMemoriesModal: React.FC<LifeMemoriesModalProps> = ({
 
         {/* タイトル（大きくシンプルに） */}
         <div className="mb-5 pr-10">
-          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-amber-50 tracking-wider">
-            人生の記憶
-          </h2>
+          <div className="flex items-center gap-2.5 flex-wrap">
+            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-amber-50 tracking-wider">
+              人生の記憶
+            </h2>
+            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-xs text-emerald-200 font-serif">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-300" />
+              このスマホ内のみ保存
+            </span>
+          </div>
           <p className="font-serif text-sm sm:text-base text-amber-200/90 mt-1">
             これまでの「喜・怒・哀・楽」やプロフィールを自由に書いてください
           </p>

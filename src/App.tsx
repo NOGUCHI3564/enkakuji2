@@ -21,6 +21,7 @@ import {
   Play,
   Download,
   BookHeart,
+  ShieldCheck,
 } from "lucide-react";
 
 interface BeforeInstallPromptEvent extends Event {
@@ -63,20 +64,36 @@ export const App: React.FC = () => {
 
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isLifeMemoriesOpen, setIsLifeMemoriesOpen] = useState(false);
+  const [showPrivacyWhisper, setShowPrivacyWhisper] = useState(false);
   const [deferredPrompt, setDeferredPrompt] =
     useState<BeforeInstallPromptEvent | null>(null);
 
   useEffect(() => {
     initializeApp();
 
+    // 起動時にさりげなく「スマホ内のみ保存（クラウド保存なし）」の安心感を5.5秒だけ伝えて自動で消す
+    const showTimer = window.setTimeout(() => setShowPrivacyWhisper(true), 400);
+    const hideTimer = window.setTimeout(
+      () => setShowPrivacyWhisper(false),
+      6000
+    );
+
     const handleBeforeInstall = (e: Event) => {
       e.preventDefault();
       setDeferredPrompt(e as BeforeInstallPromptEvent);
     };
     window.addEventListener("beforeinstallprompt", handleBeforeInstall);
-    return () =>
+    return () => {
+      window.clearTimeout(showTimer);
+      window.clearTimeout(hideTimer);
       window.removeEventListener("beforeinstallprompt", handleBeforeInstall);
+    };
   }, [initializeApp]);
+
+  const triggerPrivacyWhisper = () => {
+    setShowPrivacyWhisper(true);
+    window.setTimeout(() => setShowPrivacyWhisper(false), 4500);
+  };
 
   const handleInstallPwa = async () => {
     if (!deferredPrompt) return;
@@ -115,9 +132,15 @@ export const App: React.FC = () => {
                 <h1 className="font-serif text-2xl sm:text-3xl font-bold tracking-widest text-amber-50 drop-shadow">
                   心 庭
                 </h1>
-                <span className="font-serif text-xs text-slate-300/80 tracking-wider">
-                  — 禅問答と覚悟の石 —
-                </span>
+                <button
+                  type="button"
+                  onClick={triggerPrivacyWhisper}
+                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-400/25 text-[11px] text-emerald-200/90 font-serif transition"
+                  title="プライバシー保護について確認"
+                >
+                  <ShieldCheck className="w-3 h-3 text-emerald-300" />
+                  <span>端末内保存</span>
+                </button>
               </div>
             </div>
 
@@ -263,6 +286,20 @@ export const App: React.FC = () => {
           </footer>
         </div>
       )}
+
+      {/* さりげないプライバシー安心トースト（起動時または「端末内保存」タップ時に数秒だけふわっと表示して自動で消える） */}
+      <div
+        className={`fixed top-20 left-1/2 -translate-x-1/2 z-40 pointer-events-none transition-all duration-700 ${
+          showPrivacyWhisper
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 -translate-y-2"
+        }`}
+      >
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-950/85 border border-emerald-400/35 text-xs sm:text-sm text-emerald-100 font-serif backdrop-blur-md shadow-xl whitespace-nowrap">
+          <ShieldCheck className="w-4 h-4 text-emerald-300 flex-shrink-0" />
+          <span>記録はクラウドに残らず、このスマホ内だけに保存されます</span>
+        </div>
+      </div>
 
       {/* 3. INITIAL_ASSESSMENT（禅問答の開始モーダル：人生の記憶の参照 ＋ 今回の問いの入力） */}
       {viewMode === "INITIAL_ASSESSMENT" && (
