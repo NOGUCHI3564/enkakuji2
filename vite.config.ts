@@ -28,6 +28,9 @@ export default defineConfig({
         ]
       },
       workbox: {
+        skipWaiting: true,
+        clientsClaim: true,
+        cleanupOutdatedCaches: true,
         globPatterns: ['**/*.{js,css,html,svg,json,mp3}']
       }
     })
