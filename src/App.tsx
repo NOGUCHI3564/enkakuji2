@@ -194,15 +194,15 @@ export const App: React.FC = () => {
             </div>
           </header>
 
-          {/* 【中央ゾーン】心庭ビューポート（石がある時は完全にクリアにして、石の輝きと砂紋を邪魔しない） */}
+          {/* 【中央ゾーン】心庭ビューポート（石がある時は完全にクリアにして、3Dガラス天球と石の輝きを邪魔しない） */}
           <div className="my-auto flex flex-col items-center text-center pointer-events-none">
             {stones.length === 0 && (
               <div className="max-w-xs sm:max-w-sm rounded-3xl bg-slate-950/55 border border-amber-200/15 px-6 py-5 backdrop-blur-md shadow-2xl">
                 <p className="font-serif text-sm sm:text-base text-amber-100 leading-relaxed mb-1.5">
-                  静かな光の庭へようこそ
+                  心の宇宙へようこそ
                 </p>
                 <p className="text-xs text-slate-300/85 leading-relaxed">
-                  あなたの「人生の記憶（喜・怒・哀・楽の経験）」や今の思いから禅問答を始めましょう。対話の末にあなたが出した結論が、この庭の中央に光り輝く「覚悟の石」として立ち上がります。
+                  あなたの「人生の記憶」や今の思いから禅問答を始めましょう。対話の末に出した結論が、このガラスの球体の中に輝く「覚悟の石」として浮かび上がります。
                 </p>
               </div>
             )}
@@ -214,7 +214,7 @@ export const App: React.FC = () => {
             {stones.length > 0 && (
               <div className="flex flex-col items-center gap-1.5">
                 <span className="text-[11px] font-serif text-amber-200/75 tracking-wide">
-                  庭の石、または下の銘をタップして覚悟を振り返る
+                  球体を指で回す・ピンチで拡大 ／ 石や下の銘をタップで振り返る
                 </span>
                 <div className="w-full flex items-center gap-2 overflow-x-auto py-1 px-1 no-scrollbar justify-start sm:justify-center">
                   {stones.map((st) => (
