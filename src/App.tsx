@@ -1,5 +1,7 @@
 // 円覚寺禅問答・心庭（箱庭）・瞑想PWAアプリ メインコンテナ
 // spec.md Version 2.0 に完全準拠
+// ホーム画面（GARDEN_HOME）では、中央の箱庭・覚悟の石に一切の文字やバナーが重ならないよう
+// 3ゾーン構成（上部ヘッダー / 中央100%オープンな心庭ステージ / 下部ドック＆石カルーセル）を採用。
 
 import React, { useEffect, useState } from "react";
 import { useZenStore } from "./store/useZenStore";
@@ -96,31 +98,45 @@ export const App: React.FC = () => {
 
       {/* 2. GARDEN_HOME（心庭ホーム画面）のオーバーレイUI */}
       {viewMode === "GARDEN_HOME" && (
-        <div className="fixed inset-0 z-10 flex flex-col justify-between p-5 sm:p-8 pointer-events-none">
-          {/* トップヘッダー */}
-          <header className="flex items-start justify-between gap-3 pointer-events-auto">
+        <div className="fixed inset-0 z-10 flex flex-col justify-between px-4 pt-4 pb-5 sm:px-8 sm:pt-6 sm:pb-7 pointer-events-none">
+          {/* 【上部ゾーン】トップヘッダー（左：タイトル / 右：覚悟の石バッジ＆設定ボタン） */}
+          <header className="flex items-center justify-between gap-2 pointer-events-auto">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-amber-500/10 border border-amber-300/20 text-[11px] text-amber-200/90 font-serif mb-1.5 backdrop-blur-md">
-                <Sparkles className="w-3 h-3 text-amber-300" />
-                <span>臨済宗円覚寺 全脳知識ネットワーク × 心庭</span>
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-300/20 text-[10px] text-amber-200/90 font-serif mb-1 backdrop-blur-md">
+                <Sparkles className="w-2.5 h-2.5 text-amber-300" />
+                <span>臨済宗円覚寺 全脳知識ネットワーク</span>
               </div>
-              <h1 className="font-serif text-2xl sm:text-3xl font-bold tracking-widest text-amber-50 drop-shadow">
-                心 庭{" "}
-                <span className="text-sm font-normal text-slate-300/80 tracking-normal">
+              <div className="flex items-baseline gap-2">
+                <h1 className="font-serif text-2xl sm:text-3xl font-bold tracking-widest text-amber-50 drop-shadow">
+                  心 庭
+                </h1>
+                <span className="font-serif text-xs text-slate-300/80 tracking-wider">
                   — 禅問答と覚悟の石 —
                 </span>
-              </h1>
+              </div>
             </div>
 
             <div className="flex items-center gap-2">
+              {/* 獲得した覚悟の石の個数ステータスバッジ（ヘッダー右上にすっきり配置し、庭と一切重ならない） */}
+              {stones.length > 0 && (
+                <button
+                  onClick={() => selectStone(stones[stones.length - 1])}
+                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-slate-900/80 hover:bg-slate-800/90 border border-amber-400/35 text-xs text-amber-200 font-serif backdrop-blur-md shadow-md transition"
+                  title="最新の覚悟の石を振り返る"
+                >
+                  <Gem className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
+                  <span>覚悟の石 {stones.length}</span>
+                </button>
+              )}
+
               {deferredPrompt && (
                 <button
                   onClick={handleInstallPwa}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-amber-500/20 hover:bg-amber-500/35 border border-amber-400/40 text-xs text-amber-100 font-serif backdrop-blur-md transition"
+                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-amber-500/20 hover:bg-amber-500/35 border border-amber-400/40 text-xs text-amber-100 font-serif backdrop-blur-md transition"
                   title="スマートフォンにPWAをインストール"
                 >
                   <Download className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">アプリをインストール</span>
+                  <span className="hidden sm:inline">追加</span>
                 </button>
               )}
 
@@ -134,37 +150,52 @@ export const App: React.FC = () => {
             </div>
           </header>
 
-          {/* 中央ガイド（庭の覚悟の石の案内） */}
+          {/* 【中央ゾーン】心庭ビューポート（石がある時は完全にクリアにして、石の輝きと砂紋を邪魔しない） */}
           <div className="my-auto flex flex-col items-center text-center pointer-events-none">
-            {stones.length === 0 ? (
-              <div className="max-w-sm rounded-3xl bg-slate-950/45 border border-white/10 px-6 py-5 backdrop-blur-sm">
-                <p className="font-serif text-sm sm:text-base text-amber-100/90 leading-relaxed mb-1">
-                  静かな光の庭へようこそ。
+            {stones.length === 0 && (
+              <div className="max-w-xs sm:max-w-sm rounded-3xl bg-slate-950/55 border border-amber-200/15 px-6 py-5 backdrop-blur-md shadow-2xl">
+                <p className="font-serif text-sm sm:text-base text-amber-100 leading-relaxed mb-1.5">
+                  静かな光の庭へようこそ
                 </p>
-                <p className="text-xs text-slate-300/80 leading-relaxed">
-                  今の「喜・怒・哀・楽」から禅問答を始めましょう。5〜10往復の対話の末にあなたが出した結論が、この庭に光り輝く「覚悟の石」として立ち上がります。
-                </p>
-              </div>
-            ) : (
-              <div className="mt-44 sm:mt-52 px-4 py-1.5 rounded-full bg-slate-950/60 border border-amber-300/20 backdrop-blur-md">
-                <p className="text-xs font-serif text-amber-200/90 flex items-center gap-1.5">
-                  <Gem className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
-                  <span>
-                    心の庭に {stones.length} 個の「覚悟の石」が輝いています（石をタップして振り返る）
-                  </span>
+                <p className="text-xs text-slate-300/85 leading-relaxed">
+                  今の「喜・怒・哀・楽」から禅問答を始めましょう。対話の末にあなたが出した結論が、この庭の中央に光り輝く「覚悟の石」として立ち上がります。
                 </p>
               </div>
             )}
           </div>
 
-          {/* ボトムアクションバー */}
-          <footer className="w-full max-w-md mx-auto space-y-3 pointer-events-auto">
+          {/* 【下部ゾーン】覚悟の石クイック選択ピルバー ＋ メインアクションドック */}
+          <footer className="w-full max-w-md mx-auto space-y-2.5 pointer-events-auto">
+            {/* 石が1個以上ある場合：下部ドックのすぐ上に、横スクロール可能な小さな石チップ一覧を表示 */}
+            {stones.length > 0 && (
+              <div className="flex flex-col items-center gap-1.5">
+                <span className="text-[11px] font-serif text-amber-200/75 tracking-wide">
+                  庭の石、または下の銘をタップして覚悟を振り返る
+                </span>
+                <div className="w-full flex items-center gap-2 overflow-x-auto py-1 px-1 no-scrollbar justify-start sm:justify-center">
+                  {stones.map((st) => (
+                    <button
+                      key={st.id}
+                      onClick={() => selectStone(st)}
+                      className="flex-shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-950/80 hover:bg-amber-500/20 border border-amber-300/25 text-xs font-serif text-amber-100/90 backdrop-blur-md transition shadow-sm"
+                    >
+                      <span className="w-2 h-2 rounded-full bg-amber-300 animate-ping" />
+                      <span className="truncate max-w-[130px]">
+                        {st.stone_title}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* 途中のセッションがある場合の再開バー */}
             {activeSession && activeSession.messages.length > 0 && (
               <button
                 onClick={() => setViewMode("INQUIRY")}
-                className="w-full py-3 px-5 rounded-2xl bg-slate-900/85 hover:bg-slate-800/95 border border-amber-400/35 text-amber-200 font-serif text-xs sm:text-sm flex items-center justify-center gap-2 backdrop-blur-md shadow-lg transition"
+                className="w-full py-2.5 px-4 rounded-2xl bg-slate-900/85 hover:bg-slate-800/95 border border-amber-400/35 text-amber-200 font-serif text-xs flex items-center justify-center gap-2 backdrop-blur-md shadow-lg transition"
               >
-                <Play className="w-4 h-4 fill-amber-300 text-amber-300" />
+                <Play className="w-3.5 h-3.5 fill-amber-300 text-amber-300" />
                 <span>
                   途中の禅問答を再開する（現在{" "}
                   {activeSession.messages.filter((m) => m.role === "user").length}{" "}
@@ -173,18 +204,21 @@ export const App: React.FC = () => {
               </button>
             )}
 
-            <div className="grid grid-cols-3 gap-2.5">
+            {/* メインアクションボタン */}
+            <div className="grid grid-cols-3 gap-2.5 pt-0.5">
               <button
                 onClick={startNewAssessment}
-                className="col-span-2 py-4 px-5 rounded-2xl bg-gradient-to-r from-amber-500/90 to-amber-600/90 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-serif font-bold text-sm sm:text-base tracking-wider shadow-xl shadow-amber-500/20 flex items-center justify-center gap-2 transition transform active:scale-[0.99]"
+                className="col-span-2 py-3.5 px-5 rounded-2xl bg-gradient-to-r from-amber-500/95 to-amber-600/95 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-serif font-bold text-sm sm:text-base tracking-wider shadow-xl shadow-amber-500/20 flex items-center justify-center gap-2 transition transform active:scale-[0.99]"
               >
                 <Sparkles className="w-4 h-4" />
                 <span>禅問答を始める</span>
               </button>
 
               <button
-                onClick={() => startMeditation("rain", settings.defaultMeditationMinutes)}
-                className="py-4 px-3 rounded-2xl bg-slate-900/80 hover:bg-slate-800/90 border border-white/15 text-sky-200 font-serif text-xs sm:text-sm flex items-center justify-center gap-1.5 backdrop-blur-md transition"
+                onClick={() =>
+                  startMeditation("rain", settings.defaultMeditationMinutes)
+                }
+                className="py-3.5 px-3 rounded-2xl bg-slate-900/85 hover:bg-slate-800/95 border border-white/15 text-sky-200 font-serif text-xs sm:text-sm flex items-center justify-center gap-1.5 backdrop-blur-md transition"
               >
                 <Wind className="w-4 h-4 text-sky-300" />
                 <span>自然音瞑想</span>

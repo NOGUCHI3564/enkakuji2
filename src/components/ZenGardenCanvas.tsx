@@ -283,15 +283,15 @@ export const ZenGardenCanvas: React.FC<ZenGardenCanvasProps> = ({
       ctx.fill();
       ctx.restore();
 
-      // 4. 枯山水・水面の同心円砂紋（波紋）
+      // 4. 枯山水・水面の同心円砂紋（波紋）— 庭の中央ステージ（h * 0.48）を中心に広げる
       ctx.save();
-      const gardenCenterY = h * 0.62;
+      const gardenCenterY = h * 0.48;
       for (let i = 1; i <= 7; i++) {
         const rx = Math.min(w * 0.46, 48 * i + Math.sin(time * 0.6 + i) * 3);
         const ry = rx * 0.38;
         ctx.beginPath();
         ctx.ellipse(centerX, gardenCenterY, rx, ry, 0, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(${palette.particleColor}, ${0.065 - i * 0.006})`;
+        ctx.strokeStyle = `rgba(${palette.particleColor}, ${0.068 - i * 0.006})`;
         ctx.lineWidth = 1.2;
         ctx.stroke();
       }
@@ -408,18 +408,41 @@ export const ZenGardenCanvas: React.FC<ZenGardenCanvasProps> = ({
           ctx.stroke();
         }
 
-        // 石のタイトルラベル（庭モード時）
+        // 石のタイトルラベル（庭モード時：半透明の黒背景ピルを敷いて視認性と美しさを高める）
         if (!isMeditationMode) {
           ctx.font = '500 11px "Shippori Mincho", serif';
           ctx.textAlign = "center";
+          const shortTitle =
+            stone.stone_title.length > 13
+              ? stone.stone_title.slice(0, 13) + "…"
+              : stone.stone_title;
+          const labelY = sy + baseSize * 1.52;
+          const textMetrics = ctx.measureText(shortTitle);
+          const padX = 8;
+          const pillW = textMetrics.width + padX * 2;
+          const pillH = 18;
+
+          ctx.fillStyle = "rgba(7, 11, 20, 0.72)";
+          ctx.beginPath();
+          ctx.roundRect(
+            sx - pillW / 2,
+            labelY - 13,
+            pillW,
+            pillH,
+            9
+          );
+          ctx.fill();
+
+          ctx.strokeStyle = isSelected
+            ? "rgba(251, 191, 36, 0.55)"
+            : "rgba(255, 255, 255, 0.12)";
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+
           ctx.fillStyle = isSelected
             ? "rgba(254, 243, 199, 0.98)"
-            : "rgba(226, 232, 240, 0.78)";
-          const shortTitle =
-            stone.stone_title.length > 12
-              ? stone.stone_title.slice(0, 12) + "…"
-              : stone.stone_title;
-          ctx.fillText(shortTitle, sx, sy + baseSize * 1.45);
+            : "rgba(241, 245, 249, 0.9)";
+          ctx.fillText(shortTitle, sx, labelY);
         }
 
         ctx.restore();

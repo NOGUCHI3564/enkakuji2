@@ -58,16 +58,20 @@ interface ZenGardenStore {
   triggerRipple: () => void;
 }
 
-// 庭の中で石が重ならない美しい配置座標を計算する
+// 庭の中央ステージ（Y: 0.34 〜 0.62）に石が重ならず美しく並ぶ配置座標を計算する
 function calculateStoneGardenPosition(index: number): { x: number; y: number } {
+  if (index === 0) {
+    // 1個目の「覚悟の石」は心庭の枯山水の中央やや上（もっとも美しく映える主石の位置）に据える
+    return { x: 0.5, y: 0.47 };
+  }
   const goldenAngle = 2.399963229728653; // 黄金角
-  const radius = Math.min(0.32, 0.11 + Math.sqrt(index) * 0.068);
-  const angle = index * goldenAngle + 0.6;
+  const radius = Math.min(0.28, 0.13 + Math.sqrt(index) * 0.055);
+  const angle = index * goldenAngle + 0.8;
   const x = 0.5 + Math.cos(angle) * radius * 1.15;
-  const y = 0.58 + Math.sin(angle) * radius * 0.58; // 庭の中央〜下部の水辺・苔庭エリア
+  const y = 0.48 + Math.sin(angle) * radius * 0.45;
   return {
-    x: Math.max(0.16, Math.min(0.84, x)),
-    y: Math.max(0.36, Math.min(0.78, y)),
+    x: Math.max(0.18, Math.min(0.82, x)),
+    y: Math.max(0.32, Math.min(0.62, y)),
   };
 }
 
@@ -86,10 +90,28 @@ export const useZenStore = create<ZenGardenStore>((set, get) => ({
   rippleTrigger: 0,
 
   initializeApp: async () => {
-    const [savedStones, savedSession] = await Promise.all([
+    const [rawStones, savedSession] = await Promise.all([
       loadStonesFromDevice(),
       loadActiveSessionFromDevice(),
     ]);
+    // 既存の石が下部UIと重なる位置（y > 0.62）にあった場合も、自動的に中央ステージ（0.32〜0.62）へ再配置して保存する
+    const savedStones = rawStones.map((st, idx) => {
+      if (
+        !st.visual?.position ||
+        st.visual.position.y > 0.62 ||
+        (idx === 0 && st.visual.position.y > 0.55)
+      ) {
+        return {
+          ...st,
+          visual: {
+            ...st.visual,
+            position: calculateStoneGardenPosition(idx),
+          },
+        };
+      }
+      return st;
+    });
+
     const settings = loadSettingsFromDevice();
     soundEngine.setVolume(settings.soundVolume);
 
