@@ -118,57 +118,48 @@ export const App: React.FC = () => {
         isMeditationMode={viewMode === "PRAXIS_MEDITATION"}
       />
 
-      {/* 2. GARDEN_HOME（心庭ホーム画面）のオーバーレイUI */}
+      {/* 2. GARDEN_HOME（心庭ホーム画面）のオーバーレイUI：余計な説明を排し、余白とガラス銀河球を主役にする */}
       {viewMode === "GARDEN_HOME" && (
-        <div className="fixed inset-0 z-10 flex flex-col justify-between px-4 pt-4 pb-5 sm:px-8 sm:pt-6 sm:pb-7 pointer-events-none">
-          {/* 【上部ゾーン】トップヘッダー（左：タイトル / 右：覚悟の石バッジ＆設定ボタン） */}
+        <div className="fixed inset-0 z-10 flex flex-col justify-between px-5 pt-5 pb-6 sm:px-8 sm:pt-7 sm:pb-8 pointer-events-none">
+          {/* 【上部ゾーン】ミニマルヘッダー（左：心庭 ＋ 端末内保存マーク / 右：記憶・石・設定） */}
           <header className="flex items-center justify-between gap-2 pointer-events-auto">
-            <div>
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-300/20 text-[10px] text-amber-200/90 font-serif mb-1 backdrop-blur-md">
-                <Sparkles className="w-2.5 h-2.5 text-amber-300" />
-                <span>臨済宗円覚寺 全脳知識ネットワーク</span>
-              </div>
-              <div className="flex items-baseline gap-2">
-                <h1 className="font-serif text-2xl sm:text-3xl font-bold tracking-widest text-amber-50 drop-shadow">
-                  心 庭
-                </h1>
-                <button
-                  type="button"
-                  onClick={triggerPrivacyWhisper}
-                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-400/25 text-[11px] text-emerald-200/90 font-serif transition"
-                  title="プライバシー保護について確認"
-                >
-                  <ShieldCheck className="w-3 h-3 text-emerald-300" />
-                  <span>端末内保存</span>
-                </button>
-              </div>
+            <div className="flex items-center gap-2.5">
+              <h1 className="font-serif text-xl sm:text-2xl font-bold tracking-[0.28em] text-amber-50/95 drop-shadow">
+                心 庭
+              </h1>
+              <button
+                type="button"
+                onClick={triggerPrivacyWhisper}
+                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/[0.04] hover:bg-white/[0.1] border border-emerald-400/20 text-[11px] text-emerald-200/80 font-serif transition"
+                title="プライバシー保護について確認"
+              >
+                <ShieldCheck className="w-3 h-3 text-emerald-300/90" />
+                <span>端末内保存</span>
+              </button>
             </div>
 
             <div className="flex items-center gap-2">
-              {/* 人生の記憶ボタン（いつでも開いて対話的に喜怒哀楽の記憶やプロフィールを記録・編集できる） */}
               <button
                 onClick={() => setIsLifeMemoriesOpen(true)}
-                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-slate-900/80 hover:bg-slate-800/90 border border-amber-300/30 text-xs text-amber-100 font-serif backdrop-blur-md shadow-md transition"
-                title="人生の記憶（喜・怒・哀・楽の経験とプロフィール）"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-xs text-amber-100/90 font-serif backdrop-blur-md transition"
+                title="人生の記憶"
               >
-                <BookHeart className="w-3.5 h-3.5 text-amber-300" />
-                <span>人生の記憶</span>
+                <BookHeart className="w-3.5 h-3.5 text-amber-300/90" />
+                <span>記憶</span>
                 {lifeProfile.memories.length > 0 && (
-                  <span className="px-1.5 py-0.2 rounded-full bg-amber-400/20 text-[10px] text-amber-200">
+                  <span className="text-amber-300 font-sans text-[11px]">
                     {lifeProfile.memories.length}
                   </span>
                 )}
               </button>
 
-              {/* 獲得した覚悟の石の個数ステータスバッジ（ヘッダー右上にすっきり配置し、庭と一切重ならない） */}
               {stones.length > 0 && (
                 <button
                   onClick={() => selectStone(stones[stones.length - 1])}
-                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-slate-900/80 hover:bg-slate-800/90 border border-amber-400/35 text-xs text-amber-200 font-serif backdrop-blur-md shadow-md transition"
-                  title="最新の覚悟の石を振り返る"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.05] hover:bg-white/[0.1] border border-amber-400/25 text-xs text-amber-200 font-serif backdrop-blur-md transition"
+                  title="覚悟の石を振り返る"
                 >
-                  <Gem className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
-                  <span className="hidden sm:inline">覚悟の石</span>
+                  <Gem className="w-3.5 h-3.5 text-amber-300" />
                   <span>{stones.length}</span>
                 </button>
               )}
@@ -176,60 +167,43 @@ export const App: React.FC = () => {
               {deferredPrompt && (
                 <button
                   onClick={handleInstallPwa}
-                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-amber-500/20 hover:bg-amber-500/35 border border-amber-400/40 text-xs text-amber-100 font-serif backdrop-blur-md transition"
-                  title="スマートフォンにPWAをインストール"
+                  className="p-2 rounded-full bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/30 text-amber-100 backdrop-blur-md transition"
+                  title="アプリを追加"
                 >
-                  <Download className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">追加</span>
+                  <Download className="w-4 h-4" />
                 </button>
               )}
 
               <button
                 onClick={() => setIsSettingsOpen(true)}
-                className="p-2.5 rounded-full bg-slate-900/75 hover:bg-slate-800/90 border border-white/10 text-slate-300 hover:text-amber-200 backdrop-blur-md transition"
-                aria-label="設定と全脳知識ネットワーク"
+                className="p-2 rounded-full bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-slate-300 hover:text-amber-200 backdrop-blur-md transition"
+                aria-label="設定"
               >
-                <Settings className="w-5 h-5" />
+                <Settings className="w-4 h-4" />
               </button>
             </div>
           </header>
 
-          {/* 【中央ゾーン】心庭ビューポート（石がある時は完全にクリアにして、3Dガラス天球と石の輝きを邪魔しない） */}
-          <div className="my-auto flex flex-col items-center text-center pointer-events-none">
-            {stones.length === 0 && (
-              <div className="max-w-xs sm:max-w-sm rounded-3xl bg-slate-950/55 border border-amber-200/15 px-6 py-5 backdrop-blur-md shadow-2xl">
-                <p className="font-serif text-sm sm:text-base text-amber-100 leading-relaxed mb-1.5">
-                  心の宇宙へようこそ
-                </p>
-                <p className="text-xs text-slate-300/85 leading-relaxed">
-                  あなたの「人生の記憶」や今の思いから禅問答を始めましょう。対話の末に出した結論が、このガラスの球体の中に輝く「覚悟の石」として浮かび上がります。
-                </p>
-              </div>
-            )}
-          </div>
+          {/* 【中央ゾーン】完全な余白（3Dガラス球と渦状銀河・覚悟の石だけを美しく見せる） */}
+          <div className="my-auto pointer-events-none" />
 
-          {/* 【下部ゾーン】覚悟の石クイック選択ピルバー ＋ メインアクションドック */}
-          <footer className="w-full max-w-md mx-auto space-y-2.5 pointer-events-auto">
-            {/* 石が1個以上ある場合：下部ドックのすぐ上に、横スクロール可能な小さな石チップ一覧を表示 */}
+          {/* 【下部ゾーン】余白を活かしたスリークなアクションバー */}
+          <footer className="w-full max-w-sm mx-auto space-y-2.5 pointer-events-auto">
+            {/* 石が1個以上ある場合：極薄のガラスピルで銘だけを静かに並べる */}
             {stones.length > 0 && (
-              <div className="flex flex-col items-center gap-1.5">
-                <span className="text-[11px] font-serif text-amber-200/75 tracking-wide">
-                  球体を指で回す・ピンチで拡大 ／ 石や下の銘をタップで振り返る
-                </span>
-                <div className="w-full flex items-center gap-2 overflow-x-auto py-1 px-1 no-scrollbar justify-start sm:justify-center">
-                  {stones.map((st) => (
-                    <button
-                      key={st.id}
-                      onClick={() => selectStone(st)}
-                      className="flex-shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-950/80 hover:bg-amber-500/20 border border-amber-300/25 text-xs font-serif text-amber-100/90 backdrop-blur-md transition shadow-sm"
-                    >
-                      <span className="w-2 h-2 rounded-full bg-amber-300 animate-ping" />
-                      <span className="truncate max-w-[130px]">
-                        {st.stone_title}
-                      </span>
-                    </button>
-                  ))}
-                </div>
+              <div className="w-full flex items-center gap-1.5 overflow-x-auto py-1 px-1 no-scrollbar justify-start sm:justify-center">
+                {stones.map((st) => (
+                  <button
+                    key={st.id}
+                    onClick={() => selectStone(st)}
+                    className="flex-shrink-0 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.05] hover:bg-amber-500/20 border border-white/10 text-xs font-serif text-amber-100/85 backdrop-blur-md transition"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-300" />
+                    <span className="truncate max-w-[120px]">
+                      {st.stone_title}
+                    </span>
+                  </button>
+                ))}
               </div>
             )}
 
@@ -237,51 +211,32 @@ export const App: React.FC = () => {
             {activeSession && activeSession.messages.length > 0 && (
               <button
                 onClick={() => setViewMode("INQUIRY")}
-                className="w-full py-2.5 px-4 rounded-2xl bg-slate-900/85 hover:bg-slate-800/95 border border-amber-400/35 text-amber-200 font-serif text-xs flex items-center justify-center gap-2 backdrop-blur-md shadow-lg transition"
+                className="w-full py-2 px-4 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-amber-300/30 text-amber-200 font-serif text-xs flex items-center justify-center gap-2 backdrop-blur-md transition"
               >
-                <Play className="w-3.5 h-3.5 fill-amber-300 text-amber-300" />
-                <span>
-                  途中の禅問答を再開する（現在{" "}
-                  {activeSession.messages.filter((m) => m.role === "user").length}{" "}
-                  往復）
-                </span>
+                <Play className="w-3 h-3 fill-amber-300 text-amber-300" />
+                <span>途中の対話を再開</span>
               </button>
             )}
 
-            {/* メインアクションボタン */}
-            <div className="space-y-2 pt-0.5">
+            {/* メインアクション（グラスモーフィズムの洗練されたピルボタン） */}
+            <div className="flex items-center gap-2">
               <button
                 onClick={startNewAssessment}
-                className="w-full py-3.5 px-5 rounded-2xl bg-gradient-to-r from-amber-500/95 to-amber-600/95 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-serif font-bold text-sm sm:text-base tracking-wider shadow-xl shadow-amber-500/20 flex items-center justify-center gap-2 transition transform active:scale-[0.99]"
+                className="flex-1 py-3.5 px-6 rounded-full bg-white/[0.08] hover:bg-white/[0.14] border border-amber-200/30 text-amber-50 font-serif text-sm sm:text-base tracking-[0.2em] backdrop-blur-md shadow-lg flex items-center justify-center gap-2 transition active:scale-[0.99]"
               >
-                <Sparkles className="w-4 h-4" />
+                <Sparkles className="w-4 h-4 text-amber-300" />
                 <span>禅問答を始める</span>
               </button>
 
-              <div className="grid grid-cols-2 gap-2.5">
-                <button
-                  onClick={() => setIsLifeMemoriesOpen(true)}
-                  className="py-3 px-3 rounded-2xl bg-slate-900/85 hover:bg-slate-800/95 border border-amber-300/25 text-amber-200 font-serif text-xs sm:text-sm flex items-center justify-center gap-1.5 backdrop-blur-md transition"
-                >
-                  <BookHeart className="w-4 h-4 text-amber-300" />
-                  <span>
-                    人生の記憶
-                    {lifeProfile.memories.length > 0
-                      ? ` (${lifeProfile.memories.length})`
-                      : ""}
-                  </span>
-                </button>
-
-                <button
-                  onClick={() =>
-                    startMeditation("rain", settings.defaultMeditationMinutes)
-                  }
-                  className="py-3 px-3 rounded-2xl bg-slate-900/85 hover:bg-slate-800/95 border border-white/15 text-sky-200 font-serif text-xs sm:text-sm flex items-center justify-center gap-1.5 backdrop-blur-md transition"
-                >
-                  <Wind className="w-4 h-4 text-sky-300" />
-                  <span>自然音瞑想</span>
-                </button>
-              </div>
+              <button
+                onClick={() =>
+                  startMeditation("rain", settings.defaultMeditationMinutes)
+                }
+                className="p-3.5 rounded-full bg-white/[0.05] hover:bg-white/[0.12] border border-white/15 text-sky-200/90 backdrop-blur-md transition"
+                title="自然音瞑想"
+              >
+                <Wind className="w-4 h-4" />
+              </button>
             </div>
           </footer>
         </div>
