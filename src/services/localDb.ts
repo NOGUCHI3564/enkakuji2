@@ -137,7 +137,7 @@ export async function loadActiveSessionFromDevice(): Promise<ActiveSession | nul
 
 export function loadSettingsFromDevice(): AppSettings {
   const defaultSettings: AppSettings = {
-    soundVolume: 0.6,
+    soundVolume: 0.85,
     defaultMeditationMinutes: 3,
     hapticFeedback: true,
   };

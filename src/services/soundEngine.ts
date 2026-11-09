@@ -1,10 +1,14 @@
-// 自然環境音瞑想システム & 覚悟の石 発光サウンドエンジン (Web Audio API によるオーガニック音響合成)
-// 瞑想の妨げになる人工的なピッチスイープ音（ピョンピョン音）を一切排除し、
-// 多層的なブラウニアン/ピンクノイズと超低周波ゆらぎ（1/fゆらぎ近似）による
-// 本物の雨・波・森の風・小川のせせらぎに近い深く落ち着いた自然環境音と、
-// 仏具「おりん（鈴・磬子）」の穏やかな倍音余韻のみを生成する。
+// 自然環境音瞑想システム & 覚悟の石 発光サウンドエンジン
+// スマートフォン（iOS Safari / Android Chrome）対応強化版：
+// 1. iOS のマナーモード（消音スイッチ）時でもメディア音声として出力されるよう HTML5 <audio> ストリームアンロック＆ MediaSession を併用。
+// 2. スマホの小型スピーカーでもはっきり・かつ心地よく聞こえる実効音圧（RMS）と中域（250Hz〜1800Hz）の豊かな自然音設計。
+// 3. 刺激的な電子音（ピョンピョン音）は一切使わず、本物の雨・波・森・小川の空気感を合成。
 
 import { SoundType } from "../types/zen";
+
+// iOS Safari の消音スイッチ（Ringer Switch）制限を解除し、AudioContext を確実にアクティブ化する無音WAV（極小データURI）
+const SILENT_UNLOCK_WAV =
+  "data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA";
 
 class ZenSoundEngine {
   private ctx: AudioContext | null = null;
@@ -13,7 +17,8 @@ class ZenSoundEngine {
   private activeIntervals: number[] = [];
   private isPlaying = false;
   private currentSound: SoundType = "silence";
-  private volume = 0.6;
+  private volume = 0.8;
+  private unlockAudioEl: HTMLAudioElement | null = null;
 
   private ensureContext(): AudioContext {
     if (!this.ctx) {
@@ -22,13 +27,40 @@ class ZenSoundEngine {
         (window as unknown as { webkitAudioContext: typeof AudioContext })
           .webkitAudioContext;
       this.ctx = new AudioCtx();
+
+      // iOS 17+ AudioSession API（対応ブラウザではマナーモードでもメディア再生枠を強制）
+      const nav = navigator as unknown as {
+        audioSession?: { type: string };
+      };
+      if (nav.audioSession) {
+        try {
+          nav.audioSession.type = "playback";
+        } catch {
+          // ignore
+        }
+      }
+
       this.masterGain = this.ctx.createGain();
       this.masterGain.gain.value = this.volume;
       this.masterGain.connect(this.ctx.destination);
     }
+
     if (this.ctx.state === "suspended") {
-      this.ctx.resume();
+      this.ctx.resume().catch(() => {});
     }
+
+    // HTMLAudioElement をユーザージェスチャー内で一度再生し、iOS WebKit のメディアチャンネルをアンロック
+    if (!this.unlockAudioEl && typeof Audio !== "undefined") {
+      try {
+        this.unlockAudioEl = new Audio(SILENT_UNLOCK_WAV);
+        this.unlockAudioEl.loop = false;
+        this.unlockAudioEl.volume = 0.01;
+        this.unlockAudioEl.play().catch(() => {});
+      } catch {
+        // ignore
+      }
+    }
+
     return this.ctx;
   }
 
@@ -38,13 +70,16 @@ class ZenSoundEngine {
       this.masterGain.gain.setTargetAtTime(
         this.volume,
         this.ctx.currentTime,
-        0.25
+        0.15
       );
     }
   }
 
-  // UI操作時や問いかけ表示時の、極めて控えめで落ち着いた低音の「おりん（木魚/鈴）」の微細音
-  // ※ 以前のピッチが跳ねるピョンピョン音は完全に廃止し、一定周波数の穏やかな倍音減衰にする
+  public getVolume(): number {
+    return this.volume;
+  }
+
+  // UI操作時や問いかけ表示時の、落ち着いた低音「おりん（鈴）」の柔らかな響き
   public playWaterDrop(pitchMultiplier = 1.0) {
     try {
       const ctx = this.ensureContext();
@@ -54,38 +89,35 @@ class ZenSoundEngine {
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
 
-      // 落ち着く中低域の純正律倍音（ピッチは一切動かさない）
-      const freq = 396 * Math.max(0.85, Math.min(1.15, pitchMultiplier));
+      const freq = 432 * Math.max(0.85, Math.min(1.15, pitchMultiplier));
       osc.type = "sine";
       osc.frequency.setValueAtTime(freq, now);
 
-      // 柔らかいアタックと短い静かな余韻（刺激にならない音量）
       gain.gain.setValueAtTime(0.0001, now);
-      gain.gain.linearRampToValueAtTime(0.035 * this.volume, now + 0.04);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.9);
+      gain.gain.linearRampToValueAtTime(0.12 * this.volume, now + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.85);
 
       osc.connect(gain);
       gain.connect(this.masterGain);
 
       osc.start(now);
-      osc.stop(now + 0.95);
+      osc.stop(now + 0.9);
     } catch {
       // ignore
     }
   }
 
-  // 「覚悟の石」が立ち上がる瞬間・瞑想完了時の、深く澄んだ「磬子（けいす・シンギングボウル）」の倍音
+  // 「覚悟の石」顕現時・瞑想完了時の深い「磬子（けいす・シンギングボウル）」倍音
   public playStoneManifestationBell() {
     try {
       const ctx = this.ensureContext();
       if (!this.masterGain || this.volume <= 0.01) return;
 
       const now = ctx.currentTime;
-      // 寺院の磬子（けいす）に近い落ち着きのある非整数倍音を含む共鳴周波数
       const partials = [
-        { freq: 256, amp: 0.14, decay: 5.5 },
-        { freq: 512, amp: 0.08, decay: 4.8 },
-        { freq: 768, amp: 0.04, decay: 3.8 },
+        { freq: 288, amp: 0.28, decay: 5.0 },
+        { freq: 576, amp: 0.16, decay: 4.2 },
+        { freq: 864, amp: 0.09, decay: 3.4 },
       ];
 
       partials.forEach((p) => {
@@ -96,7 +128,7 @@ class ZenSoundEngine {
         osc.frequency.setValueAtTime(p.freq, now);
 
         gain.gain.setValueAtTime(0.0001, now);
-        gain.gain.linearRampToValueAtTime(p.amp * this.volume, now + 0.08);
+        gain.gain.linearRampToValueAtTime(p.amp * this.volume, now + 0.06);
         gain.gain.exponentialRampToValueAtTime(0.0001, now + p.decay);
 
         osc.connect(gain);
@@ -110,8 +142,8 @@ class ZenSoundEngine {
     }
   }
 
-  // 滑らかなステレオ・ピンクノイズ＆ブラウニアンノイズバッファ（8秒シームレス）を生成
-  private createOrganicNoiseBuffer(
+  // スマートフォンのスピーカーでも十分な音量と温かみが出る、正規化済み8秒ステレオノイズバッファ
+  private createRichNoiseBuffer(
     ctx: AudioContext,
     mode: "pink" | "brown"
   ): AudioBuffer {
@@ -121,17 +153,19 @@ class ZenSoundEngine {
 
     for (let ch = 0; ch < 2; ch++) {
       const output = buffer.getChannelData(ch);
+      let maxPeak = 0.001;
+
       if (mode === "brown") {
-        // ブラウニアンノイズ（波・深い雨の重低音・遠鳴り用：高域の刺さりが全くない温かい音）
         let lastOut = 0.0;
         for (let i = 0; i < bufferSize; i++) {
           const white = Math.random() * 2 - 1;
-          output[i] = (lastOut + 0.02 * white) / 1.02;
-          lastOut = output[i];
-          output[i] *= 0.18;
+          lastOut = (lastOut + 0.035 * white) / 1.035;
+          output[i] = lastOut;
+          const abs = Math.abs(lastOut);
+          if (abs > maxPeak) maxPeak = abs;
         }
       } else {
-        // ピンクノイズ（木の葉の揺れ・優しい霧雨・せせらぎ用）
+        // ピンクノイズ（Paul Kellet アルゴリズム）
         let b0 = 0,
           b1 = 0,
           b2 = 0,
@@ -147,26 +181,35 @@ class ZenSoundEngine {
           b3 = 0.86650 * b3 + white * 0.3104856;
           b4 = 0.55000 * b4 + white * 0.5329522;
           b5 = -0.7616 * b5 - white * 0.0168980;
-          output[i] =
-            (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.032;
+          const val = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
           b6 = white * 0.115926;
+          output[i] = val;
+          const abs = Math.abs(val);
+          if (abs > maxPeak) maxPeak = abs;
         }
       }
 
-      // ループ境界のクロスフェード平滑化（継ぎ目を完全に消す）
-      const fadeSamples = Math.floor(ctx.sampleRate * 0.15);
+      // ピーク正規化（スマホのスピーカーでもしっかり鳴り、かつクリップしない 0.65 レベルに揃える）
+      const targetPeak = 0.65;
+      const scale = targetPeak / maxPeak;
+      for (let i = 0; i < bufferSize; i++) {
+        output[i] *= scale;
+      }
+
+      // ループ境界（前後0.2秒）のクロスフェード平滑化
+      const fadeSamples = Math.floor(ctx.sampleRate * 0.2);
       for (let i = 0; i < fadeSamples; i++) {
         const ratio = i / fadeSamples;
         output[i] =
-          output[i] * ratio + output[bufferSize - fadeSamples + i] * (1 - ratio);
+          output[i] * ratio +
+          output[bufferSize - fadeSamples + i] * (1 - ratio);
       }
     }
 
     return buffer;
   }
 
-  // 自然環境音（雨・波・森・小川・静寂）の再生
-  // ※ 刺激的な電子音・ピョンピョン音は一切鳴らさず、純粋な自然の空気感のみを合成する
+  // 自然環境音（雨・波・森・小川・静寂）の開始
   public startAmbientSound(type: SoundType) {
     this.stopAmbientSound();
     this.currentSound = type;
@@ -179,169 +222,204 @@ class ZenSoundEngine {
 
       const now = ctx.currentTime;
       const envGain = ctx.createGain();
-      envGain.gain.setValueAtTime(0.0001, now);
-      envGain.gain.linearRampToValueAtTime(0.55, now + 2.5); // 2.5秒かけてゆっくりフェードイン
+      // ボタンを押した直後に音が出ていることがすぐ分かるよう、0.08から開始して1.2秒で滑らかに立ち上げる
+      envGain.gain.setValueAtTime(0.08, now);
+      envGain.gain.linearRampToValueAtTime(0.95, now + 1.2);
       envGain.connect(this.masterGain);
       this.activeNodes.push(envGain);
 
       if (type === "rain") {
-        // 【雨】：しっとりとした軒先の霧雨（ブラウニアンノイズの低域 ＋ ローパスをかけた柔らかいピンクノイズ）
-        const brownSrc = ctx.createBufferSource();
-        brownSrc.buffer = this.createOrganicNoiseBuffer(ctx, "brown");
-        brownSrc.loop = true;
+        // 【雨】：スマホのスピーカーでも心地よく響く、しっとりとした雨音（中低域の雨粒の厚み＋柔らかい雨脚）
+        const rainBodySrc = ctx.createBufferSource();
+        rainBodySrc.buffer = this.createRichNoiseBuffer(ctx, "pink");
+        rainBodySrc.loop = true;
 
-        const brownFilter = ctx.createBiquadFilter();
-        brownFilter.type = "lowpass";
-        brownFilter.frequency.value = 340;
+        // スマホで最も聞き取りやすく耳に優しい 350Hz〜1600Hz 帯域を中心に通す
+        const lowpass = ctx.createBiquadFilter();
+        lowpass.type = "lowpass";
+        lowpass.frequency.value = 1650;
 
-        const pinkSrc = ctx.createBufferSource();
-        pinkSrc.buffer = this.createOrganicNoiseBuffer(ctx, "pink");
-        pinkSrc.loop = true;
+        const highpass = ctx.createBiquadFilter();
+        highpass.type = "highpass";
+        highpass.frequency.value = 180;
 
-        const rainFilter = ctx.createBiquadFilter();
-        rainFilter.type = "bandpass";
-        rainFilter.frequency.value = 780;
-        rainFilter.Q.value = 0.45;
+        // 遠雷・軒先の雨の深みを作るブラウニアン層
+        const deepSrc = ctx.createBufferSource();
+        deepSrc.buffer = this.createRichNoiseBuffer(ctx, "brown");
+        deepSrc.loop = true;
 
-        const rainHighCut = ctx.createBiquadFilter();
-        rainHighCut.type = "lowpass";
-        rainHighCut.frequency.value = 1400; // 耳に刺さる高域をカット
+        const deepGain = ctx.createGain();
+        deepGain.gain.value = 0.55;
 
-        brownSrc.connect(brownFilter);
-        brownFilter.connect(envGain);
+        rainBodySrc.connect(highpass);
+        highpass.connect(lowpass);
+        lowpass.connect(envGain);
 
-        pinkSrc.connect(rainFilter);
-        rainFilter.connect(rainHighCut);
-        rainHighCut.connect(envGain);
+        deepSrc.connect(deepGain);
+        deepGain.connect(envGain);
 
-        brownSrc.start();
-        pinkSrc.start();
+        rainBodySrc.start();
+        deepSrc.start();
+
         this.activeNodes.push(
-          brownSrc,
-          brownFilter,
-          pinkSrc,
-          rainFilter,
-          rainHighCut
+          rainBodySrc,
+          lowpass,
+          highpass,
+          deepSrc,
+          deepGain
         );
       } else if (type === "waves") {
-        // 【波】：約9秒周期で寄せては返す穏やかな夜の潮騒
+        // 【波】：寄せては返す穏やかな潮騒（約8秒周期で音量と音色が大きくゆったり呼吸する）
         const waveSrc = ctx.createBufferSource();
-        waveSrc.buffer = this.createOrganicNoiseBuffer(ctx, "brown");
+        waveSrc.buffer = this.createRichNoiseBuffer(ctx, "pink");
         waveSrc.loop = true;
 
         const waveFilter = ctx.createBiquadFilter();
         waveFilter.type = "lowpass";
-        waveFilter.frequency.value = 260;
+        waveFilter.frequency.value = 580; // スマホでもしっかり聞こえる中低域までカバー
 
-        const waveVolumeGain = ctx.createGain();
-        waveVolumeGain.gain.value = 0.45;
+        const waveAmp = ctx.createGain();
+        waveAmp.gain.value = 0.65;
 
-        // 波の満ち引きを作る超低周波サイン波（0.11Hz = 約9秒周期）
+        // 波の満ち引きを作るLFO（0.125Hz = 8秒周期）
         const lfo = ctx.createOscillator();
         lfo.type = "sine";
-        lfo.frequency.value = 0.11;
+        lfo.frequency.value = 0.125;
 
-        const lfoFilterDepth = ctx.createGain();
-        lfoFilterDepth.gain.value = 180; // 80Hz 〜 440Hz の間でゆっくりフィルタが開閉
+        const lfoFilterGain = ctx.createGain();
+        lfoFilterGain.gain.value = 420; // 160Hz（引き波）〜 1000Hz（寄せ波）の間でゆったり変化
 
-        const lfoAmpDepth = ctx.createGain();
-        lfoAmpDepth.gain.value = 0.28; // 音量も波に合わせてゆっくり呼吸する
+        const lfoAmpGain = ctx.createGain();
+        lfoAmpGain.gain.value = 0.45; // 音量も 0.2 〜 1.1 の間で波打つ
 
-        lfo.connect(lfoFilterDepth);
-        lfoFilterDepth.connect(waveFilter.frequency);
+        lfo.connect(lfoFilterGain);
+        lfoFilterGain.connect(waveFilter.frequency);
 
-        lfo.connect(lfoAmpDepth);
-        lfoAmpDepth.connect(waveVolumeGain.gain);
+        lfo.connect(lfoAmpGain);
+        lfoAmpGain.connect(waveAmp.gain);
 
         waveSrc.connect(waveFilter);
-        waveFilter.connect(waveVolumeGain);
-        waveVolumeGain.connect(envGain);
+        waveFilter.connect(waveAmp);
+        waveAmp.connect(envGain);
 
         waveSrc.start();
         lfo.start();
+
         this.activeNodes.push(
           waveSrc,
           waveFilter,
-          waveVolumeGain,
+          waveAmp,
           lfo,
-          lfoFilterDepth,
-          lfoAmpDepth
+          lfoFilterGain,
+          lfoAmpGain
         );
       } else if (type === "forest") {
-        // 【森】：木々の梢を吹き抜ける穏やかな風（2系統のゆるやかなフィルタ変調）
-        const windSrc = ctx.createBufferSource();
-        windSrc.buffer = this.createOrganicNoiseBuffer(ctx, "pink");
-        windSrc.loop = true;
+        // 【森】：木々の葉を揺らす豊かな風と深山の静寂（2層の風のアンサンブル）
+        const windSrc1 = ctx.createBufferSource();
+        windSrc1.buffer = this.createRichNoiseBuffer(ctx, "pink");
+        windSrc1.loop = true;
 
-        const windFilter = ctx.createBiquadFilter();
-        windFilter.type = "bandpass";
-        windFilter.frequency.value = 420;
-        windFilter.Q.value = 1.4;
+        const filter1 = ctx.createBiquadFilter();
+        filter1.type = "bandpass";
+        filter1.frequency.value = 520;
+        filter1.Q.value = 0.9;
 
-        const windLowpass = ctx.createBiquadFilter();
-        windLowpass.type = "lowpass";
-        windLowpass.frequency.value = 950;
+        const lfo1 = ctx.createOscillator();
+        lfo1.type = "sine";
+        lfo1.frequency.value = 0.08; // 12.5秒周期の風
+        const lfoGain1 = ctx.createGain();
+        lfoGain1.gain.value = 240;
 
-        const windLfo = ctx.createOscillator();
-        windLfo.type = "sine";
-        windLfo.frequency.value = 0.07; // 約14秒周期のゆったりした風
+        lfo1.connect(lfoGain1);
+        lfoGain1.connect(filter1.frequency);
 
-        const windLfoGain = ctx.createGain();
-        windLfoGain.gain.value = 160;
+        const windSrc2 = ctx.createBufferSource();
+        windSrc2.buffer = this.createRichNoiseBuffer(ctx, "brown");
+        windSrc2.loop = true;
 
-        windLfo.connect(windLfoGain);
-        windLfoGain.connect(windFilter.frequency);
+        const filter2 = ctx.createBiquadFilter();
+        filter2.type = "lowpass";
+        filter2.frequency.value = 450;
 
-        windSrc.connect(windFilter);
-        windFilter.connect(windLowpass);
-        windLowpass.connect(envGain);
+        const gain2 = ctx.createGain();
+        gain2.gain.value = 0.6;
 
-        windSrc.start();
-        windLfo.start();
+        windSrc1.connect(filter1);
+        filter1.connect(envGain);
+
+        windSrc2.connect(filter2);
+        filter2.connect(gain2);
+        gain2.connect(envGain);
+
+        windSrc1.start();
+        lfo1.start();
+        windSrc2.start();
+
         this.activeNodes.push(
-          windSrc,
-          windFilter,
-          windLowpass,
-          windLfo,
-          windLfoGain
+          windSrc1,
+          filter1,
+          lfo1,
+          lfoGain1,
+          windSrc2,
+          filter2,
+          gain2
         );
       } else if (type === "stream") {
-        // 【小川】：遠くに流れる静かなせせらぎ（柔らかいローパス＋微細な水流のゆらぎ）
+        // 【小川】：せせらぎの心地よい水流（2つの異なる周期で揺らぐ水流フィルタの重ね合わせ）
         const streamSrc = ctx.createBufferSource();
-        streamSrc.buffer = this.createOrganicNoiseBuffer(ctx, "pink");
+        streamSrc.buffer = this.createRichNoiseBuffer(ctx, "pink");
         streamSrc.loop = true;
 
-        const streamBand = ctx.createBiquadFilter();
-        streamBand.type = "bandpass";
-        streamBand.frequency.value = 620;
-        streamBand.Q.value = 0.8;
+        const band1 = ctx.createBiquadFilter();
+        band1.type = "bandpass";
+        band1.frequency.value = 680;
+        band1.Q.value = 0.7;
 
-        const streamLowpass = ctx.createBiquadFilter();
-        streamLowpass.type = "lowpass";
-        streamLowpass.frequency.value = 1100;
+        const band2 = ctx.createBiquadFilter();
+        band2.type = "bandpass";
+        band2.frequency.value = 1150;
+        band2.Q.value = 0.9;
 
-        const streamLfo = ctx.createOscillator();
-        streamLfo.type = "sine";
-        streamLfo.frequency.value = 0.28; // 水面の穏やかな揺らぎ
+        const lfo1 = ctx.createOscillator();
+        lfo1.type = "sine";
+        lfo1.frequency.value = 0.32;
+        const lfoGain1 = ctx.createGain();
+        lfoGain1.gain.value = 180;
 
-        const streamLfoGain = ctx.createGain();
-        streamLfoGain.gain.value = 110;
+        const lfo2 = ctx.createOscillator();
+        lfo2.type = "sine";
+        lfo2.frequency.value = 0.19;
+        const lfoGain2 = ctx.createGain();
+        lfoGain2.gain.value = 220;
 
-        streamLfo.connect(streamLfoGain);
-        streamLfoGain.connect(streamBand.frequency);
+        lfo1.connect(lfoGain1);
+        lfoGain1.connect(band1.frequency);
 
-        streamSrc.connect(streamBand);
-        streamBand.connect(streamLowpass);
-        streamLowpass.connect(envGain);
+        lfo2.connect(lfoGain2);
+        lfoGain2.connect(band2.frequency);
+
+        const mixGain = ctx.createGain();
+        mixGain.gain.value = 0.75;
+
+        streamSrc.connect(band1);
+        streamSrc.connect(band2);
+        band1.connect(mixGain);
+        band2.connect(mixGain);
+        mixGain.connect(envGain);
 
         streamSrc.start();
-        streamLfo.start();
+        lfo1.start();
+        lfo2.start();
+
         this.activeNodes.push(
           streamSrc,
-          streamBand,
-          streamLowpass,
-          streamLfo,
-          streamLfoGain
+          band1,
+          band2,
+          lfo1,
+          lfoGain1,
+          lfo2,
+          lfoGain2,
+          mixGain
         );
       }
     } catch {

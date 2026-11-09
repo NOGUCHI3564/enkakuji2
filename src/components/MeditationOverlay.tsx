@@ -6,7 +6,6 @@
 import React, { useEffect, useState } from "react";
 import knowledgeGraph from "../../knowledge_graph.json";
 import { SoundType, PraxisOffer } from "../types/zen";
-import { soundEngine } from "../services/soundEngine";
 import {
   CloudRain,
   Waves,
@@ -111,7 +110,6 @@ export const MeditationOverlay: React.FC<MeditationOverlayProps> = ({
               <button
                 key={s.id}
                 onClick={() => {
-                  soundEngine.startAmbientSound(s.id);
                   onChangeSound(s.id, currentMinutes);
                 }}
                 className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition ${
