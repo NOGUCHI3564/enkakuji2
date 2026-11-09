@@ -296,8 +296,10 @@ export async function requestZenDialogue(
     requestConclusion,
   };
 
-  // 1. 開発者が環境変数（GitHub Actions Secrets / .env）で設定した Supabase Edge Functions エンドポイントを呼び出す
-  const supabaseEdgeUrl = import.meta.env.VITE_SUPABASE_EDGE_URL;
+  // 1. Supabase Edge Functions エンドポイント (https://nybcarmfsnqqfuebdaoq.supabase.co/functions/v1/zen-dialogue) を呼び出す
+  const supabaseEdgeUrl =
+    import.meta.env.VITE_SUPABASE_EDGE_URL ||
+    "https://nybcarmfsnqqfuebdaoq.supabase.co/functions/v1/zen-dialogue";
   const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
   if (supabaseEdgeUrl && supabaseEdgeUrl.startsWith("http")) {

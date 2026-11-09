@@ -35,7 +35,7 @@ jobs:
 
       - name: Build PWA
         env:
-          VITE_SUPABASE_EDGE_URL: ${{ secrets.VITE_SUPABASE_EDGE_URL }}
+          VITE_SUPABASE_EDGE_URL: ${{ secrets.VITE_SUPABASE_EDGE_URL || 'https://nybcarmfsnqqfuebdaoq.supabase.co/functions/v1/zen-dialogue' }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
         run: npm run build
 
