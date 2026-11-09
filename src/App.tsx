@@ -12,6 +12,7 @@ import { MeditationOverlay } from "./components/MeditationOverlay";
 import { StoneManifestationModal } from "./components/StoneManifestationModal";
 import { StoneDetailDrawer } from "./components/StoneDetailDrawer";
 import { SettingsAndGraphModal } from "./components/SettingsAndGraphModal";
+import { LifeMemoriesModal } from "./components/LifeMemoriesModal";
 import {
   Sparkles,
   Wind,
@@ -19,6 +20,7 @@ import {
   Gem,
   Play,
   Download,
+  BookHeart,
 } from "lucide-react";
 
 interface BeforeInstallPromptEvent extends Event {
@@ -32,6 +34,7 @@ export const App: React.FC = () => {
     stones,
     selectedStone,
     activeSession,
+    lifeProfile,
     settings,
     isLoadingAI,
     ambientSound,
@@ -55,9 +58,11 @@ export const App: React.FC = () => {
     removeStone,
     resetAllLocalData,
     updateSettings,
+    updateLifeProfile,
   } = useZenStore();
 
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isLifeMemoriesOpen, setIsLifeMemoriesOpen] = useState(false);
   const [deferredPrompt, setDeferredPrompt] =
     useState<BeforeInstallPromptEvent | null>(null);
 
@@ -117,6 +122,21 @@ export const App: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-2">
+              {/* 人生の記憶ボタン（いつでも開いて対話的に喜怒哀楽の記憶やプロフィールを記録・編集できる） */}
+              <button
+                onClick={() => setIsLifeMemoriesOpen(true)}
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-slate-900/80 hover:bg-slate-800/90 border border-amber-300/30 text-xs text-amber-100 font-serif backdrop-blur-md shadow-md transition"
+                title="人生の記憶（喜・怒・哀・楽の経験とプロフィール）"
+              >
+                <BookHeart className="w-3.5 h-3.5 text-amber-300" />
+                <span>人生の記憶</span>
+                {lifeProfile.memories.length > 0 && (
+                  <span className="px-1.5 py-0.2 rounded-full bg-amber-400/20 text-[10px] text-amber-200">
+                    {lifeProfile.memories.length}
+                  </span>
+                )}
+              </button>
+
               {/* 獲得した覚悟の石の個数ステータスバッジ（ヘッダー右上にすっきり配置し、庭と一切重ならない） */}
               {stones.length > 0 && (
                 <button
@@ -125,7 +145,8 @@ export const App: React.FC = () => {
                   title="最新の覚悟の石を振り返る"
                 >
                   <Gem className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
-                  <span>覚悟の石 {stones.length}</span>
+                  <span className="hidden sm:inline">覚悟の石</span>
+                  <span>{stones.length}</span>
                 </button>
               )}
 
@@ -158,7 +179,7 @@ export const App: React.FC = () => {
                   静かな光の庭へようこそ
                 </p>
                 <p className="text-xs text-slate-300/85 leading-relaxed">
-                  今の「喜・怒・哀・楽」から禅問答を始めましょう。対話の末にあなたが出した結論が、この庭の中央に光り輝く「覚悟の石」として立ち上がります。
+                  あなたの「人生の記憶（喜・怒・哀・楽の経験）」や今の思いから禅問答を始めましょう。対話の末にあなたが出した結論が、この庭の中央に光り輝く「覚悟の石」として立ち上がります。
                 </p>
               </div>
             )}
@@ -205,32 +226,49 @@ export const App: React.FC = () => {
             )}
 
             {/* メインアクションボタン */}
-            <div className="grid grid-cols-3 gap-2.5 pt-0.5">
+            <div className="space-y-2 pt-0.5">
               <button
                 onClick={startNewAssessment}
-                className="col-span-2 py-3.5 px-5 rounded-2xl bg-gradient-to-r from-amber-500/95 to-amber-600/95 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-serif font-bold text-sm sm:text-base tracking-wider shadow-xl shadow-amber-500/20 flex items-center justify-center gap-2 transition transform active:scale-[0.99]"
+                className="w-full py-3.5 px-5 rounded-2xl bg-gradient-to-r from-amber-500/95 to-amber-600/95 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-serif font-bold text-sm sm:text-base tracking-wider shadow-xl shadow-amber-500/20 flex items-center justify-center gap-2 transition transform active:scale-[0.99]"
               >
                 <Sparkles className="w-4 h-4" />
                 <span>禅問答を始める</span>
               </button>
 
-              <button
-                onClick={() =>
-                  startMeditation("rain", settings.defaultMeditationMinutes)
-                }
-                className="py-3.5 px-3 rounded-2xl bg-slate-900/85 hover:bg-slate-800/95 border border-white/15 text-sky-200 font-serif text-xs sm:text-sm flex items-center justify-center gap-1.5 backdrop-blur-md transition"
-              >
-                <Wind className="w-4 h-4 text-sky-300" />
-                <span>自然音瞑想</span>
-              </button>
+              <div className="grid grid-cols-2 gap-2.5">
+                <button
+                  onClick={() => setIsLifeMemoriesOpen(true)}
+                  className="py-3 px-3 rounded-2xl bg-slate-900/85 hover:bg-slate-800/95 border border-amber-300/25 text-amber-200 font-serif text-xs sm:text-sm flex items-center justify-center gap-1.5 backdrop-blur-md transition"
+                >
+                  <BookHeart className="w-4 h-4 text-amber-300" />
+                  <span>
+                    人生の記憶
+                    {lifeProfile.memories.length > 0
+                      ? ` (${lifeProfile.memories.length})`
+                      : ""}
+                  </span>
+                </button>
+
+                <button
+                  onClick={() =>
+                    startMeditation("rain", settings.defaultMeditationMinutes)
+                  }
+                  className="py-3 px-3 rounded-2xl bg-slate-900/85 hover:bg-slate-800/95 border border-white/15 text-sky-200 font-serif text-xs sm:text-sm flex items-center justify-center gap-1.5 backdrop-blur-md transition"
+                >
+                  <Wind className="w-4 h-4 text-sky-300" />
+                  <span>自然音瞑想</span>
+                </button>
+              </div>
             </div>
           </footer>
         </div>
       )}
 
-      {/* 3. INITIAL_ASSESSMENT（喜・怒・哀・楽の初期入力モーダル） */}
+      {/* 3. INITIAL_ASSESSMENT（禅問答の開始モーダル：人生の記憶の参照 ＋ 今回の問いの入力） */}
       {viewMode === "INITIAL_ASSESSMENT" && (
         <AssessmentModal
+          lifeProfile={lifeProfile}
+          onOpenLifeMemories={() => setIsLifeMemoriesOpen(true)}
           onStart={(assessment) => beginInquirySession(assessment)}
           onCancel={() => setViewMode("GARDEN_HOME")}
         />
@@ -288,6 +326,15 @@ export const App: React.FC = () => {
           onUpdateSettings={(partial) => updateSettings(partial)}
           onResetAllData={resetAllLocalData}
           onClose={() => setIsSettingsOpen(false)}
+        />
+      )}
+
+      {/* 9. 人生の記憶（喜・怒・哀・楽の経験とプロフィール）対話入力モーダル */}
+      {isLifeMemoriesOpen && (
+        <LifeMemoriesModal
+          profile={lifeProfile}
+          onSaveProfile={updateLifeProfile}
+          onClose={() => setIsLifeMemoriesOpen(false)}
         />
       )}
     </div>

@@ -59,10 +59,17 @@ export const StoneDetailDrawer: React.FC<StoneDetailDrawerProps> = ({
             <Calendar className="w-3.5 h-3.5" />
             {formattedDate}
           </span>
-          <span className="px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10">
-            当時の喜怒哀楽：喜{stone.assessment.ki} / 怒{stone.assessment.do} / 哀
-            {stone.assessment.ai} / 楽{stone.assessment.raku}
-          </span>
+          {stone.assessment?.lifeProfileSnapshot ? (
+            <span className="px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10">
+              参照された人生の記憶：
+              {stone.assessment.lifeProfileSnapshot.memories?.length || 0}件
+            </span>
+          ) : typeof stone.assessment?.ki === "number" ? (
+            <span className="px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10">
+              当時の喜怒哀楽：喜{stone.assessment.ki} / 怒{stone.assessment.do} /
+              哀{stone.assessment.ai} / 楽{stone.assessment.raku}
+            </span>
+          ) : null}
         </div>
 
         {/* 自分が到達した結論 */}

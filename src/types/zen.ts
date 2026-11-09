@@ -1,4 +1,4 @@
-// spec.md 第6章・第7章に準拠した型定義
+// spec.md Version 2.1（人生の記憶・喜怒哀楽エピソード群対応）に準拠した型定義
 
 export type LightMood =
   | "amber_calm"
@@ -21,6 +21,8 @@ export type StoneShapeType =
 
 export type SoundType = "rain" | "waves" | "forest" | "stream" | "silence";
 
+export type EmotionCategory = "ki" | "do" | "ai" | "raku"; // 喜・怒・哀・楽
+
 export type SessionViewMode =
   | "GARDEN_HOME"
   | "INITIAL_ASSESSMENT"
@@ -28,12 +30,33 @@ export type SessionViewMode =
   | "PRAXIS_MEDITATION"
   | "STONE_MANIFESTATION";
 
+// ユーザーが5個でも10個でも蓄積できる「喜・怒・哀・楽の記憶」1件分のデータ
+export interface LifeMemoryItem {
+  id: string;
+  emotion: EmotionCategory; // 喜(ki) / 怒(do) / 哀(ai) / 楽(raku)
+  period?: string;          // 時期・年齢の目安（任意：例「20代の頃」「昨年」「子供の頃」）
+  content: string;          // 具体的な経験・エピソード内容
+  createdAt: string;
+}
+
+// スマートフォン内に永続保存されるユーザーの「人生の記憶（プロフィール＆喜怒哀楽の記憶群）」
+export interface UserLifeProfile {
+  birthDate?: string;       // 生年月日または生まれ年（任意）
+  gender?: string;          // 性別（任意）
+  lifeContext?: string;     // 現在の立場や暮らしの背景（任意）
+  memories: LifeMemoryItem[]; // 喜怒哀楽の記憶リスト（複数可）
+  updatedAt: string;
+}
+
+// 各禅問答セッション開始時の入力情報（後方互換フィールドを含む）
 export interface EmotionAssessment {
-  ki: number;   // 喜 (0-10)
-  do: number;   // 怒 (0-10)
-  ai: number;   // 哀 (0-10)
-  raku: number; // 楽 (0-10)
-  initialConcern?: string;
+  initialConcern?: string;  // 今回の禅問答で見つめたいこと・今の悩み
+  lifeProfileSnapshot?: UserLifeProfile; // セッション時点の人生の記憶スナップショット
+  // 後方互換用（過去の石データ表示用）
+  ki?: number;
+  do?: number;
+  ai?: number;
+  raku?: number;
 }
 
 export interface DialogueMessage {
@@ -104,7 +127,7 @@ export interface SavedResolutionStone {
     color_theme: StoneColorTheme;
     shape_type: StoneShapeType;
     glow_intensity: number;
-    position: { x: number; y: number }; // 0.15 ~ 0.85 正規化座標
+    position: { x: number; y: number };
   };
   dialogue_digest: Array<{ role: "user" | "assistant"; content: string }>;
 }

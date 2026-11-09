@@ -11,6 +11,7 @@ import {
   AppSettings,
   LightMood,
   SoundType,
+  UserLifeProfile,
 } from "../types/zen";
 import {
   loadStonesFromDevice,
@@ -21,6 +22,8 @@ import {
   saveActiveSessionToDevice,
   loadSettingsFromDevice,
   saveSettingsToDevice,
+  loadLifeProfileFromDevice,
+  saveLifeProfileToDevice,
 } from "../services/localDb";
 import { requestZenDialogue } from "../services/zenAiService";
 import { soundEngine } from "../services/soundEngine";
@@ -30,6 +33,7 @@ interface ZenGardenStore {
   stones: SavedResolutionStone[];
   selectedStone: SavedResolutionStone | null;
   activeSession: ActiveSession | null;
+  lifeProfile: UserLifeProfile;
   settings: AppSettings;
   isLoadingAI: boolean;
   ambientSound: SoundType;
@@ -55,6 +59,7 @@ interface ZenGardenStore {
   removeStone: (id: string) => Promise<void>;
   resetAllLocalData: () => Promise<void>;
   updateSettings: (partial: Partial<AppSettings>) => void;
+  updateLifeProfile: (profile: UserLifeProfile) => Promise<void>;
   triggerRipple: () => void;
 }
 
@@ -80,6 +85,10 @@ export const useZenStore = create<ZenGardenStore>((set, get) => ({
   stones: [],
   selectedStone: null,
   activeSession: null,
+  lifeProfile: {
+    memories: [],
+    updatedAt: new Date().toISOString(),
+  },
   settings: loadSettingsFromDevice(),
   isLoadingAI: false,
   ambientSound: "silence",
@@ -90,9 +99,10 @@ export const useZenStore = create<ZenGardenStore>((set, get) => ({
   rippleTrigger: 0,
 
   initializeApp: async () => {
-    const [rawStones, savedSession] = await Promise.all([
+    const [rawStones, savedSession, savedProfile] = await Promise.all([
       loadStonesFromDevice(),
       loadActiveSessionFromDevice(),
+      loadLifeProfileFromDevice(),
     ]);
     // 既存の石が下部UIと重なる位置（y > 0.62）にあった場合も、自動的に中央ステージ（0.32〜0.62）へ再配置して保存する
     const savedStones = rawStones.map((st, idx) => {
@@ -118,6 +128,7 @@ export const useZenStore = create<ZenGardenStore>((set, get) => ({
     set({
       stones: savedStones,
       activeSession: savedSession,
+      lifeProfile: savedProfile,
       settings,
     });
   },
@@ -476,6 +487,10 @@ export const useZenStore = create<ZenGardenStore>((set, get) => ({
       stones: [],
       selectedStone: null,
       activeSession: null,
+      lifeProfile: {
+        memories: [],
+        updatedAt: new Date().toISOString(),
+      },
       NewlyManifestedStone: null,
       viewMode: "GARDEN_HOME",
     });
@@ -486,5 +501,11 @@ export const useZenStore = create<ZenGardenStore>((set, get) => ({
     saveSettingsToDevice(next);
     soundEngine.setVolume(next.soundVolume);
     set({ settings: next });
+  },
+
+  updateLifeProfile: async (profile) => {
+    await saveLifeProfileToDevice(profile);
+    soundEngine.playWaterDrop(1.08);
+    set({ lifeProfile: profile });
   },
 }));

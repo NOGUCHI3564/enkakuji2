@@ -1,8 +1,13 @@
 // スマートフォン内専用ストレージ管理 (IndexedDB + LocalStorage フォールバック)
-// ユーザーに関するあらゆるデータ（喜怒哀楽ログ、対話履歴、覚悟の石コレクション）は
+// ユーザーに関するあらゆるデータ（人生の記憶［生年月日・性別・複数の喜怒哀楽エピソード］、対話履歴、覚悟の石コレクション）は
 // 外部サーバーには一切保存せず、端末内だけで永続化する。
 
-import { SavedResolutionStone, ActiveSession, AppSettings } from "../types/zen";
+import {
+  SavedResolutionStone,
+  ActiveSession,
+  AppSettings,
+  UserLifeProfile,
+} from "../types/zen";
 
 const DB_NAME = "EnkakujiZenGardenDB";
 const DB_VERSION = 1;
@@ -39,7 +44,10 @@ export async function loadStonesFromDevice(): Promise<SavedResolutionStone[]> {
       const req = store.getAll();
       req.onsuccess = () => {
         const list = (req.result as SavedResolutionStone[]) || [];
-        list.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+        list.sort(
+          (a, b) =>
+            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        );
         resolve(list);
       };
       req.onerror = () => reject(req.error);
@@ -50,7 +58,9 @@ export async function loadStonesFromDevice(): Promise<SavedResolutionStone[]> {
   }
 }
 
-export async function saveStoneToDevice(stone: SavedResolutionStone): Promise<void> {
+export async function saveStoneToDevice(
+  stone: SavedResolutionStone
+): Promise<void> {
   try {
     const db = await openDB();
     await new Promise<void>((resolve, reject) => {
@@ -77,7 +87,62 @@ export async function deleteStoneFromDevice(stoneId: string): Promise<void> {
     });
   } catch {
     const current = await loadStonesFromDevice();
-    localStorage.setItem("enkakuji_stones", JSON.stringify(current.filter((s) => s.id !== stoneId)));
+    localStorage.setItem(
+      "enkakuji_stones",
+      JSON.stringify(current.filter((s) => s.id !== stoneId))
+    );
+  }
+}
+
+// ユーザーの「人生の記憶（生年月日・性別・複数の喜怒哀楽エピソード）」の読み込み
+export async function loadLifeProfileFromDevice(): Promise<UserLifeProfile> {
+  const defaultProfile: UserLifeProfile = {
+    birthDate: "",
+    gender: "",
+    lifeContext: "",
+    memories: [],
+    updatedAt: new Date().toISOString(),
+  };
+  try {
+    const db = await openDB();
+    return new Promise((resolve) => {
+      const tx = db.transaction(STORE_STATE, "readonly");
+      const req = tx.objectStore(STORE_STATE).get("lifeProfile");
+      req.onsuccess = () => {
+        if (req.result) {
+          resolve({ ...defaultProfile, ...req.result });
+        } else {
+          const raw = localStorage.getItem("enkakuji_life_profile");
+          resolve(raw ? { ...defaultProfile, ...JSON.parse(raw) } : defaultProfile);
+        }
+      };
+      req.onerror = () => resolve(defaultProfile);
+    });
+  } catch {
+    const raw = localStorage.getItem("enkakuji_life_profile");
+    return raw ? { ...defaultProfile, ...JSON.parse(raw) } : defaultProfile;
+  }
+}
+
+// ユーザーの「人生の記憶」の保存
+export async function saveLifeProfileToDevice(
+  profile: UserLifeProfile
+): Promise<void> {
+  const updated: UserLifeProfile = {
+    ...profile,
+    updatedAt: new Date().toISOString(),
+  };
+  localStorage.setItem("enkakuji_life_profile", JSON.stringify(updated));
+  try {
+    const db = await openDB();
+    await new Promise<void>((resolve, reject) => {
+      const tx = db.transaction(STORE_STATE, "readwrite");
+      tx.objectStore(STORE_STATE).put(updated, "lifeProfile");
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+  } catch {
+    // localStorage 側で保存済み
   }
 }
 
@@ -96,9 +161,12 @@ export async function clearAllDeviceData(): Promise<void> {
   }
   localStorage.removeItem("enkakuji_stones");
   localStorage.removeItem("enkakuji_active_session");
+  localStorage.removeItem("enkakuji_life_profile");
 }
 
-export async function saveActiveSessionToDevice(session: ActiveSession | null): Promise<void> {
+export async function saveActiveSessionToDevice(
+  session: ActiveSession | null
+): Promise<void> {
   try {
     const db = await openDB();
     await new Promise<void>((resolve, reject) => {
