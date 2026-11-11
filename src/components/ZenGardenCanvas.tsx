@@ -1,8 +1,9 @@
-// Three.js カスタムGLSLシェーダーによる「A. 渦状銀河・星雲コア（ガラス球の中の天の川）」レンダラー
-// Playwright 実機スクリーンショット評価に基づき以下を徹底改善:
-// 1. 銀河中心の不自然な縦筋を解消し、斜め28度に傾いた流麗な対数らせん銀河（4,200恒星）に改良
-// 2. 「覚悟の石（覚悟の星）」が加算合成で白飛びしないよう、色彩豊かなブルーム（光冠）と色付きの鋭い十字光条（回折スパイク）を精緻に描画
-// 3. ガラス球の8分割/16分割セクター全体に立体的に星を配置し、一目でそれぞれの星の美しい色とキラメキが分かるように設計
+// Three.js カスタムGLSLシェーダーによる「幻想星雲ガラス宝珠 ＆ アンダーグロウ光彩」レンダラー
+// スクリーンショット検証に基づく色彩・露出の精密チューニング版:
+// 1. 加算合成による中心・底面の「白飛び」を完全に排除し、宇宙の深い闇とのコントラストで紫・蒼・紅（クリムゾン）・黄金が妖艶に浮かび上がる設計
+// 2. 4,800粒子の渦状腕の凝集度を高め、美しい対数スパイラルの流れと4色の星雲グラデーションを鮮明化
+// 3. ガラス球の下部には、白飛びせず「ぼわーっと幻想的に滲む紫・蒼・紅金のオーラ池」と、その中を「ピカピカと鮮明に瞬きながら昇る180個の光粒子」を配置
+// 4. 「覚悟の星」が背景のガスで白く潰れず、エメラルド・サファイア・黄金・紅蓮の宝石色と鋭い十字光条をくっきりと放つよう最適化
 
 import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
@@ -24,7 +25,7 @@ interface ZenGardenCanvasProps {
   isMeditationMode: boolean;
 }
 
-// 各「覚悟の星」の色彩パレット（白飛びを防ぎ、星そのものの色が鮮やかに匂い立つ配色）
+// 各「覚悟の星」の色彩パレット（白飛びを防ぎ、星そのものの宝石色が鮮やかに匂い立つ配色）
 const STONE_STAR_PALETTE: Record<
   StoneColorTheme,
   {
@@ -36,8 +37,8 @@ const STONE_STAR_PALETTE: Record<
 > = {
   golden_resolve: {
     coreRgb: "255, 248, 210",
-    midRgb: "255, 190, 30", // 濃密な黄金アンバー
-    outerRgb: "217, 119, 6", // 深い琥珀ブルーム
+    midRgb: "255, 185, 25", // 濃密な黄金アンバー
+    outerRgb: "180, 83, 9", // 深い琥珀ブルーム
     spikeRgb: "253, 224, 71",
   },
   sapphire_zen: {
@@ -54,28 +55,29 @@ const STONE_STAR_PALETTE: Record<
   },
   lotus_warm: {
     coreRgb: "252, 231, 243",
-    midRgb: "244, 114, 182", // 鮮やかな紅蓮ロータスピンク
-    outerRgb: "157, 23, 77", // 深いマゼンタ・バイオレットブルーム
+    midRgb: "244, 63, 140", // 鮮やかな紅蓮ロータスピンク
+    outerRgb: "157, 23, 77", // 深いマゼンタ・クリムゾンブルーム
     spikeRgb: "249, 168, 212",
   },
 };
 
-// 星雲のソフトガステクスチャ生成
-function createSoftGlowTexture(
-  rgb: string,
+// 星雲ヴェール・アンダーグロウ用の2色グラデーション・ソフトグロウテクスチャ
+function createRichNebulaTexture(
+  innerRgb: string,
+  outerRgb: string,
   alphaPeak = 1.0
 ): THREE.CanvasTexture {
-  const size = 128;
+  const size = 256;
   const c = document.createElement("canvas");
   c.width = size;
   c.height = size;
   const ctx = c.getContext("2d")!;
   const half = size / 2;
   const g = ctx.createRadialGradient(half, half, 0, half, half, half);
-  g.addColorStop(0, `rgba(${rgb}, ${alphaPeak})`);
-  g.addColorStop(0.35, `rgba(${rgb}, ${alphaPeak * 0.45})`);
-  g.addColorStop(0.7, `rgba(${rgb}, ${alphaPeak * 0.12})`);
-  g.addColorStop(1, `rgba(${rgb}, 0)`);
+  g.addColorStop(0, `rgba(${innerRgb}, ${alphaPeak})`);
+  g.addColorStop(0.32, `rgba(${innerRgb}, ${alphaPeak * 0.55})`);
+  g.addColorStop(0.65, `rgba(${outerRgb}, ${alphaPeak * 0.22})`);
+  g.addColorStop(1, `rgba(${outerRgb}, 0)`);
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, size, size);
   const tex = new THREE.CanvasTexture(c);
@@ -97,19 +99,30 @@ function createVividStarTexture(palette: {
   const ctx = c.getContext("2d")!;
   const half = size / 2;
 
-  // 1. 外側にふんわり滲む色彩ブルーム（光冠：半径 240px）
-  // 中心を白く塗りつぶさず、鮮やかな色（midRgb〜outerRgb）で包む
-  const bloomGrad = ctx.createRadialGradient(half, half, 2, half, half, half * 0.92);
-  bloomGrad.addColorStop(0, `rgba(${palette.midRgb}, 0.88)`);
-  bloomGrad.addColorStop(0.14, `rgba(${palette.midRgb}, 0.58)`);
-  bloomGrad.addColorStop(0.36, `rgba(${palette.outerRgb}, 0.26)`);
-  bloomGrad.addColorStop(0.68, `rgba(${palette.outerRgb}, 0.06)`);
+  // 1. 外側にふんわり滲む色彩ブルーム（中心を白くせず、宝石色で包む）
+  const bloomGrad = ctx.createRadialGradient(
+    half,
+    half,
+    2,
+    half,
+    half,
+    half * 0.92
+  );
+  bloomGrad.addColorStop(0, `rgba(${palette.midRgb}, 0.85)`);
+  bloomGrad.addColorStop(0.15, `rgba(${palette.midRgb}, 0.55)`);
+  bloomGrad.addColorStop(0.38, `rgba(${palette.outerRgb}, 0.25)`);
+  bloomGrad.addColorStop(0.7, `rgba(${palette.outerRgb}, 0.06)`);
   bloomGrad.addColorStop(1, `rgba(${palette.outerRgb}, 0)`);
   ctx.fillStyle = bloomGrad;
   ctx.fillRect(0, 0, size, size);
 
-  // 2. 鋭く伸びる色付きの回折スパイク（先端に向かって細くなる針状の光芒）
-  const drawRay = (angle: number, len: number, width: number, alpha: number) => {
+  // 2. 鋭く伸びる色付きの回折スパイク
+  const drawRay = (
+    angle: number,
+    len: number,
+    width: number,
+    alpha: number
+  ) => {
     ctx.save();
     ctx.translate(half, half);
     ctx.rotate(angle);
@@ -141,14 +154,14 @@ function createVividStarTexture(palette: {
   drawRay(Math.PI / 4, half * 0.56, 2.0, 0.82);
   drawRay(-Math.PI / 4, half * 0.56, 2.0, 0.82);
 
-  // 3. 中心の極小ピンポイント輝核（白い丸に見えないよう半径10px以下に絞る）
-  const pinGrad = ctx.createRadialGradient(half, half, 0, half, half, 11);
+  // 3. 中心の極小ピンポイント輝核（半径10px以下に絞り、白い塊に見せない）
+  const pinGrad = ctx.createRadialGradient(half, half, 0, half, half, 10);
   pinGrad.addColorStop(0, "rgba(255, 255, 255, 1)");
   pinGrad.addColorStop(0.45, `rgba(${palette.coreRgb}, 0.92)`);
   pinGrad.addColorStop(1, `rgba(${palette.midRgb}, 0)`);
   ctx.fillStyle = pinGrad;
   ctx.beginPath();
-  ctx.arc(half, half, 11, 0, Math.PI * 2);
+  ctx.arc(half, half, 10, 0, Math.PI * 2);
   ctx.fill();
 
   const tex = new THREE.CanvasTexture(c);
@@ -156,12 +169,11 @@ function createVividStarTexture(palette: {
   return tex;
 }
 
-// 球体内部（半径 ORB_RADIUS = 1.0）の8分割/16分割セクター全体に左右・上下・前後バランスよく立体配置
+// 球体内部（半径 ORB_RADIUS = 1.0）の8分割/16分割セクター全体に立体配置
 function computeStoneSectorPosition(
   _stone: SavedResolutionStone,
   index: number
 ): THREE.Vector3 {
-  // 8つのオクタント（右上前、左上奥、左下前、右下奥、左上前、右上奥、右下前、左下奥）に順番に割り振る
   const octantSequence = [
     { sx: 1, sy: 1, sz: 1 },
     { sx: -1, sy: 1, sz: -1 },
@@ -173,10 +185,10 @@ function computeStoneSectorPosition(
     { sx: -1, sy: -1, sz: -1 },
   ];
   const oct = octantSequence[index % 8];
-  const layer = Math.floor(index / 8) % 2; // 0: 内層, 1: 外層（計16分割）
+  const layer = Math.floor(index / 8) % 2;
   const seed = index * 1.6180339;
 
-  const baseDist = layer === 0 ? 0.34 : 0.45;
+  const baseDist = layer === 0 ? 0.36 : 0.48;
   const x = oct.sx * (baseDist + Math.sin(seed) * 0.07);
   const y = oct.sy * (baseDist * 0.82 + Math.cos(seed * 1.3) * 0.06);
   const z = oct.sz * (baseDist + Math.sin(seed * 0.7) * 0.07);
@@ -186,11 +198,11 @@ function computeStoneSectorPosition(
 
 function calculateOptimalCameraDistance(width: number, height: number): number {
   const aspect = width / Math.max(1, height);
-  const fovRad = (42 * Math.PI) / 180;
-  const targetWidthWorld = 2.0 / 0.54;
+  const fovRad = (40 * Math.PI) / 180;
+  const targetWidthWorld = 2.0 / 0.6;
   const distForWidth =
     targetWidthWorld / (2 * Math.tan(fovRad / 2) * Math.min(1, aspect));
-  return Math.max(4.4, Math.min(8.5, distForWidth));
+  return Math.max(4.1, Math.min(7.8, distForWidth));
 }
 
 export const ZenGardenCanvas: React.FC<ZenGardenCanvasProps> = ({
@@ -230,11 +242,11 @@ export const ZenGardenCanvas: React.FC<ZenGardenCanvasProps> = ({
     const height = container.clientHeight || window.innerHeight;
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x020308);
+    scene.background = new THREE.Color(0x030209);
 
-    const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 100);
+    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
     const initialDist = calculateOptimalCameraDistance(width, height);
-    camera.position.set(0, initialDist * 0.34, initialDist * 0.94);
+    camera.position.set(0, initialDist * 0.28, initialDist * 0.96);
 
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
@@ -244,7 +256,7 @@ export const ZenGardenCanvas: React.FC<ZenGardenCanvasProps> = ({
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.15;
+    renderer.toneMappingExposure = 1.08;
     container.innerHTML = "";
     container.appendChild(renderer.domElement);
 
@@ -255,23 +267,44 @@ export const ZenGardenCanvas: React.FC<ZenGardenCanvasProps> = ({
     controls.minDistance = 1.65;
     controls.maxDistance = initialDist * 1.45;
     controls.autoRotate = true;
-    controls.autoRotateSpeed = 0.25;
-    controls.target.set(0, -0.05, 0);
+    controls.autoRotateSpeed = 0.26;
+    controls.target.set(0, -0.1, 0);
+
+    // ============================================================================
+    // 0. 背後の宇宙アンビエンス（ごく淡い深紫〜群青のベルベット空間）
+    // ============================================================================
+    const bgAmbienceTex = createRichNebulaTexture(
+      "45, 18, 95",
+      "8, 6, 24",
+      0.24
+    );
+    const bgAmbienceSprite = new THREE.Sprite(
+      new THREE.SpriteMaterial({
+        map: bgAmbienceTex,
+        transparent: true,
+        opacity: 0.55,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      })
+    );
+    bgAmbienceSprite.position.set(0, -0.18, -1.5);
+    bgAmbienceSprite.scale.set(4.5, 4.5, 1);
+    scene.add(bgAmbienceSprite);
 
     const ORB_RADIUS = 1.0;
     const orbGroup = new THREE.Group();
     scene.add(orbGroup);
 
-    // 銀河面を斜め（X軸26度・Z軸-14度）に傾けたグループに入れ、正面から見たときに渦状腕が立体的に美しく広がるようにする
+    // 銀河面を立体的に傾け、対数らせんの美しい渦と闇のコントラストを見せる
     const galaxyTiltGroup = new THREE.Group();
-    galaxyTiltGroup.rotation.x = 0.46;
-    galaxyTiltGroup.rotation.z = -0.22;
+    galaxyTiltGroup.rotation.x = 0.5;
+    galaxyTiltGroup.rotation.z = -0.23;
     orbGroup.add(galaxyTiltGroup);
 
     // ============================================================================
-    // 1. 渦状銀河（天の川）コア & ケプラー差動回転カスタムシェーダー（4,200粒子）
+    // 1. 渦状銀河（4,800粒子）：白飛びを抑え、紫・蒼・紅（クリムゾン）・黄金の渦腕をくっきり描く
     // ============================================================================
-    const galaxyCount = 4200;
+    const galaxyCount = 4800;
     const gRadii = new Float32Array(galaxyCount);
     const gAngles = new Float32Array(galaxyCount);
     const gHeights = new Float32Array(galaxyCount);
@@ -281,26 +314,34 @@ export const ZenGardenCanvas: React.FC<ZenGardenCanvasProps> = ({
     const dummyPositions = new Float32Array(galaxyCount * 3);
 
     for (let i = 0; i < galaxyCount; i++) {
-      // 中心に縦線が入らないよう、極小半径時は360度等方的な楕円バルジにし、r > 0.15 から2本の対数渦状腕へ滑らかに遷移させる
       const u = Math.random();
-      const r = 0.015 + Math.pow(u, 1.65) * 0.86;
-      const arm = i % 2; // 2本の主渦状腕＋サブ腕で天の川らしい優雅なスパイラルを形成
-      const armOffset = arm * Math.PI;
+      // 中心に過度な密集を作って白飛びさせないよう指数を 1.25 に調整し、外縁 r = 0.92 まで優雅に広げる
+      const r = 0.025 + Math.pow(u, 1.25) * 0.9;
+      const armIndex = i % 4;
+      const isMainArm = armIndex < 2;
+      const armOffset =
+        armIndex === 0
+          ? 0
+          : armIndex === 1
+          ? Math.PI
+          : armIndex === 2
+          ? Math.PI * 0.5
+          : Math.PI * 1.5;
 
-      // 中心付近（r < 0.18）は全方向に丸く広がり、外側ほど渦状腕に収束する
-      const spiralStrength = Math.min(1.0, Math.max(0.0, (r - 0.08) / 0.25));
+      const spiralStrength = Math.min(1.0, Math.max(0.0, (r - 0.07) / 0.2));
       const randomIsoAngle = Math.random() * Math.PI * 2;
+      // 渦状腕の間の「暗い宇宙の隙間（ダストレーン）」が残るようスプレッドを引き締める
+      const spreadFactor = isMainArm ? 0.72 + r * 0.42 : 1.05 + r * 0.55;
       const gaussSpread =
         ((Math.random() + Math.random() + Math.random()) / 3 - 0.5) *
-        (1.35 + r * 0.8);
-      const spiralAngle = r * 6.2 + armOffset + gaussSpread;
+        spreadFactor;
+      const spiralAngle = r * 6.5 + armOffset + gaussSpread;
       const baseAngle =
         randomIsoAngle * (1.0 - spiralStrength) + spiralAngle * spiralStrength;
 
-      // 厚みもガウス分布で滑らかにし、不自然な切れ目を防ぐ
       const gaussY =
         (Math.random() + Math.random() + Math.random()) / 3 - 0.5;
-      const thickness = 0.28 * Math.exp(-r * 2.2) + 0.045;
+      const thickness = 0.24 * Math.exp(-r * 2.0) + 0.04;
       const y = gaussY * thickness;
 
       gRadii[i] = r;
@@ -312,46 +353,50 @@ export const ZenGardenCanvas: React.FC<ZenGardenCanvasProps> = ({
       let cr = 1,
         cg = 1,
         cb = 1;
-      if (r < 0.22) {
-        // 中心バルジ：温かみのあるシャンパンゴールド〜プラチナ
-        if (cRand > 0.35) {
+      if (r < 0.18) {
+        // 中心バルジ：温かく輝くシャンパンゴールド＆ローズアンバー
+        if (cRand < 0.6) {
           cr = 1.0;
-          cg = 0.94;
-          cb = 0.8;
+          cg = 0.88;
+          cb = 0.55; // シャンパンゴールド
         } else {
-          cr = 0.98;
-          cg = 0.8;
-          cb = 0.45;
+          cr = 1.0;
+          cg = 0.58;
+          cb = 0.74; // ローズアンバー
         }
-      } else if (r < 0.58) {
-        // 中間腕：サファイアブルー〜青白星〜淡い琥珀
-        if (cRand < 0.58) {
-          cr = 0.68;
-          cg = 0.85;
-          cb = 1.0;
-        } else if (cRand < 0.82) {
-          cr = 0.98;
-          cg = 0.9;
-          cb = 0.75;
+      } else if (r < 0.56) {
+        // 中間スパイラル：鮮やかなサファイア蒼 × アメジスト紫 × クリムゾン紅 × 金砂子
+        if (cRand < 0.34) {
+          cr = 0.28;
+          cg = 0.82;
+          cb = 1.0; // ルミナス・サファイアシアン
+        } else if (cRand < 0.66) {
+          cr = 0.78;
+          cg = 0.38;
+          cb = 1.0; // 艶やかなアメジスト・バイオレット（紫）
+        } else if (cRand < 0.9) {
+          cr = 1.0;
+          cg = 0.28;
+          cb = 0.62; // 魅惑的なクリムゾン・ローズ（赤紫〜紅）
         } else {
-          cr = 0.52;
-          cg = 0.68;
-          cb = 0.98;
+          cr = 1.0;
+          cg = 0.88;
+          cb = 0.48; // 金砂子の輝星
         }
       } else {
-        // 外縁腕：ディープコバルト・ラベンダー星間塵
-        if (cRand < 0.55) {
-          cr = 0.42;
-          cg = 0.64;
-          cb = 0.96;
-        } else if (cRand < 0.85) {
-          cr = 0.72;
-          cg = 0.58;
-          cb = 0.92;
+        // 外縁スパイラル：深い群青（コバルト）× 紫 × 紅の星屑
+        if (cRand < 0.42) {
+          cr = 0.64;
+          cg = 0.32;
+          cb = 0.98; // ディープアメジスト
+        } else if (cRand < 0.76) {
+          cr = 0.25;
+          cg = 0.65;
+          cb = 1.0; // 群青・コバルトブルー
         } else {
-          cr = 0.92;
-          cg = 0.78;
-          cb = 0.65;
+          cr = 0.96;
+          cg = 0.26;
+          cb = 0.56; // 深紅・ルビーローズ
         }
       }
 
@@ -359,11 +404,10 @@ export const ZenGardenCanvas: React.FC<ZenGardenCanvasProps> = ({
       gColors[i * 3 + 1] = cg;
       gColors[i * 3 + 2] = cb;
 
-      // 銀河の微細星：中心から渦状腕の流れが美しく浮かび上がるサイズと輝度
       gSizes[i] =
-        Math.random() < 0.92
-          ? 2.1 + Math.random() * 2.8
-          : 4.8 + Math.random() * 3.4;
+        Math.random() < 0.9
+          ? 2.0 + Math.random() * 2.6
+          : 4.6 + Math.random() * 3.2;
     }
 
     const galaxyGeo = new THREE.BufferGeometry();
@@ -397,23 +441,24 @@ export const ZenGardenCanvas: React.FC<ZenGardenCanvasProps> = ({
 
         void main() {
           vColor = aColor;
-          // ケプラー差動回転
-          float keplerAngularVel = 0.20 / (aRadius + 0.18);
-          float currentAngle = aAngle + keplerAngularVel * uTime * 0.42;
+          float keplerAngularVel = 0.22 / (aRadius + 0.18);
+          float currentAngle = aAngle + keplerAngularVel * uTime * 0.40;
 
           vec3 pos = vec3(
             cos(currentAngle) * aRadius,
-            aHeight + sin(uTime * 0.7 + aPhase) * 0.006,
+            aHeight + sin(uTime * 0.65 + aPhase) * 0.007,
             sin(currentAngle) * aRadius
           );
 
           vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
           gl_Position = projectionMatrix * mvPosition;
 
-          float twinkle = 0.75 + 0.25 * sin(uTime * 2.4 + aPhase);
-          vAlpha = (0.85 - aRadius * 0.35) * twinkle;
+          float twinkle = 0.75 + 0.25 * sin(uTime * 2.2 + aPhase);
+          // 中心は温かく輝き、渦状腕もくっきりと浮かび上がる輝度プロファイル
+          float radialProfile = 0.88 - aRadius * 0.22;
+          vAlpha = radialProfile * twinkle;
 
-          gl_PointSize = aSize * uPixelRatio * (2.5 / -mvPosition.z);
+          gl_PointSize = aSize * uPixelRatio * (2.65 / -mvPosition.z);
         }
       `,
       fragmentShader: `
@@ -423,8 +468,10 @@ export const ZenGardenCanvas: React.FC<ZenGardenCanvasProps> = ({
         void main() {
           float d = length(gl_PointCoord - vec2(0.5));
           if (d > 0.5) discard;
-          float intensity = pow(1.0 - d * 2.0, 1.8);
-          gl_FragColor = vec4(vColor, intensity * vAlpha * 0.92);
+          float core = pow(max(0.0, 1.0 - d * 2.0), 1.65);
+          // 中心核のみほんのり輝度を上げ、周囲は紫・青・紅・金の純粋な彩度を保つ
+          vec3 col = mix(vColor, vec3(1.0, 0.96, 0.92), pow(core, 3.5) * 0.35);
+          gl_FragColor = vec4(col, core * vAlpha * 0.92);
         }
       `,
       transparent: true,
@@ -436,34 +483,67 @@ export const ZenGardenCanvas: React.FC<ZenGardenCanvasProps> = ({
     galaxyTiltGroup.add(galaxyPoints);
 
     // ============================================================================
-    // 2. ボリューメトリック星雲ガス雲 & 銀河中心核（バルジ）の柔光スプライト
+    // 2. ボリューメトリック星雲ヴェール（白飛びしない絶妙な透過度で紫・蒼・紅の絹の艶を添える）
     // ============================================================================
     const nebulaGroup = new THREE.Group();
     galaxyTiltGroup.add(nebulaGroup);
 
-    const coreTex = createSoftGlowTexture("255, 225, 165", 0.42);
+    // 中心核の温かい琥珀×ローズのコア光（白飛びせず、銀河の心臓部が艶やかに輝くバランス）
+    const coreGlowTex = createRichNebulaTexture(
+      "255, 210, 125",
+      "225, 29, 95",
+      0.52
+    );
     const coreSprite = new THREE.Sprite(
       new THREE.SpriteMaterial({
-        map: coreTex,
+        map: coreGlowTex,
         transparent: true,
-        opacity: 0.55,
+        opacity: 0.48,
         blending: THREE.AdditiveBlending,
         depthWrite: false,
       })
     );
-    coreSprite.scale.set(0.68, 0.52, 1);
+    coreSprite.scale.set(0.56, 0.42, 1);
     nebulaGroup.add(coreSprite);
 
+    // 渦状腕に沿って深みと色気を与える星雲ガス（紫・青・紅のヴェール）
     const cloudConfigs = [
-      { rgb: "30, 64, 175", count: 7, scale: 0.68, op: 0.12 },
-      { rgb: "88, 28, 135", count: 5, scale: 0.6, op: 0.09 },
-      { rgb: "180, 83, 9", count: 4, scale: 0.48, op: 0.09 },
+      // ディープバイオレット（紫）
+      {
+        innerRgb: "168, 85, 247",
+        outerRgb: "88, 28, 135",
+        count: 6,
+        scale: 0.72,
+        op: 0.17,
+        armShift: 0.0,
+      },
+      // ディープサファイア（青）
+      {
+        innerRgb: "56, 189, 248",
+        outerRgb: "29, 78, 216",
+        count: 6,
+        scale: 0.7,
+        op: 0.16,
+        armShift: 0.65,
+      },
+      // クリムゾン・ローズ（赤紫〜紅）
+      {
+        innerRgb: "244, 63, 94",
+        outerRgb: "157, 23, 77",
+        count: 5,
+        scale: 0.62,
+        op: 0.15,
+        armShift: 1.3,
+      },
     ];
-    cloudConfigs.forEach((cfg, cIdx) => {
-      const tex = createSoftGlowTexture(cfg.rgb, 1.0);
+
+    cloudConfigs.forEach((cfg) => {
+      const tex = createRichNebulaTexture(cfg.innerRgb, cfg.outerRgb, 1.0);
       for (let i = 0; i < cfg.count; i++) {
-        const r = 0.2 + (i / cfg.count) * 0.52;
-        const a = i * 2.1 + cIdx * 1.4;
+        const frac = i / cfg.count;
+        const r = 0.24 + frac * 0.58;
+        const armOffset = (i % 2) * Math.PI;
+        const spiralAngle = r * 5.8 + armOffset + cfg.armShift;
         const sp = new THREE.Sprite(
           new THREE.SpriteMaterial({
             map: tex,
@@ -474,9 +554,9 @@ export const ZenGardenCanvas: React.FC<ZenGardenCanvasProps> = ({
           })
         );
         sp.position.set(
-          Math.cos(a) * r,
-          (Math.random() - 0.5) * 0.14,
-          Math.sin(a) * r
+          Math.cos(spiralAngle) * r,
+          (Math.sin(i * 2.7) * 0.5) * 0.1,
+          Math.sin(spiralAngle) * r
         );
         sp.scale.set(cfg.scale, cfg.scale, 1);
         nebulaGroup.add(sp);
@@ -484,9 +564,246 @@ export const ZenGardenCanvas: React.FC<ZenGardenCanvasProps> = ({
     });
 
     // ============================================================================
-    // 3. 光学フレネル反射ガラス球（カスタムシェーダー）
+    // 3. ガラス球の「下部アンダーグロウ（ぼわーっと光る光の溜まり）」＆「ピカピカと立ち昇る煌めき粒子」
     // ============================================================================
-    const glassGeo = new THREE.SphereGeometry(ORB_RADIUS, 64, 64);
+    const underglowGroup = new THREE.Group();
+    orbGroup.add(underglowGroup);
+
+    // 3-A. 球体のすぐ下に広がる幻想的なオーラの池（白飛びせず、紫・蒼・紅金がしっとり滲む露出）
+    const pedestalVioletTex = createRichNebulaTexture(
+      "139, 92, 246",
+      "30, 58, 138",
+      0.55
+    );
+    const pedestalRoseGoldTex = createRichNebulaTexture(
+      "244, 63, 94",
+      "180, 83, 9",
+      0.5
+    );
+
+    // 外側の紫〜群青のぼわーっと広がる光彩
+    const underSoftGlow1 = new THREE.Sprite(
+      new THREE.SpriteMaterial({
+        map: pedestalVioletTex,
+        transparent: true,
+        opacity: 0.42,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      })
+    );
+    underSoftGlow1.position.set(0, -1.14, 0);
+    underSoftGlow1.scale.set(2.4, 0.68, 1);
+    underglowGroup.add(underSoftGlow1);
+
+    // 中心寄りの紅〜琥珀の艶やかな照り返し
+    const underSoftGlow2 = new THREE.Sprite(
+      new THREE.SpriteMaterial({
+        map: pedestalRoseGoldTex,
+        transparent: true,
+        opacity: 0.34,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      })
+    );
+    underSoftGlow2.position.set(0, -1.06, 0.05);
+    underSoftGlow2.scale.set(1.35, 0.42, 1);
+    underglowGroup.add(underSoftGlow2);
+
+    // 水平面に広がる繊細なコースティクス（集光リング波紋）シェーダー
+    const causticPlaneGeo = new THREE.PlaneGeometry(2.6, 2.6, 1, 1);
+    const causticShaderMat = new THREE.ShaderMaterial({
+      uniforms: {
+        uTime: { value: 0 },
+      },
+      vertexShader: `
+        varying vec2 vUv;
+        void main() {
+          vUv = uv * 2.0 - 1.0;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform float uTime;
+        varying vec2 vUv;
+        void main() {
+          float r = length(vUv);
+          if (r > 1.0) discard;
+
+          float angle = atan(vUv.y, vUv.x);
+          float wave1 = sin(r * 15.0 - uTime * 1.3 + sin(angle * 3.0 + uTime * 0.5) * 0.5) * 0.5 + 0.5;
+          float wave2 = cos(r * 10.0 - uTime * 0.8 - cos(angle * 4.0 - uTime * 0.4) * 0.5) * 0.5 + 0.5;
+          float caustic = pow(wave1 * wave2, 1.6);
+
+          float radialMask = pow(1.0 - r, 2.4);
+          vec3 colInner = vec3(0.98, 0.65, 0.35); // 琥珀ゴールド
+          vec3 colMid = vec3(0.90, 0.22, 0.55);   // クリムゾン・ローズ
+          vec3 colOuter = vec3(0.35, 0.42, 0.98); // サファイア・バイオレット
+
+          vec3 col = mix(colInner, colMid, smoothstep(0.0, 0.42, r));
+          col = mix(col, colOuter, smoothstep(0.38, 0.85, r));
+
+          // 白飛びさせず、波紋の筋が美しく見えるアルファ値
+          float alpha = radialMask * (0.16 + caustic * 0.28);
+          gl_FragColor = vec4(col, alpha);
+        }
+      `,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      side: THREE.DoubleSide,
+    });
+    const causticDisk = new THREE.Mesh(causticPlaneGeo, causticShaderMat);
+    causticDisk.rotation.x = -Math.PI / 2;
+    causticDisk.position.set(0, -1.07, 0);
+    underglowGroup.add(causticDisk);
+
+    // 3-B. ガラス球の下部で「ピカピカ」と煌めきながら立ち昇る光の粒子（180個）
+    const underSparkleCount = 180;
+    const uRadii = new Float32Array(underSparkleCount);
+    const uAngles = new Float32Array(underSparkleCount);
+    const uBaseY = new Float32Array(underSparkleCount);
+    const uSpeeds = new Float32Array(underSparkleCount);
+    const uPhases = new Float32Array(underSparkleCount);
+    const uColors = new Float32Array(underSparkleCount * 3);
+    const uSizes = new Float32Array(underSparkleCount);
+    const uDummyPos = new Float32Array(underSparkleCount * 3);
+
+    for (let i = 0; i < underSparkleCount; i++) {
+      const r = 0.08 + Math.pow(Math.random(), 0.85) * 1.12;
+      uRadii[i] = r;
+      uAngles[i] = Math.random() * Math.PI * 2;
+      uBaseY[i] = -1.2 + Math.min(0.45, r * r * 0.28);
+      uSpeeds[i] = 0.35 + Math.random() * 0.55;
+      uPhases[i] = Math.random() * Math.PI * 2;
+
+      const cRand = Math.random();
+      if (cRand < 0.38) {
+        // シャンパンゴールド
+        uColors[i * 3] = 1.0;
+        uColors[i * 3 + 1] = 0.88;
+        uColors[i * 3 + 2] = 0.45;
+      } else if (cRand < 0.68) {
+        // ルビー・ローズピンク
+        uColors[i * 3] = 1.0;
+        uColors[i * 3 + 1] = 0.38;
+        uColors[i * 3 + 2] = 0.75;
+      } else if (cRand < 0.88) {
+        // サファイア・シアン
+        uColors[i * 3] = 0.38;
+        uColors[i * 3 + 1] = 0.82;
+        uColors[i * 3 + 2] = 1.0;
+      } else {
+        // アメジスト・バイオレット
+        uColors[i * 3] = 0.78;
+        uColors[i * 3 + 1] = 0.45;
+        uColors[i * 3 + 2] = 1.0;
+      }
+
+      uSizes[i] = 5.5 + Math.random() * 9.5;
+    }
+
+    const underSparkleGeo = new THREE.BufferGeometry();
+    underSparkleGeo.setAttribute(
+      "position",
+      new THREE.BufferAttribute(uDummyPos, 3)
+    );
+    underSparkleGeo.setAttribute(
+      "aRadius",
+      new THREE.BufferAttribute(uRadii, 1)
+    );
+    underSparkleGeo.setAttribute(
+      "aAngle",
+      new THREE.BufferAttribute(uAngles, 1)
+    );
+    underSparkleGeo.setAttribute("aBaseY", new THREE.BufferAttribute(uBaseY, 1));
+    underSparkleGeo.setAttribute(
+      "aSpeed",
+      new THREE.BufferAttribute(uSpeeds, 1)
+    );
+    underSparkleGeo.setAttribute(
+      "aPhase",
+      new THREE.BufferAttribute(uPhases, 1)
+    );
+    underSparkleGeo.setAttribute(
+      "aColor",
+      new THREE.BufferAttribute(uColors, 3)
+    );
+    underSparkleGeo.setAttribute("aSize", new THREE.BufferAttribute(uSizes, 1));
+
+    const underSparkleMat = new THREE.ShaderMaterial({
+      uniforms: {
+        uTime: { value: 0 },
+        uPixelRatio: { value: Math.min(window.devicePixelRatio || 1, 2) },
+      },
+      vertexShader: `
+        uniform float uTime;
+        uniform float uPixelRatio;
+        attribute float aRadius;
+        attribute float aAngle;
+        attribute float aBaseY;
+        attribute float aSpeed;
+        attribute float aPhase;
+        attribute vec3 aColor;
+        attribute float aSize;
+        varying vec3 vColor;
+        varying float vAlpha;
+
+        void main() {
+          vColor = aColor;
+          float life = fract(uTime * aSpeed * 0.20 + aPhase / 6.28318);
+          float angle = aAngle + uTime * 0.16 * aSpeed;
+          float currentR = aRadius * (0.92 + life * 0.16);
+          float yOffset = life * 0.30;
+
+          vec3 pos = vec3(
+            cos(angle) * currentR,
+            aBaseY + yOffset,
+            sin(angle) * currentR
+          );
+
+          vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+          gl_Position = projectionMatrix * mvPosition;
+
+          float flash = pow(sin(uTime * 4.0 + aPhase * 3.0) * 0.5 + 0.5, 2.0);
+          float envelope = sin(life * 3.14159);
+          vAlpha = envelope * (0.40 + 0.60 * flash);
+
+          gl_PointSize = aSize * (0.80 + 0.45 * flash) * uPixelRatio * (2.6 / -mvPosition.z);
+        }
+      `,
+      fragmentShader: `
+        varying vec3 vColor;
+        varying float vAlpha;
+
+        void main() {
+          vec2 uv = gl_PointCoord - vec2(0.5);
+          float d = length(uv);
+          if (d > 0.5) discard;
+
+          // 十字の煌めきスパイクとソフトな光冠
+          float crossRay = max(
+            exp(-abs(uv.x) * 28.0) * exp(-abs(uv.y) * 4.5),
+            exp(-abs(uv.y) * 28.0) * exp(-abs(uv.x) * 4.5)
+          );
+          float softGlow = pow(max(0.0, 1.0 - d * 2.0), 2.2);
+          float intensity = clamp(softGlow * 0.75 + crossRay * 0.95, 0.0, 1.0);
+
+          vec3 col = mix(vColor, vec3(1.0, 0.99, 0.95), crossRay * 0.72);
+          gl_FragColor = vec4(col, intensity * vAlpha);
+        }
+      `,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+    });
+
+    const underSparkles = new THREE.Points(underSparkleGeo, underSparkleMat);
+    underglowGroup.add(underSparkles);
+
+    // ============================================================================
+    // 4. クリスタルガラス球シェーダー（内部の透明感を保ちつつ、輪郭のプリズム艶と底面反射を描く）
+    // ============================================================================
+    const glassGeo = new THREE.SphereGeometry(ORB_RADIUS, 72, 72);
     const glassShaderMat = new THREE.ShaderMaterial({
       uniforms: {
         uTime: { value: 0 },
@@ -504,26 +821,52 @@ export const ZenGardenCanvas: React.FC<ZenGardenCanvasProps> = ({
         }
       `,
       fragmentShader: `
+        uniform float uTime;
         varying vec3 vNormal;
         varying vec3 vViewPosition;
         varying vec3 vWorldPos;
+
         void main() {
           vec3 normal = normalize(vNormal);
           vec3 viewDir = normalize(vViewPosition);
-          float fresnel = pow(1.0 - abs(dot(normal, viewDir)), 3.4);
+          float ndotv = abs(dot(normal, viewDir));
 
-          vec3 lightDir = normalize(vec3(-0.55, 0.72, 0.65));
-          vec3 halfVec = normalize(lightDir + viewDir);
-          float spec = pow(max(dot(normal, halfVec), 0.0), 48.0);
+          // 内部の銀河・覚悟の星を曇らせないよう、輪郭（3.4乗）にシャープに光を集める
+          float outerRim = pow(1.0 - ndotv, 3.4);
+          float innerSheen = pow(1.0 - ndotv, 2.0) * 0.07;
 
-          vec3 rimColor = mix(
-            vec3(0.45, 0.75, 0.98),
-            vec3(0.99, 0.90, 0.68),
-             clamp(vWorldPos.y * 0.6 + 0.5, 0.0, 1.0)
+          float yNorm = clamp(vWorldPos.y * 0.5 + 0.5, 0.0, 1.0);
+          vec3 topColor = vec3(0.42, 0.80, 1.0);     // 上部：澄んだサファイア・シアン
+          vec3 midColor = vec3(0.75, 0.34, 0.98);    // 中部：アメジスト・バイオレット
+          vec3 bottomColor = vec3(0.98, 0.45, 0.65); // 下部：ローズ・アンバー
+
+          vec3 rimColor = mix(bottomColor, midColor, smoothstep(0.0, 0.52, yNorm));
+          rimColor = mix(rimColor, topColor, smoothstep(0.50, 1.0, yNorm));
+
+          // 底面エッジの照り返し（白飛びしないよう底の極近くに繊細に入れる）
+          float bottomBounce = pow(max(0.0, -vWorldPos.y), 4.2) * (0.24 + 0.05 * sin(uTime * 1.8));
+          vec3 bounceColor = vec3(1.0, 0.62, 0.45) * bottomBounce;
+
+          // ガラス玉のハイライト：中央付近の白い曇りにならず、左上リム（輪郭）に沿ってシャープな三日月状の艶が入るよう光源角度を調整
+          vec3 lightDir1 = normalize(vec3(-0.78, 0.76, 0.22));
+          vec3 halfVec1 = normalize(lightDir1 + viewDir);
+          float specMain = pow(max(dot(normal, halfVec1), 0.0), 96.0);
+
+          vec3 lightDir2 = normalize(vec3(0.68, -0.72, 0.28));
+          vec3 halfVec2 = normalize(lightDir2 + viewDir);
+          float specSub = pow(max(dot(normal, halfVec2), 0.0), 56.0) * 0.35;
+
+          vec3 finalColor =
+            rimColor * (outerRim * 0.92 + innerSheen) +
+            bounceColor +
+            vec3(1.0, 0.98, 0.96) * (specMain * 0.62) +
+            vec3(0.95, 0.48, 0.82) * specSub;
+
+          float alpha = clamp(
+            outerRim * 0.62 + innerSheen + bottomBounce * 0.42 + specMain * 0.50 + specSub * 0.28,
+            0.0,
+            0.84
           );
-
-          vec3 finalColor = rimColor * fresnel * 0.85 + vec3(1.0, 0.99, 0.95) * spec * 0.38;
-          float alpha = clamp(fresnel * 0.52 + spec * 0.32, 0.0, 0.75);
           gl_FragColor = vec4(finalColor, alpha);
         }
       `,
@@ -536,7 +879,7 @@ export const ZenGardenCanvas: React.FC<ZenGardenCanvasProps> = ({
     orbGroup.add(glassSphere);
 
     // ============================================================================
-    // 4. 「覚悟の石（一等星）」グループ & 波紋パルスグループ
+    // 5. 「覚悟の石（一等星）」グループ & 波紋パルスグループ
     // ============================================================================
     const stonesGroup = new THREE.Group();
     const pulseWavesGroup = new THREE.Group();
@@ -560,7 +903,7 @@ export const ZenGardenCanvas: React.FC<ZenGardenCanvasProps> = ({
     };
 
     // ============================================================================
-    // 5. タップ（Raycaster）による「覚悟の星」選択判定
+    // 6. タップ（Raycaster）による「覚悟の星」選択判定
     // ============================================================================
     const raycaster = new THREE.Raycaster();
     const pointer = new THREE.Vector2();
@@ -613,7 +956,7 @@ export const ZenGardenCanvas: React.FC<ZenGardenCanvasProps> = ({
     window.addEventListener("resize", handleResize);
 
     // ============================================================================
-    // 6. アニメーションループ
+    // 7. アニメーションループ
     // ============================================================================
     let animId: number;
     const clock = new THREE.Clock();
@@ -624,27 +967,42 @@ export const ZenGardenCanvas: React.FC<ZenGardenCanvasProps> = ({
 
       controls.update();
 
-      galaxyMaterial.uniforms.uTime.value = elapsed;
-      nebulaGroup.rotation.y = elapsed * 0.035;
+      const deepBreath = Math.sin(elapsed * 0.85) * 0.5 + 0.5;
+      underSoftGlow1.scale.set(
+        2.4 + deepBreath * 0.16,
+        0.68 + deepBreath * 0.06,
+        1
+      );
+      underSoftGlow2.scale.set(
+        1.35 + (1.0 - deepBreath) * 0.12,
+        0.42 + (1.0 - deepBreath) * 0.05,
+        1
+      );
 
-      // 各「覚悟の星」のピカピカ瞬くシンチレーションとブルーム呼吸
+      galaxyMaterial.uniforms.uTime.value = elapsed;
+      glassShaderMat.uniforms.uTime.value = elapsed;
+      causticShaderMat.uniforms.uTime.value = elapsed;
+      underSparkleMat.uniforms.uTime.value = elapsed;
+
+      nebulaGroup.rotation.y = elapsed * 0.038;
+
       stoneEntries.forEach((item, id) => {
         const isSelected = id === selectedIdRef.current;
-        const breath = Math.sin(elapsed * 2.4 + item.phase) * 0.5 + 0.5;
+        const breath = Math.sin(elapsed * 1.9 + item.phase) * 0.5 + 0.5;
         const sparkleFlash = Math.pow(
-          Math.sin(elapsed * 5.2 + item.phase * 1.9) * 0.5 + 0.5,
+          Math.sin(elapsed * 3.8 + item.phase * 1.9) * 0.5 + 0.5,
           3
         );
 
         const baseScale = isSelected ? 0.56 : 0.42;
-        const mainScale = baseScale + breath * 0.08 + sparkleFlash * 0.12;
+        const mainScale = baseScale + breath * 0.07 + sparkleFlash * 0.1;
         item.mainStarSprite.scale.set(mainScale, mainScale, 1);
 
         const subScale =
-          (isSelected ? 0.36 : 0.25) + (1 - breath) * 0.06 + sparkleFlash * 0.1;
+          (isSelected ? 0.34 : 0.24) + (1 - breath) * 0.05 + sparkleFlash * 0.08;
         item.subTwinkleSprite.scale.set(subScale, subScale, 1);
         (item.subTwinkleSprite.material as THREE.SpriteMaterial).rotation =
-          elapsed * 0.45 + item.phase;
+          elapsed * 0.35 + item.phase;
       });
 
       for (let i = pulseWavesGroup.children.length - 1; i >= 0; i--) {
@@ -691,7 +1049,6 @@ export const ZenGardenCanvas: React.FC<ZenGardenCanvasProps> = ({
         STONE_STAR_PALETTE[stone.visual?.color_theme || "golden_resolve"] ||
         STONE_STAR_PALETTE.golden_resolve;
 
-      // タップ判定用メッシュ（完全不可視にして白い丸が一切出ないようにする）
       const hitGeo = new THREE.SphereGeometry(0.11, 8, 8);
       const hitMat = new THREE.MeshBasicMaterial({
         transparent: true,
@@ -703,7 +1060,6 @@ export const ZenGardenCanvas: React.FC<ZenGardenCanvasProps> = ({
       hitMesh.userData = { stoneId: stone.id };
       stonesGroup.add(hitMesh);
 
-      // メインの一等星スプライト（色彩ブルーム＋鋭い回折スパイクを1枚に統合し、中心の白飛びを防止）
       const starTex = createVividStarTexture(palette);
       const mainStarSprite = new THREE.Sprite(
         new THREE.SpriteMaterial({
@@ -715,22 +1071,21 @@ export const ZenGardenCanvas: React.FC<ZenGardenCanvasProps> = ({
         })
       );
       mainStarSprite.position.copy(pos);
-      mainStarSprite.scale.set(0.44, 0.44, 1);
+      mainStarSprite.scale.set(0.42, 0.42, 1);
       mainStarSprite.userData = { stoneId: stone.id };
       stonesGroup.add(mainStarSprite);
 
-      // 回転してピカピカ感を出すセカンダリ光条（中心が白飛びしないよう控えめなopacityで重ねる）
       const subTwinkleSprite = new THREE.Sprite(
         new THREE.SpriteMaterial({
           map: starTex,
           transparent: true,
-          opacity: 0.42,
+          opacity: 0.38,
           blending: THREE.AdditiveBlending,
           depthWrite: false,
         })
       );
       subTwinkleSprite.position.copy(pos);
-      subTwinkleSprite.scale.set(0.26, 0.26, 1);
+      subTwinkleSprite.scale.set(0.24, 0.24, 1);
       subTwinkleSprite.userData = { stoneId: stone.id };
       stonesGroup.add(subTwinkleSprite);
 
