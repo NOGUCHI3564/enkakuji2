@@ -184,7 +184,11 @@ export const InquiryOverlay: React.FC<InquiryOverlayProps> = ({
                 <div className="py-6 flex flex-col items-center justify-center gap-3">
                   <div className="w-8 h-8 rounded-full border-2 border-amber-300/60 border-t-transparent animate-spin" />
                   <p className="font-serif text-sm text-amber-100/80 tracking-wider">
-                    全脳知識ネットワークと心の波紋を照合しています…
+                    {session.currentPhase === 1
+                      ? "あなたの心に寄り添い、問いを深めています…"
+                      : session.currentPhase === 2
+                      ? "大切にしている価値観と心の波紋を見つめています…"
+                      : "全脳の智慧と共鳴させ、覚悟を結晶化しています…"}
                   </p>
                 </div>
               ) : (
