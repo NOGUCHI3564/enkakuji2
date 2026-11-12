@@ -1,30 +1,32 @@
-# 円覚寺禅問答・心庭（箱庭）・瞑想PWAアプリ 設計仕様書
+# 円覚寺禅問答・心庭（ガラス銀河宝珠）・瞑想PWAアプリ 完全設計仕様書
 
-**Version:** 2.0  
-**更新日:** 2026年11月9日  
+**Version:** 3.0（実装完全同期版）  
+**最終更新日:** 2026年11月12日  
 **開発対象:** スマートフォン特化型 プログレッシブWebアプリ（PWA）  
-**基本思想:** 問い、沈黙、観察、手放し、そして「覚悟の石」の顕現（フロー理論と円覚寺全脳知識ネットワークの融合）
+**公開URL:** https://noguchi3564.github.io/enkakuji2/  
+**基本思想:** 問い、沈黙、観察、手放し、そして「覚悟の石（一等星）」の顕現（フロー理論と円覚寺全脳知識ネットワークの融合）
 
 ---
 
 ## 第1章 アプリの目的とコア体験（UX洞察）
 
 ### 1.1 コンセプト
-本アプリは、臨済宗大本山円覚寺の法脈（朝比奈宗源老師、横田南嶺老師、盤珪永琢禅師の不生禅）を体系化した**「全脳知識ネットワーク（`knowledge_graph.json`）」**を知識基盤とし、AIとの禅問答・自然音による身体技法（瞑想）・光と陰影の「心の庭（箱庭）」を融合させた自己省察・フロー体験アプリである。
+本アプリは、臨済宗大本山円覚寺の法脈（朝比奈宗源老師、横田南嶺老師、盤珪永琢禅師の不生禅）を体系化した**「全脳知識ネットワーク（`knowledge_graph.json`）」**を知識基盤とし、AIとの禅問答・自然環境音による身体技法（瞑想）・幻想的な光と宇宙が息づく3D「心庭（ガラス銀河宝珠）」を融合させた自己省察・フロー体験アプリである。
 
-通常のAIチャットのように即席の正解を与えるのではなく、**5〜10往復の問答を通じてユーザー自身の内なる気づきを促し、最終的にユーザーが自らの肚（はら）を据えて導き出した結論を「覚悟の石」として心の庭に結晶化・発光させる**ことで、深い自己変容と没入（フロー）をもたらす。
+通常のAIチャットのように即席の正解を与えるのではなく、ユーザー自身の「人生の記憶（喜・怒・哀・楽の経験）」に寄り添いながら**5〜10往復の問答を通じて内なる気づきを促し、最終的にユーザーが自らの肚（はら）を据えて導き出した結論を「覚悟の石（一等星）」としてガラス宝珠の宇宙に結晶化・発光させる**ことで、深い自己変容と没入（フロー）をもたらす。
 
 ### 1.2 チクセントミハイ「フロー理論」に基づく没入設計
-`deep-research-report.md` で考察されたフロー理論および神経科学的知見（デフォルトモードネットワーク［DMN：反芻思考や過度な自意識］の抑制と、内発的報酬系の活性化）を、禅の体験プロセスに以下のように統合する。
+`deep-research-report.md` で考察されたフロー理論および神経科学的知見（デフォルトモードネットワーク［DMN：反芻思考や過度な自意識］の抑制と、内発的報酬系の活性化）を、禅の体験プロセスに以下のように統合している。
 
 1. **課題と能力の動的バランス（Dynamic Difficulty Adjustment: 問答の3フェーズ遷移）**
    - 苦悩の渦中にあるユーザー（高ストレス・扁桃体過活動状態）にいきなり厳しい公案を突きつけると「不安（Anxiety）」に陥り、逆に表層的な慰めだけでは「退屈（Boredom）」を生む。
-   - そのため、`knowledge_graph.json` の `transforms_to_ids` に定義された **Phase 1（受容・手放し）→ Phase 2（視野拡大・生死や自他の超越）→ Phase 3（主体的覚悟・苦中の真楽）** の3段階に沿って、ユーザーの「人生の記憶（生年月日・性別などの任意属性＋これまでに経験した複数の喜怒哀楽エピソード）」や直近5〜10回の回答の深まりに応じた問いの強度調整（DDA）を行う。
-2. **認知負荷の極小化と環境への完全没入**
-   - 複雑なメニューや統計グラフを排し、落ち着いた光と影が揺らぐ「心の庭」のビジュアルと、最小限のテキスト・環境音のみで構成する。これにより脳の言語的・分析的な過剰防衛（DMN）を鎮め、「今ここ」の対話に集中させる。
-3. **即時フィードバックと「覚悟の石」による内発的報酬（Autotelic Experience）**
-   - ユーザーの1回ごとの発言に呼応して庭の「光のゆらぎ（波紋や灯り）」が微細に変化する即時フィードバックを与える。
-   - そして問答の果てにユーザー自身が「自分の結論（覚悟・気づき）」を見出した瞬間、それが光り輝く**「覚悟の石」**としてアニメーションと共に庭に立ち上がる。この視覚的・精神的なカタルシスが強力な内発的報酬となり、ゲーム感覚の達成感と実存的な肚の据わりを両立させる。
+   - そのため、`knowledge_graph.json` の `transforms_to_ids` に定義された **Phase 1（受容・手放し：1〜3往復目目安）→ Phase 2（視野拡大・超越：4〜6往復目目安）→ Phase 3（主体的覚悟・苦中の真楽：6〜10往復目目安）** の3段階に沿って、ユーザーの「人生の記憶」や直近の回答の深まりに応じた問いの強度調整（DDA）を行う。
+2. **認知負荷の極小化と幻想的な「心庭」への完全没入**
+   - 画面中央には文字やバナーを一切重ねず、紫・蒼・紅・黄金が溶け合う「ガラス銀河宝珠」と、その下部でぼわーっと光りピカピカと煌めきが立ち昇るアンダーグロウ演出のみを配置。
+   - 各モーダル（「人生の記憶」「禅問答開始」など）も細かい説明文を排し、大きめの文字サイズと直感的な操作体系に統一することで、脳の分析的な過剰防衛（DMN）を鎮め、「今ここ」の対話に集中させる。
+3. **即時フィードバックと「覚悟の石（星）」による内発的報酬（Autotelic Experience）**
+   - ユーザーの1回ごとの発言や画面操作に呼応して、432Hz基準の柔らかな「おりん（水滴音）」が響き、3Dガラス球内部に金色の光の波紋（Ripple Pulse）が広がる。
+   - 問答の果てにユーザー自身が「自分の結論（覚悟・気づき）」を見出した瞬間、288Hz/576Hz/864Hzの深い「磬子（けいす）」の倍音とともに**「覚悟の石」**が立ち上がり、ガラス宝珠の中の宇宙に一等星として永続配置される。
 
 ---
 
@@ -35,57 +37,65 @@
 ```mermaid
 flowchart LR
     subgraph GitHub ["GitHub (CI/CD & Hosting)"]
-        GA["GitHub Actions"] --> Pages["GitHub Pages / Releases\n(PWA配信元)"]
+        GA["GitHub Actions\n(deploy-pwa.yml)"] --> Pages["GitHub Pages\n(https://noguchi3564.github.io/enkakuji2/)"]
     end
 
     subgraph Smartphone ["ユーザースマートフォン (PWA / Local-First)"]
-        UI["箱庭UI・光演出\n(2D/2.5D Canvas / WebGL)"]
-        IDB[("IndexedDB / LocalStorage\n・人生の記憶(生年月日/性別/複数の喜怒哀楽エピソード)\n・会話履歴(直近5〜10回+)\n・覚悟の石コレクション")]
-        KG_Local["knowledge_graph.json\n(バンドルまたはEdge保持)"]
+        UI["3Dガラス銀河宝珠UI\n(Three.js + カスタムGLSLシェーダー)"]
+        Audio["モバイル音響エンジン\n(Web Audio API リアルタイム合成)"]
+        IDB[("IndexedDB (EnkakujiZenGardenDB)\n+ LocalStorage フォールバック\n・人生の記憶 (UserLifeProfile)\n・進行中セッション (ActiveSession)\n・覚悟の石コレクション (stones)\n・アプリ設定 (settings)")]
+        LocalFallback["ローカル知識グラフ推論エンジン\n(オフライン時フォールバック)"]
     end
 
     subgraph Backend ["Supabase (Stateless Proxy)"]
-        EF["Supabase Edge Functions\n(APIキー保護・プロンプト構築)"]
+        EF["Supabase Edge Functions\n(zen-dialogue)\n1. action: organize_memories\n2. action: dialogue"]
     end
 
     subgraph LLM ["OpenRouter API"]
-        Gemini["Google Gemini Flash 3.8\n(全脳知識ネットワーク一括推論)"]
+        Gemini["Google Gemini 3.8 Flash\n(フォールバック: Gemini 2.5 Flash)"]
     end
 
-    Pages -. "PWAインストール\n(ホーム画面追加)" .-> Smartphone
+    Pages -. "PWAインストール / 即時SW更新\n(skipWaiting & clientsClaim)" .-> Smartphone
     UI <--> IDB
-    UI -- "直近5〜10往復の履歴 +\nユーザー入力 (HTTPS)" --> EF
-    EF -- "System Prompt +\nknowledge_graph.json全文 +\n対話コンテキスト" --> Gemini
-    Gemini -- "構造化JSON応答\n(問い / 導き / 覚悟の石データ)" --> EF
+    UI --> Audio
+    UI -- "HTTPS POST\n(記憶整理 / 禅問答リクエスト)" --> EF
+    UI -. "オフライン・通信失敗時" .-> LocalFallback
+    EF -- "System Prompt +\nknowledge_graph.json全文 +\n人生の記憶 + 直近10往復履歴" --> Gemini
+    Gemini -- "構造化JSON応答" --> EF
     EF --> UI
 ```
 
-### 2.2 PWA配布とインストール仕様（GitHub連携）
-* **ビルド・配信基盤:** GitHub Actions による自動ビルドパイプラインを構築し、**GitHub Pages**（または GitHub Releases からの静的アセット配信）をPWAのダウンロード・インストール先として指定する。
-* **スマートフォンへのインストール:** Web App Manifest（`manifest.json`）および Service Worker を完備し、ユーザーのスマートフォン（iOS Safari / Android Chrome）の「ホーム画面に追加」からネイティブアプリ同等のフルスクリーン（`display: standalone`）で起動・動作する。
-* **オフラインキャッシュ:** アプリの基本UI、箱庭のグラフィックアセット、環境音MP3、`knowledge_graph.json` は Service Worker により端末内にキャッシュされ、高速な起動とオフラインでの庭鑑賞・瞑想を実現する。
+### 2.2 PWA配布・即時更新・インストール仕様
+* **ビルド・配信基盤:** `.github/workflows/deploy-pwa.yml` により、`main` ブランチへのプッシュ時に自動で TypeScript 型検査・Vite 本番ビルドを実行し、**GitHub Pages**（`https://noguchi3564.github.io/enkakuji2/`）へデプロイする。
+* **スマートフォンへのインストール:** `vite-plugin-pwa` により Web App Manifest（`manifest.webmanifest`）を生成。`192x192` および `512x512` の専用PNGアイコン（`any` / `maskable` 両対応）を備え、Android Chrome / iOS Safari の「ホーム画面に追加」からブラウザバッジなしのネイティブアプリ同等フルスクリーン（`display: standalone`, `orientation: portrait`）で起動する。
+* **Service Worker 即時更新:** `workbox` 設定にて `skipWaiting: true`、`clientsClaim: true`、`cleanupOutdatedCaches: true` を有効化しており、新しいビルドがデプロイされると即座に最新アセットへ切り替わる。
 
 ### 2.3 完全ローカルデータ保存（プライバシー・バイ・デザイン）
-* **サーバー側DB不使用（Stateless Backend）:** ユーザーの個人情報、悩み、対話履歴、獲得した「覚悟の石」、箱庭の状態など、**ユーザーに関するあらゆるデータはユーザーのスマートフォン内部（IndexedDB および LocalStorage）にのみ保存される。**
-* Supabase 側のデータベース（PostgreSQL等）にはユーザーの会話ログや個人データを一切保存しない。Supabase は純粋に Edge Functions による API キー秘匿とリクエスト中継のためにのみ機能する。
+* **サーバー側DB不使用（Stateless Backend）:** ユーザーの「人生の記憶（生年月日・性別・立場・喜怒哀楽エピソード）」、悩み、対話履歴、獲得した「覚悟の石」、アプリ設定は、**すべてユーザーのスマートフォン内部（IndexedDB `EnkakujiZenGardenDB` および `localStorage`）にのみ保存される。**
+* **視覚的な安心感の提示:**
+  - ホーム画面ヘッダー左上に「端末内保存」バッジを常設。
+  - アプリ起動時（0.4秒後〜6.0秒後まで）および「端末内保存」バッジのタップ時に、画面上部へ「記録はクラウドに残らず、このスマホ内だけに保存されます」という安心トーストをふわっと表示し、数秒後に自動でフェードアウトさせる。
 
-### 2.4 LLM推論基盤（Supabase Edge Functions × OpenRouter × Gemini Flash 3.8）
-* **エンドポイント:** フロントエンドPWAからは Supabase Edge Functions のみを呼び出す。
-* **OpenRouter 連携:** Edge Functions 内部に `OPENROUTER_API_KEY` を環境変数として安全に格納し、OpenRouter の Chat Completions API（`https://openrouter.ai/api/v1/chat/completions`）を叩く。
-* **指定モデル:** Google の **`Gemini Flash 3.8`**（OpenRouter上の対応モデルIDを指定、環境変数で切り替え可能）を使用する。高速なレスポンスと長大なコンテキスト処理能力を活かし、対話のテンポ（フロー）を損なわない設計とする。
+### 2.4 LLM推論基盤と2つのEdge Functionアクション
+フロントエンドからは Supabase Edge Function（`supabase/functions/zen-dialogue/index.ts`）のみを呼び出す。Edge Function は環境変数 `OPENROUTER_API_KEY` を用いて OpenRouter API を呼び出し、プライマリモデル `google/gemini-3.8-flash`（失敗時は自動で `google/gemini-2.5-flash` にフォールバック）で構造化JSONを生成する。
+
+1. **`action: "organize_memories"`（人生の記憶・AIオーガナイザー）:**
+   - ユーザーが音声入力や自由記述で語った文章（`rawNarrative`）と既存プロフィール（`existingProfile`）を受け取り、基本属性（`birthDate`, `gender`, `lifeContext`）と、複数の「喜（`ki`）・怒（`do`）・哀（`ai`）・楽（`raku`）」エピソード（時期 `period` と整形済みテキスト `content`）に自動分解・構造化して返す。
+2. **`action: "dialogue"`（全脳知識ネットワーク統合・AI禅問答）:**
+   - `knowledge_graph.json` 全文、ユーザーの「人生の記憶」スナップショット、今回のテーマ（`initialConcern`）、および直近最大20メッセージ（10往復分）の対話履歴をシステムプロンプトとメッセージ配列に包括して推論し、`question`（通常の問い）／`praxis_offer`（身体技法と自然音瞑想の提案）／`resolution_stone`（覚悟の石の生成）のいずれかを返す。
+3. **オフライン・通信エラー時のローカルフォールバック:**
+   - 機内モードや通信エラー時には、フロントエンド内の `zenAiService.ts` に実装されたローカル知識グラフ推論エンジン（`generateLocalKnowledgeGraphResponse` および正規表現ベースの記憶分解ロジック）がシームレスに引き継ぎ、オフライン環境でも「記憶の整理」「禅問答」「身体技法提案」「覚悟の石の顕現」が途切れず動作する。
 
 ---
 
-## 第3章 全脳知識ネットワーク（`knowledge_graph.json`）と対話コンテキスト設計
+## 第3章 全脳知識ネットワーク（`knowledge_graph.json`）の構造
 
-### 3.1 `knowledge_graph.json` 全文包括インジェクション
-Gemini が回答・問いを生成する際、 부분検索（RAGのチャンク切り出し）による文脈欠落を防ぐため、**`knowledge_graph.json` のデータ全体をシステムプロンプト（またはコンテキスト）にまるごと包括して Gemini Flash 3.8 に投げる（Full-Context Injection）**。
+`knowledge_graph.json` には以下の5大要素が定義されており、Edge Function とフロントエンドの双方から完全参照される。
 
-`knowledge_graph.json`（約450行）に含まれる以下の5大要素すべてを Gemini が常に俯瞰した状態で推論を行う：
-1. **`masters`（禅師・管長）:**
-   - 朝比奈宗源（仏心の信心、苦中の真楽、肚を据える覚悟、道は吾である）
-   - 横田南嶺（不生の受容、共苦［コンパッション］の慈悲、身体呼吸への委ね、和の精神）
-   - 盤珪永琢（不生の仏心で一切の事は調う）
+1. **`masters`（3名の禅師・管長）:**
+   - `M_Asahina`（朝比奈宗源：仏心の信心、苦中の真楽、肚を据える覚悟、道は吾である）
+   - `M_Yokota`（横田南嶺：不生の受容、共苦［コンパッション］の慈悲、身体呼吸への委ね、花のように生きる）
+   - `M_Bankei`（盤珪永琢：不生の仏心で一切の事は調う）
 2. **`sufferings`（6つの苦悩類型と3段階の転換パス `transforms_to_ids`）:**
    - `Suf_Anxiety`（焦燥・自己無価値感）
    - `Suf_Grief`（死別・喪失の悲嘆）
@@ -93,294 +103,300 @@ Gemini が回答・問いを生成する際、 부분検索（RAGのチャンク
    - `Suf_Isolation`（孤立感・承認渇愛）
    - `Suf_Decline`（心身の衰え・老病の苦）
    - `Suf_PerfectionismBurnout`（完璧主義・燃え尽き）
-3. **`wisdoms`（7つの智慧の境地）:**
-   - `Wis_UnbornMind`（不生の仏心）、`Wis_OceanAndDrop`（大海と一滴の生命）、`Wis_RealJoyInPain`（苦中の真楽・道は吾である）、`Wis_GreatCompassion`（共苦の慈悲・入鄽垂手）、`Wis_FlowerLife`（花のように生きる）、`Wis_LettingGoBridge`（丸木橋の手放し）、`Wis_OrdinaryMindSamu`（平常心是道）
-4. **`discourses`（具体的な法話・語録・出典URL・トーン）:**
-   - 丸木橋と蒲団の譬え、老農婦の問い、大海の泡、落ち葉掃きの作務など、10編の核心的法話。
+3. **`wisdoms`（7つの智慧の境地と属性 `orientation`）:**
+   - `Wis_UnbornMind`（不生の仏心 / `accepting`）
+   - `Wis_LettingGoBridge`（丸木橋の手放し / `accepting`）
+   - `Wis_FlowerLife`（花のように生きる / `accepting`）
+   - `Wis_OceanAndDrop`（大海と一滴の生命 / `transcendent`）
+   - `Wis_OrdinaryMindSamu`（平常心是道・作務の禅 / `transcendent`）
+   - `Wis_RealJoyInPain`（苦中の真楽・道は吾である / `resolute`）
+   - `Wis_GreatCompassion`（共苦の慈悲・入鄽垂手 / `solidarity`）
+4. **`discourses`（10編の法話・語録・出典タイトル・円覚寺公式URL）:**
+   - 丸木橋と蒲団の譬え、老農婦の問い、大海の泡、落ち葉掃きの作務、朝比奈老師の獅子吼など。
 5. **`praxes`（7つの身体技法・呼吸法・作務）:**
-   - 立腰・丹田呼気充実、無意識呼吸への帰依、掃き清めの作務、合掌・感謝の言霊、イス坐禅、朝の立腰念誦法、丸木橋の手放し（脱力と蒲団の瞑想）。
-
-### 3.2 「人生の記憶（喜怒哀楽エピソード群）」と直近5〜10往復の対話記憶
-* スマートフォン側からリクエストを送る際、ユーザーが「人生の記憶」として記録したプロフィール情報（任意の生年月日・性別、および5個〜10個以上登録可能な「喜・怒・哀・楽」の人生経験エピソード群）と今回のテーマに加え、**直近5〜10往復分のユーザー回答とAIの問いの履歴**を常にペイロードに含めて送信する。
-* これにより、Gemini は「ユーザーが最初の1往復目からどのように言葉を変え、どこに執着し、どのフェーズ（Phase 1: 受容 → Phase 2: 超越 → Phase 3: 覚悟）まで心が動いてきたか」を一貫して記憶・追跡しながら、知識ネットワーク内の最適な `wisdoms` / `discourses` / `praxes` を選び取って応答を生成する。
+   - `Pra_TandenBreathing`（立腰・丹田呼気充実）、`Pra_SurrenderBreath`（無意識呼吸への帰依）、`Pra_SweepingSamu`（掃き清めの作務）、`Pra_GasshoRecitation`（合掌・感謝の言霊）、`Pra_ChairZazen`（イス坐禅・足の裏の接地）、`Pra_MorningInvocation`（朝の立腰念誦法）、`Pra_OpenHandSurrender`（丸木橋の手放し・脱力と蒲団の瞑想）。
 
 ---
 
-## 第4章 UI/UXデザイン：光と陰影の「心の庭」と「覚悟の石」
+## 第4章 3Dビジュアル＆UIデザイン仕様：「ガラス銀河宝珠」と「アンダーグロウ光彩」
 
-### 4.1 ビジュアルコンセプト：「静謐な光（ライト感覚）」と箱庭
-* **表現手法:** 重厚すぎる3Dモデルではなく、スマートフォンで軽快かつ美しく動作する**高品質な2D/2.5Dレイヤー表現（イラストレーション＋Canvas/WebGLシェーダーによる光・パーティクル演出）**、あるいはミニマルで洗練されたローポリゴン/アイソメトリック箱庭を採用する。
-* **光の配色（ライト感覚）:**
-  - 画面全体は「夜の静寂から暁（あかつき）へ」「木漏れ日と苔の陰影」を思わせる、彩度を抑えた深い藍色・墨色・温かみのある琥珀色（アンバー）・淡い月白（げっぱく）を基調とする。
-  - ユーザーの目に負担をかけず、暗い部屋でスマートフォンを見つめても心が鎮まる「落ち着いた光のグラデーションと微細な光の粒子（ホタルや露のきらめきのようなパーティクル）」を常時ゆったりと漂わせる。
+### 4.1 3Dレンダラー構成（`ZenGardenCanvas.tsx`）
+Three.js（WebGLRenderer / ACESFilmicToneMapping）とカスタムGLSLシェーダーを用い、画面中央に思わず見惚れる幻想的な色気と奥行きを持つ**「クリスタルガラス銀河宝珠（ORB_RADIUS = 1.0）」**を描画する。
 
-### 4.2 対話に連動する光のフィードバック
-* **呼吸する光:** AIの問いが提示されるとき、またユーザーが言葉を紡ぐとき、箱庭の中央や水面が呼吸するように淡く明滅し、波紋が広がる。
-* **フェーズに応じた庭の空気感:**
-  - **Phase 1（受容・手放し）:** 柔らかく包み込むような淡い琥珀色・月光の色調。
-  - **Phase 2（視野拡大・大海と一滴）:** 水面や空の広がりを感じさせる深い蒼と澄んだ光の粒子。
-  - **Phase 3（主体的覚悟・道は吾である）:** 丹田の充実と夜明けを感じさせる、芯のある温かな金色の光。
+1. **4色スパイラル銀河シェーダー（4,800恒星粒子）とボリューメトリック星雲ヴェール:**
+   - X軸 `0.50 rad`・Z軸 `-0.23 rad` に傾けた銀河面上に、2本の主渦状腕と2本の副腕からなる対数らせん銀河を配置し、ケプラー差動回転（$\omega = \frac{0.22}{r + 0.18}$）によって中心ほど速く、外縁ほどゆったりと回転させる。
+   - **色彩設計:** 加算合成による中心の白飛びを抑え、渦状腕の間の暗い宇宙の奥行き（ダストレーン）を残しながら以下の4色が絹のように溶け合う：
+     - **中心核（$r < 0.18$）:** シャンパンゴールド ＆ ローズアンバー
+     - **中間スパイラル（$0.18 \le r < 0.56$）:** ルミナス・サファイアシアン（蒼）、アメジスト・バイオレット（紫）、クリムゾン・ローズ（紅）、金砂子
+     - **外縁スパイラル（$r \ge 0.56$）:** ディープアメジスト、コバルトブルー、ルビーローズ
+   - さらに渦状腕に沿って、紫・サファイア青・クリムゾン紅の17枚のソフト星雲スプライト（`nebulaGroup`）が重なり、深みのある星雲ガスを表現する。
 
-### 4.3 クライマックス演出：「覚悟の石（Stone of Resolution）」の顕現
-5〜10往復の問答を重ね（あるいは瞑想を経た後）、ユーザーが自分なりの結論・気づき・肚を決めた言葉（「〜してみようと思う」「もう手放していいのだと感じた」「自分の足で歩いていく」など）に到達した際、またはユーザーが結論のまとめを求めた際、**「覚悟の石」の生成イベント**が発生する。
+2. **ガラス球の下部「アンダーグロウ（光の溜まり）」＆「立ち昇る180個の煌めき粒子」:**
+   - **多層オーラ池＆コースティクス波紋シェーダー:** ガラス球の底面直下（$y = -1.06 \sim -1.14$）に、バイオレット〜サファイア青とローズ〜琥珀金のオーラスプライト、および水平面で緩やかに脈動するコースティクス（集光リング波紋）シェーダーディスクを配置。呼吸周期（`sin(elapsed * 0.85)`）に合わせてぼわーっと柔らかく伸縮する。
+   - **180個の立ち昇るダイヤモンド光粒子（`underSparkles`）:** 球体の下部輪郭を包み込むように、シャンパンゴールド・ローズピンク・サファイアシアン・アメジスト紫の粒子がゆっくりと螺旋を描いて立ち昇る。フラグメントシェーダーで十字の光芒（クロスレイ）を描画し、ピカピカと繊細に瞬かせる。
 
-1. **結論の結晶化アニメーション:**
-   - ユーザーの結論（覚悟の言葉）と、それに呼応する円覚寺の智慧（`knowledge_graph.json` の `wisdoms` / `discourses` の一節）が重なり合い、画面中央で光の粒子が収束する。
-2. **ピカピカと光る「覚悟の石」の立ち上がり:**
-   - 心の中の庭（箱庭）の大地や水辺から、内側から神秘的な光を放つ**「覚悟の石」**が、心地よい音響エフェクトと光の波動（ブルーム効果・きらめきアニメーション）を伴って、ゲーム感覚のリッチな演出でスッと立ち上がる。
-   - 石の色や輝き方・形状は、到達した智慧の属性（`orientation`: `accepting`［翡翠・琥珀の柔光］、`transcendent`［蒼백・瑠璃の煌めき］、`resolute`［黄金・紅蓮の力強い輝き］、`solidarity`［温かな桜色・乳白の光］）に応じて変化する。
-3. **コレクションと振り返り（庭の成長）:**
-   - 立ち上がった「覚悟の石」は箱庭の中に永続的に配置（ローカル保存）され、いつでも庭でピカピカと静かに輝き続ける。
-   - ユーザーが庭の中の「覚悟の石」をタップすると、**「いつ、どんな苦しみ（`sufferings`）から、どのような問答を経て、どんな自分の結論（覚悟）に至ったか」**、そしてその時授かった**禅師の言葉（`quote` と出典URL）**が美しいカードとして浮かび上がる。
-   - セッションを重ねるごとに心の庭に「覚悟の石」が増えていき、ユーザー自身の精神の軌跡が箱庭として可視化される。
+3. **多層プリズム色収差クリスタルガラス球シェーダー:**
+   - 球体内部の銀河や星を曇らせないよう、輪郭（フレネル反射 $\text{pow}(1 - |N \cdot V|, 3.4)$）にシャープな光を集め、上部はサファイアシアン、側面はアメジストバイオレット、底面はローズアンバーへと滑らかに移ろう。
+   - 底面にはアンダーグロウからの照り返し（`bottomBounce`）が入り、左上リムと右下リムには三日月状のシャープな鏡面ハイライトが入ることで、本物の硝子玉のような濡れた艶を生み出す。
+   - ユーザーはドラッグ（スワイプ）で360度自由に宝珠を回転でき、ピンチ操作でズームイン／アウトが可能。
+
+4. **「覚悟の石（一等星）」の立体配置と回折スパイク:**
+   - 獲得した「覚悟の石」は、ガラス球内部の8つのオクタント（右上前、左上奥、左下前、右下奥…）× 内外2層（計16セクター）にバランスよく3D配置される。
+   - 各星は `512×512` の高精細 `CanvasTexture` により、4つのカラーテーマ（`golden_resolve`: 黄金アンバー、`sapphire_zen`: サファイアブルー、`emerald_glow`: エメラルドグリーン、`lotus_warm`: 紅蓮ロータスピンク）の色彩ブルームと、縦・横・斜め45度の鋭い8方向回折スパイクを放つ。
+   - Raycaster により、3D空間内の星を直接タップすると「おりん」の音が響き、その石の詳細ドロワー（`StoneDetailDrawer`）が開く。
+
+### 4.2 ホーム画面（`GARDEN_HOME`）の3ゾーン・ミニマルレイアウト
+- **上部ヘッダー:** 左側に「心 庭」タイトルと「端末内保存」バッジ、右側に「記憶（登録件数バッジ付き）」「覚悟の石（所持数バッジ付き）」「PWAインストールボタン（対応環境のみ）」「設定ボタン」を配置。
+- **中央ステージ:** 完全な余白（`pointer-events-none`）とし、3Dガラス銀河宝珠と下部アンダーグロウ、内部の覚悟の星を100%遮らずに表示。
+- **下部ドック:**
+  - 所持している「覚悟の石」の銘を並べた極薄ガラスピル・カルーセル（タップで詳細表示）。
+  - 途中の禅問答セッションがある場合の「途中の対話を再開」ボタン。
+  - メインアクション「禅問答を始める」ボタンと、ワンタップで自然音瞑想へ入る「風（自然音瞑想）」アイコンボタン。
 
 ---
 
-## 第5章 ユーザー体験（セッション）の全体フロー
+## 第5章 画面遷移と機能詳細（全5モード＋3モーダル）
 
 ```mermaid
 stateDiagram-v2
-    [*] --> INITIAL_ASSESSMENT: アプリ起動（心の庭表示）
-    INITIAL_ASSESSMENT --> INQUIRY_PHASE1: 「喜・怒・哀・楽」＋今の悩みを入力
+    [*] --> GARDEN_HOME: アプリ起動（3Dガラス銀河宝珠表示）
     
-    state "AI禅問答（5〜10往復の記憶保持）" as INQUIRY {
-        INQUIRY_PHASE1: Phase 1: 受容・手放しの問い\n(不生の仏心 / 丸木橋の手放し / 共苦)
-        INQUIRY_PHASE2: Phase 2: 視野拡大・超越の問い\n(大海と一滴 / 平常心是道)
-        INQUIRY_PHASE3: Phase 3: 主体的覚悟の問い\n(苦中の真楽 / 道は吾である)
-        
-        INQUIRY_PHASE1 --> INQUIRY_PHASE2: 緊張の緩和・気づきの萌芽
-        INQUIRY_PHASE2 --> INQUIRY_PHASE3: 執着の脱落・視点の転換
+    GARDEN_HOME --> LIFE_MEMORIES_MODAL: 「記憶」ボタンタップ\n(喜・怒・哀・楽エピソード＆属性のAI自動整理)
+    LIFE_MEMORIES_MODAL --> GARDEN_HOME: 保存して閉じる
+    
+    GARDEN_HOME --> INITIAL_ASSESSMENT: 「禅問答を始める」タップ
+    INITIAL_ASSESSMENT --> LIFE_MEMORIES_MODAL: 「記憶を書く / 追加・確認」タップ
+    INITIAL_ASSESSMENT --> INQUIRY: 今の気になっていること（任意）を入力して開始
+    
+    state "INQUIRY：AI禅問答（直近10往復記憶＋全脳知識ネットワーク）" as INQUIRY {
+        Phase1: 第一階梯：受容と手放し\n(不生の仏心 / 丸木橋の手放し / 共苦)
+        Phase2: 第二階梯：視野拡大と超越\n(大海と一滴 / 平常心是道)
+        Phase3: 第三階梯：主体的覚悟\n(苦中の真楽 / 道は吾である)
+        Phase1 --> Phase2: 緊張の緩和・気づきの萌芽
+        Phase2 --> Phase3: 執着の脱落・視点の転換
     }
 
-    INQUIRY --> PRAXIS_MEDITATION: 5〜10往復到達 または 思考の堂々巡り\n(身体技法 praxis ＋ 自然音瞑想の提案)
-    PRAXIS_MEDITATION --> INQUIRY: 瞑想完了・呼吸の整い
+    INQUIRY --> PRAXIS_MEDITATION: AIからの身体技法提案 (praxis_offer)\nまたは「自然音で呼吸を整える」タップ
+    GARDEN_HOME --> PRAXIS_MEDITATION: ホーム下部「自然音瞑想」アイコンタップ
+    PRAXIS_MEDITATION --> INQUIRY: 瞑想完了（進行中セッションがある場合）
+    PRAXIS_MEDITATION --> GARDEN_HOME: 瞑想完了（ホームから直接開始した場合）
+
+    INQUIRY --> STONE_MANIFESTATION: ユーザーが結論に到達 (resolution_stone)\nまたは「今の結論を『覚悟の石』に結ぶ」タップ
+    STONE_MANIFESTATION --> GARDEN_HOME: 「心の庭にこの『覚悟の石』を据える」タップ
     
-    INQUIRY --> STONE_MANIFESTATION: ユーザーが結論（覚悟）に到達\nまたは 明示的に導き・結論を要求
-    PRAXIS_MEDITATION --> STONE_MANIFESTATION: 瞑想後の気づき・結論の表明
-    
-    STONE_MANIFESTATION: 「覚悟の石」の顕現アニメーション\n(結論の結晶化・法話の授与・庭への配置)
-    STONE_MANIFESTATION --> GARDEN_VIEW: 心の庭に石が輝く（ローカル保存）
-    GARDEN_VIEW --> [*]
+    GARDEN_HOME --> STONE_DETAIL_DRAWER: 3D球体内の星 または 下部ピルをタップ
+    STONE_DETAIL_DRAWER --> GARDEN_HOME: 閉じる / 石を手放す
 ```
 
-### 5.1 ステップ1：「人生の記憶」の蓄積と、今日のテーマ入力
-* ホーム画面には独立した **「人生の記憶」ボタン** を配置し、ユーザーはいつでも自分自身のプロフィールやこれまでの人生経験をスマートフォン内に記録・追加できる。
-  1. **基本属性（すべて任意）:** 生年月日（または年代）、性別、現在の歩み・背景（一言メモ）。
-  2. **喜・怒・哀・楽の記憶（複数登録可能）:** 数値ではなく、人生の中で実際に経験した「喜んだこと（喜）」「怒ったこと・許せなかったこと（怒）」「悲しかったこと・喪失体験（哀）」「楽しかったこと・安らぐこと（楽）」のエピソードを、5個でも10個でも自由にカードとして蓄積できる。
-* 禅問答を始める際は、蓄積された「人生の記憶」をベースとして自動参照しつつ、「今、心に引っかかっていること（今日のテーマ）」を入力するだけで即座に対話が開始される。
-* この「人生の記憶」と「今日のテーマ」から、Gemini は `knowledge_graph.json` の `sufferings`（6つの苦悩類型）のうち最も近い状態像を内部推定し、その人の人生経験の文脈に沿った Phase 1 の問いを開始する。
+### 5.1 「人生の記憶」モーダル（`LifeMemoriesModal.tsx`）
+* **自由記述・音声入力からのAI自動整理:** テキストエリアに「1975年生まれ。30代で独立した時は嬉しかった。3年前に父を亡くした時は悲しかった…」のように自由に書いて「記録する（AIで自動整理）」を押すと、AIが自動でプロフィール（生まれ年・性別・立場）と「喜・怒・哀・楽」の個別エピソードカードに分解し、端末内に保存する。
+* **基本プロフィールの手動編集:** 1行にまとめて表示された「生年・性別・立場」をタップすると、3つの入力欄が開いて手動でも随時編集可能。
+* **感情カテゴリ別フィルタリング:** 「全て」「喜」「怒」「哀」「楽」の5つのタブで記憶カードを絞り込み閲覧・個別削除できる。
 
-### 5.2 ステップ2：全脳知識ネットワークに基づく5〜10往復の禅問答
-* **1問1答の原則:** AIは1回につき1つの簡潔で深い問い（40〜120文字程度）を投げかける。
-* **知識ネットワークの活用:**
-  - 単なるオウム返しではなく、`knowledge_graph.json` の `discourses`（丸木橋の譬え、大海の泡、落ち葉掃き等）のモチーフを自然な現代語の問いに織り交ぜて投げかける。
-  - 直近5〜10回のユーザーの回答履歴をすべて踏まえ、言葉の奥にある「力み」「自己否定」「過去や未来へのとらわれ」を優しく照らし出す。
+### 5.2 禅問答開始モーダル（`AssessmentModal.tsx`）
+* 現在の「人生の記憶」登録件数を1行で分かりやすく表示し、未登録でもそのまま開始可能（「記憶を書く／追加・確認」から記憶モーダルへ遷移も可能）。
+* 「今、気になっていることはありますか？（任意）」に自由記述（空欄でも可）を入力して「対話を始める」を押すと、その時点の `lifeProfile` スナップショットを添えて第1問目の禅問答が開始される。
 
-### 5.3 ステップ3：身体技法（`praxes`）と自然音瞑想への移行
-* 5〜10往復ほど対話が進んだ段階、またはユーザーが思考で行き詰まった段階で、AIは `knowledge_graph.json` の `praxes`（7つの身体技法）と自然環境音を組み合わせた小休止・瞑想を提案する。
-  - 例：`Suf_PerfectionismBurnout`（完璧主義）のユーザーには、`Pra_OpenHandSurrender`（「丸木橋の手放し」：握りしめた両手のこぶしを開き、肩の力を落として息を吐く2分間の脱力瞑想）＋「雨音」や「波音」を提案する。
-  - 例：`Suf_Anxiety`（焦燥）から覚悟へ向かうユーザーには、`Pra_TandenBreathing`（「立腰・丹田呼気充実」：腰骨を立て下腹に気力を満たす3分間の呼吸）＋「静寂」や「森の音」を提案する。
-* 瞑想中はテキストUIがフェードアウトし、箱庭の光のゆらぎと自然環境音（雨、波、森、小川、静寂）だけに包まれる。
+### 5.3 AI禅問答オーバーレイ（`InquiryOverlay.tsx`）
+* **上部バー:** 「心庭へ（中断してホームへ戻る）」「現在の階梯バッジ（第一〜第三階梯）」「問答回数インジケーター（`問答 N / 10`、タップで直近の対話履歴ドロワーを開閉）」。
+* **中央エリア:** 10往復のプログレスドットと、AI禅問答師からの最新の問いかけカードを表示。AIが `praxis_offer` を返した場合は、問いカードの下にエメラルド色の「身体技法と自然音瞑想の提案」バナーが表示される。
+* **下部エリア:**
+  - 「自然音で呼吸を整える」ボタン（いつでも瞑想モードへ移行可能）。
+  - 「今の結論を『覚悟の石』に結ぶ」ボタン（1往復目以降いつでも自分のタイミングで結論を結晶化可能）。
+  - 回答入力テキストエリア（Enter送信対応、Shift+Enterで改行）。
 
-### 5.4 ステップ4：結論の導出と「覚悟の石」の誕生
-* 問答（5〜10往復目安）や瞑想を通じて、ユーザーが自らの言葉で「気づき」や「決意（結論）」を語ったとき、あるいはユーザーが「今の自分の答えをまとめたい／導きがほしい」と求めたとき、セッションはクライマックス（`STONE_MANIFESTATION`）へ移行する。
-* Gemini は直近5〜10往復の全履歴と `knowledge_graph.json` を照合し、以下を生成する：
-  1. **ユーザーの結論の結晶（`resolution_title` / `resolution_summary`）:** ユーザー自身が辿り着いた覚悟の言葉の美しい要約。
-  2. **呼応する円覚寺の法話（`matched_discourse`）:** `knowledge_graph.json` から選ばれた師家の言葉（`quote`、師家名、出典タイトル、URL）と、なぜその言葉が今のユーザーの結論と響き合うのかの温かい解説。
-  3. **「覚悟の石」の視覚パラメータ（`stone_attributes`）:** 光の色、輝き方、対応する `wisdom_id`。
-* 画面上で光のアニメーションが再生され、ピカピカと輝く「覚悟の石」が心の庭に立ち上がる。
+### 5.4 身体技法＆自然環境音瞑想オーバーレイ（`MeditationOverlay.tsx`）
+* **環境音セレクター:** 「雨（柔らかい雨と雨だれ）」「波（寄せて返す穏やかな波）」「森（木々の風と静かな息吹）」「小川（せせらぎと水琴の響き）」「静寂（無音の坐禅）」の5種類をリアルタイム切り替え。
+* **タイマーセレクター:** 3分・5分・10分の切り替えと、呼吸に合わせて脈動する二重の円相リング＆カウントダウン表示。残り0秒になると「磬子（けいす）」の倍音が鳴り響く。
+* **円覚寺 身体技法（Praxis）カード:** `knowledge_graph.json` の7つの身体技法をプルダウンで切り替えられ、具体的な実践方法（`description`）と目指す境地（`target_state`）を表示。
+
+### 5.5 「覚悟の石」顕現モーダル（`StoneManifestationModal.tsx`）＆ 詳細ドロワー（`StoneDetailDrawer.tsx`）
+* **顕現アニメーション:** 900msの収束ステージ（`converging`）から、後光リングと回転する円相の中で多面体クリスタルSVGが浮かび上がる顕現ステージ（`risen`）へ遷移。
+* **授与される情報:**
+  1. 石の銘（`stone_title`）と到達した智慧（`wisdom_name`）
+  2. ユーザーが結んだ覚悟・気づきの要約（`user_conclusion`）
+  3. 呼応する円覚寺師家の法話（`master_name`、`quote` 原文、`source_title`、および円覚寺公式法話ページへの外部リンク `source_url`）
+* **詳細振り返りドロワー:** ホーム画面で石（星）をタップすると、生成日時、参照された人生の記憶件数、自分の結論、師家の法話、および「この石を生んだ禅問答の記録（最大20発言の折りたたみ履歴）」をいつでも振り返ることができ、不要になった石は「石を手放す」で削除できる。
+
+### 5.6 設定＆全脳知識ネットワーク閲覧モーダル（`SettingsAndGraphModal.tsx`）
+* **タブ1「音響・瞑想設定と記録管理」:**
+  - 自然環境音・おりん（磬子）の音量スライダー（0〜100%、即時反映）。
+  - 自然音瞑想の基本時間設定（3分 / 5分 / 10分）。
+  - スマートフォン内完結の記録保護の説明と、「心の庭と対話履歴を初期化する」全データリセットボタン。
+* **タブ2「円覚寺 全脳知識ネットワーク」:**
+  - アプリに内蔵された `knowledge_graph.json` の「師家・法脈（3名）」「智慧の境地（7種）」「苦悩類型と3段階の転換パス（6類型）」を一覧閲覧できるリファレンスビューア。
 
 ---
 
-## 第6章 AI推論とプロンプト・レスポンス仕様（Edge Functions 実装設計）
+## 第6章 モバイル音響合成エンジン仕様（`soundEngine.ts`）
 
-### 6.1 Supabase Edge Functions へのリクエスト形式（Frontend → Edge）
+外部の音声ファイル（MP3等）に依存せず、Web Audio API を用いてリアルタイムに音響を生成する。特にスマートフォンの小型スピーカーおよび iOS Safari の制限に対して以下の対策を実装している。
+
+1. **iOS Safari 消音スイッチ（マナーモード）突破＆自動アンロック:**
+   - `navigator.audioSession.type = "playback"`（iOS 17+ 対応）を設定。
+   - 初回タップ時に極小の無音WAVデータURI（`SILENT_UNLOCK_WAV`）を `HTMLAudioElement` で再生し、WebKit のメディア音声チャンネルを確実にアンロックする。
+2. **スマートフォン向け実効音圧（RMS）正規化と中域ブースト:**
+   - 8秒間のステレオ・ピンクノイズ／ブラウンノイズバッファを生成してピーク正規化し、スマホのスピーカーで最も聞き取りやすい **250Hz〜1800Hz の中音域** をバイクアッドフィルタで豊かに設計。
+   - **雨（`rain`）:** バンドパス（1100Hz）＋ハイシェルフによる雨音レイヤー、ローパス（520Hz）の軒先アンビエンス、および180ms周期の自然な雨だれパルス。
+   - **波（`waves`）:** LFO（0.11Hz、約9秒周期）でフィルタ周波数（180Hz〜760Hz）と音量を同時にうねらせる寄せては返す波音と、波頭の白い泡のレイヤー。
+   - **森（`forest`）:** 0.08Hzの風の揺らぎフィルターを通した木々の葉擦れ音と、2.2秒周期で遠くに響く2声の柔らかな倍音チャイム。
+   - **小川（`stream`）:** 680Hzと1450Hzのデュアルバンドパスに水面のきらめきLFO（1.8Hz）を掛けたせせらぎと、700ms周期でランダムに鳴る水琴窟のペンタトニック倍音（528Hz, 660Hz, 792Hz, 880Hz, 1056Hz）。
+3. **UI効果音とクライマックス倍音:**
+   - **おりん・水滴音（`playWaterDrop`）:** 432Hz基準のサイン波（0.85秒減衰）。
+   - **磬子・シンギングボウル音（`playStoneManifestationBell`）:** 288Hz（5.0秒減衰）、576Hz（4.2秒減衰）、864Hz（3.4秒減衰）の3倍音合成。
+
+---
+
+## 第7章 データスキーマとディレクトリ構成
+
+### 7.1 端末内ストレージ（IndexedDB & LocalStorage）のデータ構造
+
+* **IndexedDB データベース名:** `EnkakujiZenGardenDB` (Version 1)
+  - オブジェクトストア `stones` (`keyPath: "id"`): `SavedResolutionStone[]`（フォールバックキー: `localStorage["enkakuji_stones"]`）
+  - オブジェクトストア `app_state`:
+    - キー `"lifeProfile"`: `UserLifeProfile`（フォールバックキー: `localStorage["enkakuji_life_profile"]`）
+    - キー `"activeSession"`: `ActiveSession | null`（フォールバックキー: `localStorage["enkakuji_active_session"]`）
+* **LocalStorage 設定キー:** `localStorage["enkakuji_settings"]` (`AppSettings`)
 
 ```typescript
-interface ChatRequestPayload {
+// 1. 人生の記憶プロフィール
+export interface LifeMemoryItem {
+  id: string;
+  emotion: "ki" | "do" | "ai" | "raku"; // 喜・怒・哀・楽
+  period?: string;                      // 時期（例：「20代の頃」「3年前」）
+  content: string;                      // エピソード内容
+  createdAt: string;
+}
+
+export interface UserLifeProfile {
+  birthDate?: string;       // 生年月日または年代（任意）
+  gender?: string;          // 性別（任意）
+  lifeContext?: string;     // 現在の立場・仕事・暮らし（任意）
+  memories: LifeMemoryItem[];
+  updatedAt: string;
+}
+
+// 2. 獲得した「覚悟の石（一等星）」データ
+export interface SavedResolutionStone {
+  id: string;
+  createdAt: string;
+  stone_title: string;
+  user_conclusion: string;
+  initial_concern: string;
   assessment: {
-    ki: number;   // 喜 (0-10)
-    do: number;   // 怒 (0-10)
-    ai: number;   // 哀 (0-10)
-    raku: number; // 楽 (0-10)
     initialConcern?: string;
+    lifeProfileSnapshot?: UserLifeProfile;
   };
-  // 直近5〜10往復（最大20メッセージ）の対話履歴を常に送信
-  history: Array<{
-    role: "user" | "assistant";
-    content: string;
-    phase?: 1 | 2 | 3;
-  }>;
-  turnCount: number; // 現在の往復数（1〜10+）
-  requestConclusion: boolean; // ユーザーが明示的に結論・導きを求めたか
+  wisdom_id: string;
+  wisdom_name: string;
+  discourse_id: string;
+  quote: string;
+  master_name: string;
+  source_title: string;
+  source_url: string;
+  visual: {
+    color_theme: "emerald_glow" | "sapphire_zen" | "golden_resolve" | "lotus_warm";
+    shape_type: "round_pebble" | "standing_monolith" | "crystal_zen" | "moss_jewel";
+    glow_intensity: number;
+    position: { x: number; y: number };
+  };
+  dialogue_digest: Array<{ role: "user" | "assistant"; content: string }>;
 }
 ```
 
-### 6.2 システムプロンプト構成（Edge Functions → OpenRouter `Gemini Flash 3.8`）
-Edge Function 内で以下の構造を持つシステムプロンプトを組み立てて OpenRouter へ送信する。
+### 7.2 プロジェクトディレクトリ構成
 
-1. **役割定義と対話原則:**
-   - 臨済宗円覚寺の法脈に連なる静謐で慈悲深い禅問答の伴走者。
-   - 序盤〜中盤（1〜5往復目）は安易に結論を押し付けず、1回に1つの問いでユーザー自身の内省を深める。
-   - ユーザーの直近5〜10回の回答の変遷を綿密に読み取り、Phase 1（受容）→ Phase 2（超越・視野拡大）→ Phase 3（主体的覚悟）へと導く。
-   - 5〜10往復の中でユーザーが自ら結論（覚悟・腑に落ちた気づき）を表明した場合、または `requestConclusion: true` の場合は、その結論を讃えて受容し、`knowledge_graph.json` の智慧と結びつけて「覚悟の石」を生成する（`response_type: "resolution_stone"`）。
-2. **全脳知識ネットワークの完全埋め込み:**
-   - `knowledge_graph.json` の JSON 全文をシステムプロンプト内に `<KNOWLEDGE_GRAPH>...</KNOWLEDGE_GRAPH>` としてそのまま注入する。
-   - AIは必ずこのグラフ内の `sufferings`, `wisdoms`, `discourses`, `praxes`, `masters` のIDと内容を根拠として思考・引用する（ハルシネーションによる架空の法話生成を禁止する）。
-
-### 6.3 Gemini Flash 3.8 からの構造化JSONレスポンス形式
-
-```typescript
-interface ZenAIResponse {
-  // "question": 通常の問答継続
-  // "praxis_offer": 身体技法・自然音瞑想の提案
-  // "resolution_stone": ユーザーが結論に達した（覚悟の石の生成）
-  response_type: "question" | "praxis_offer" | "resolution_stone";
-
-  // 現在の対話フェーズと推定されている知識グラフ上のノードID
-  analysis: {
-    estimated_suffering_id: string; // 例: "Suf_PerfectionismBurnout"
-    current_phase: 1 | 2 | 3;
-    target_wisdom_id: string;       // 例: "Wis_LettingGoBridge"
-    light_mood: "amber_calm" | "moon_accept" | "ocean_deep" | "gold_resolute" | "sakura_compassion";
-  };
-
-  // ユーザーへ表示するメッセージ（問いかけ、または共感と導きの言葉）
-  message: string;
-
-  // response_type === "praxis_offer" の場合に付与
-  praxis_offer?: {
-    praxis_id: string;        // 例: "Pra_OpenHandSurrender"
-    praxis_name: string;      // 例: "丸木橋の手放し（脱力と蒲団の瞑想）"
-    guide_text: string;       // 身体技法の案内テキスト
-    recommended_sound: "rain" | "waves" | "forest" | "stream" | "silence";
-    duration_min: number;
-  };
-
-  // response_type === "resolution_stone" の場合に付与（覚悟の石データ）
-  resolution_stone?: {
-    stone_title: string;      // 例: "丸木橋を手放す覚悟の石"
-    user_conclusion: string;  // ユーザーが到達した結論・決意の要約
-    wisdom_id: string;        // 例: "Wis_RealJoyInPain"
-    wisdom_name: string;      // 例: "苦中の真楽・道は吾である"
-    discourse: {
-      discourse_id: string;   // 例: "Dis_Asahina_Kakugo"
-      master_name: string;    // 例: "朝比奈宗源"
-      quote: string;          // 原典の言葉
-      source_title: string;
-      source_url: string;
-    };
-    stone_visual: {
-      color_theme: "emerald_glow" | "sapphire_zen" | "golden_resolve" | "lotus_warm";
-      glow_intensity: number; // 0.8 - 1.0 (ピカピカと輝く強度)
-      shape_type: "round_pebble" | "standing_monolith" | "crystal_zen" | "moss_jewel";
-    };
-  };
-}
+```text
+enkakuji2/
+├── .github/workflows/
+│   └── deploy-pwa.yml               # GitHub Pages 自動ビルド・デプロイCI/CD
+├── public/
+│   ├── favicon.svg                  # ベクターアイコン
+│   ├── apple-touch-icon.png         # iOS ホーム画面用アイコン
+│   ├── pwa-192x192.png              # PWA Manifest 用 192x192 PNG
+│   └── pwa-512x512.png              # PWA Manifest 用 512x512 PNG (any & maskable)
+├── src/
+│   ├── components/
+│   │   ├── ZenGardenCanvas.tsx      # Three.js 3Dガラス銀河宝珠＆アンダーグロウ光彩シェーダー
+│   │   ├── LifeMemoriesModal.tsx    # 「人生の記憶（喜怒哀楽）」AI自動整理・管理モーダル
+│   │   ├── AssessmentModal.tsx      # 禅問答開始モーダル
+│   │   ├── InquiryOverlay.tsx       # 3段階フェーズAI禅問答オーバーレイ
+│   │   ├── MeditationOverlay.tsx    # 身体技法（Praxis）＆自然環境音瞑想モード
+│   │   ├── StoneManifestationModal.tsx # 「覚悟の石」顕現クライマックス画面
+│   │   ├── StoneDetailDrawer.tsx    # 「覚悟の石」詳細・対話履歴振り返りドロワー
+│   │   └── SettingsAndGraphModal.tsx # 音響設定・データ初期化・全脳知識ネットワーク閲覧
+│   ├── services/
+│   │   ├── zenAiService.ts          # Edge Function 通信＆ローカル知識グラフ推論フォールバック
+│   │   ├── localDb.ts               # IndexedDB / LocalStorage 端末内永続化サービス
+│   │   └── soundEngine.ts           # Web Audio API 自然音・おりん・磬子リアルタイム合成
+│   ├── store/
+│   │   └── useZenStore.ts           # Zustand グローバル状態管理ストア
+│   ├── types/
+│   │   └── zen.ts                   # アプリ全体の TypeScript 型定義
+│   ├── App.tsx                      # メインコンテナ（3ゾーン構成ホーム＆モーダル制御）
+│   ├── main.tsx                     # エントリーポイント＆Service Worker 登録
+│   └── index.css                    # Tailwind CSS ＆ カスタムアニメーション定義
+├── supabase/functions/zen-dialogue/
+│   ├── index.ts                     # OpenRouter (Gemini 3.8 Flash) 中継 Edge Function
+│   └── knowledge_graph.json         # Edge 側バンドル用 全脳知識ネットワーク
+├── knowledge_graph.json             # フロントエンド側参照用 全脳知識ネットワークマスタ
+├── spec.md                          # 本設計仕様書（Version 3.0）
+├── vite.config.ts                   # Vite & vite-plugin-pwa 設定
+└── package.json                     # 依存パッケージ定義 (React 18, Three.js, Zustand, Lucide)
 ```
+
 
 ---
 
-## 第7章 技術スタックとディレクトリ構成
+## 第8章 受け入れ基準と検証仕様（Acceptance Criteria）
 
-### 7.1 推奨技術スタック
+実機スマートフォン（iOS Safari / Android Chrome）およびデスクトップ環境における動作確認基準は以下の通り。
 
-| レイヤー | 採用技術 | 選定理由 |
+| 検証項目 | 期待される動作・受け入れ基準 | 検証方法・実装コンポーネント |
 | :--- | :--- | :--- |
-| **フロントエンド基盤** | React + Vite (または Next.js Static Export) + TypeScript | GitHub Actions で静的ビルドし、GitHub Pages 等のPWA配信先へ容易にデプロイ可能。 |
-| **PWA制御** | `vite-plugin-pwa` (Workbox) | Service Worker の自動生成、アセットキャッシュ、スマホのホーム画面インストール対応。 |
-| **箱庭・光アニメーション** | HTML5 Canvas / PixiJS または Three.js (React Three Fiber) + Framer Motion | 2D/2.5Dの美しい箱庭表現、シェーダーやパーティクルによる「落ち着いた光の演出」と「覚悟の石」の発光・立ち上がりアニメーションを軽量に実装。 |
-| **状態管理・ローカルDB** | Zustand + IndexedDB (`idb-keyval` または `Dexie.js`) | 直近5〜10往復の対話記憶、過去のセッション履歴、箱庭に立ち上がった「覚悟の石」データをすべてユーザーのスマホ内だけで永続化。 |
-| **環境音・効果音制御** | Web Audio API / Howler.js | 自然環境音（雨・波・森・小川）のシームレスなループ再生と、「覚悟の石」誕生時の澄んだ磬子（けいす）・水琴窟のような発光サウンド演出。 |
-| **バックエンド（API中継）** | Supabase Edge Functions (Deno / TypeScript) | クライアント側にAPIキーを持たせず、サーバーレスで OpenRouter API を呼び出す。DB保存は行わない。 |
-| **LLM API** | OpenRouter API (`Google: Gemini Flash 3.8`) | `knowledge_graph.json` 全文＋直近5〜10往復の対話履歴を高速・高精度に処理し、JSONスキーマに従った応答を生成。 |
-| **CI/CD・配布** | GitHub Actions + GitHub Pages | `main` ブランチへのプッシュで自動的にPWAをビルド・デプロイし、スマホからURLを開くだけでインストール可能にする。 |
+| **3Dガラス銀河宝珠レンダリング** | 画面中央に紫・蒼・紅・黄金が溶け合う4色スパイラル銀河とボリューメトリック星雲、底面アンダーグロウ（光の溜まり）、および180個の立ち昇る光粒子が白飛びせず滑らかに描画されること。スワイプで360度回転できること。 | `ZenGardenCanvas.tsx` / Three.js カスタムGLSLシェーダー |
+| **人生の記憶・AI自動整理** | 音声入力や自由記述で語られたテキストが、Edge Function 経由でプロフィール（生年・性別・立場）と「喜・怒・哀・楽」の個別エピソードカードに自動分類・構造化されて端末内に保存されること。 | `LifeMemoriesModal.tsx` / `zen-dialogue` (`action: "organize_memories"`) |
+| **全脳知識ネットワーク連動問答** | ユーザーの記憶や発言から `sufferings`（6類型）を推定し、Phase 1（受容）→ Phase 2（超越）→ Phase 3（覚悟）の順に1回につき1問（40〜120文字）の問いが生成されること。直近最大10往復の履歴が一貫して保持されること。 | `InquiryOverlay.tsx` / `zen-dialogue` (`action: "dialogue"`) |
+| **身体技法（Praxis）提案と瞑想** | 対話中またはホームから、雨・波・森・小川・静寂の自然音（250〜1800Hz中域強調・音圧正規化済み）と、`praxes` の身体技法ガイド付きで3/5/10分のタイマー瞑想ができること。完了時に磬子の倍音が鳴ること。 | `MeditationOverlay.tsx` / `soundEngine.ts` |
+| **「覚悟の石」顕現と永続保存** | ユーザーが結論を出した際、石の顕現アニメーションとともにユーザーの結論と円覚寺師家の法話（出典URL付き）が授与され、ガラス宝珠内に回折スパイクを持つ一等星として永続配置されること。タップで詳細が開くこと。 | `StoneManifestationModal.tsx` / `StoneDetailDrawer.tsx` |
+| **完全ローカル保存（プライバシー）** | 会話ログ・人生の記憶・獲得した石・設定がすべて端末内の IndexedDB (`EnkakujiZenGardenDB`) / LocalStorage にのみ保存され、外部DBへの個人データ送信が一切行われないこと。 | `localDb.ts` / `useZenStore.ts` |
+| **オフライン・耐障害性** | 通信障害や機内モード時でも、フロントエンド内蔵の `knowledgeGraph` によるローカル推論エンジンが自動で作動し、記憶整理・問答・石生成が途切れず完了すること。 | `zenAiService.ts` (`generateLocalKnowledgeGraphResponse`) |
+| **PWAスタンドアロン起動** | ホーム画面追加時にブラウザ枠のない全画面（`display: standalone`）で起動し、ブラウザバッジなしで専用PNGアイコンが表示されること。 | `vite.config.ts` / `manifest.webmanifest` |
 
-### 7.2 ローカルストレージ（スマートフォン内）のデータスキーマ
+---
 
-```typescript
-// IndexedDB に保存されるユーザーデータ（外部サーバーには一切保存しない）
-interface LocalUserData {
-  // 獲得した「覚悟の石」のコレクション（箱庭に配置される）
-  stones: Array<{
-    id: string;
-    createdAt: string;
-    stone_title: string;
-    user_conclusion: string;
-    initial_concern: string;
-    assessment: { ki: number; do: number; ai: number; raku: number }; // 喜・怒・哀・楽 (0-10)
-    wisdom_id: string;
-    discourse_id: string;
-    quote: string;
-    master_name: string;
-    source_url: string;
-    visual: {
-      color_theme: string;
-      shape_type: string;
-      position: { x: number; y: number }; // 箱庭内の配置座標
-    };
-    dialogue_digest: Array<{ role: "user" | "assistant"; content: string }>; // その石を生んだ問答の記録
-  }>;
+## 第9章 環境構築・デプロイ・運用手順
 
-  // 現在進行中のセッション（直近5〜10往復の記憶保持用）
-  activeSession: {
-    sessionId: string;
-    startedAt: string;
-    assessment: { ki: number; do: number; ai: number; raku: number; initialConcern?: string }; // 喜・怒・哀・楽と初期の悩み
-    messages: Array<{
-      id: string;
-      role: "user" | "assistant";
-      content: string;
-      timestamp: string;
-      phase?: 1 | 2 | 3;
-      light_mood?: string;
-    }>;
-    currentLightMood: string;
-  } | null;
+### 9.1 環境変数とSecrets設定
 
-  // アプリ設定
-  settings: {
-    soundVolume: number;
-    defaultMeditationMinutes: 3 | 5 | 10;
-    hapticFeedback: boolean;
-  };
-}
+1. **GitHub リポジトリ（GitHub Actions デプロイ用）:**
+   - リポジトリの `Settings` -> `Secrets and variables` -> `Actions` に以下を設定：
+     - `VITE_SUPABASE_EDGE_URL`: `https://<project-ref>.supabase.co/functions/v1/zen-dialogue`（未設定時はデフォルトURLが適用される）
+     - `VITE_SUPABASE_ANON_KEY`: Supabase の `anon public` キー
+2. **Supabase Edge Functions（LLM中継用）:**
+   - Supabase ダッシュボードまたは CLI より以下を設定：
+     - `OPENROUTER_API_KEY`: OpenRouter の API キー（必須）
+     - `OPENROUTER_MODEL`: 使用モデルID（デフォルト: `google/gemini-3.8-flash`、フォールバック: `google/gemini-2.5-flash`）
+
+### 9.2 ローカル開発とビルド
+
+```bash
+# 依存パッケージインストール
+npm install
+
+# 開発サーバー起動（ローカルポート 5173）
+npm run dev
+
+# 本番ビルド（TypeScript 型検査 + Vite ビルド + PWA アセット生成）
+npm run build
+
+# ビルド成果物のローカルプレビュー
+npm run preview
 ```
 
----
+### 9.3 本番デプロイとPWAキャッシュ更新手順
 
-## 第8章 開発ロードマップ（フェーズ定義）
-
-### Phase 1：コアバックエンド＆知識グラフ統合
-1. **Supabase Edge Functions の構築:**
-   - `knowledge_graph.json` 全文を読み込み、直近5〜10往復の対話履歴と合わせて OpenRouter の `Gemini Flash 3.8` を呼び出すエンドポイント（`zen-dialogue`）の実装。
-   - 構造化JSON出力の検証（質問モード／身体技法提案モード／覚悟の石生成モード）。
-2. **ローカルデータ管理層の実装:**
-   - スマホ内（IndexedDB）への対話履歴・覚悟の石の保存処理。
-
-### Phase 2：光と陰影の「心の庭」UI ＆「覚悟の石」アニメーション
-1. **箱庭キャンバスとライト（光）演出の実装:**
-   - 落ち着いた禅の配色（深藍・琥珀・月白）と、対話の進行（`light_mood`）に応じて光が呼吸し粒子が舞う2D/2.5Dビジュアルの構築。
-2. **「覚悟の石」顕現エフェクトの実装:**
-   - 結論到達時に、光が集束して「覚悟の石」が庭に立ち上がりピカピカと輝くゲーム的カタルシス演出と、石をタップして過去の結論・法話を振り返るコレクションUIの実装。
-3. **身体技法（`praxes`）＆自然環境音瞑想モード:**
-   - `knowledge_graph.json` の7つの身体技法ガイド表示と、環境音（雨・波・森・小川・静寂）のフェードイン／アウト再生。
-
-### Phase 3：PWA化と GitHub Actions 自動配信
-1. **PWA対応（Manifest & Service Worker）:**
-   - アプリアイコン、スプラッシュ画面、オフラインキャッシュ、ホーム画面追加プロンプトの実装。
-2. **GitHub Actions デプロイパイプライン:**
-   - GitHub Pages（または Releases）への自動ビルド・公開設定により、ユーザーのスマートフォンへ直接PWAをインストールできる配布環境の完成。
-
----
-
-## 第9章 受け入れ基準（Acceptance Criteria）
-
-| 項目 | 検証内容・期待される挙動 |
-| :--- | :--- |
-| **LLM通信とモデル指定** | Supabase Edge Functions 経由で OpenRouter API が呼ばれ、`Gemini Flash 3.8` によって応答が生成されること。フロントエンドにAPIキーが露出しないこと。 |
-| **全脳知識ネットワークの反映** | `knowledge_graph.json` の全文がプロンプトに包括され、ユーザーの苦悩（`sufferings`）に応じた適切な智慧（`wisdoms`）・法話（`discourses`）・身体技法（`praxes`）が引用・活用されること。 |
-| **5〜10回の対話記憶** | 5〜10往復のユーザー回答が常に保持されてGeminiに渡され、前の発言を踏まえた一貫性のある深い問いが継続すること。 |
-| **箱庭の光演出と「覚悟の石」** | 落ち着いた光の箱庭が表示され、ユーザーが結論を出した際に「覚悟の石」がアニメーションと共にピカピカと光りながら庭に立ち上がること。 |
-| **完全ローカル保存** | 会話履歴や「覚悟の石」などのユーザーデータがスマホ内（IndexedDB/LocalStorage）にのみ保存され、アプリ再起動後も庭の石と記録が維持されること。 |
-| **PWAインストール** | GitHub系の配信URLからスマートフォンでアクセスし、「ホーム画面に追加」でスタンドアロンPWAとしてインストール・起動できること。 |
+1. **GitHub Pages への自動デプロイ:**
+   - ローカルの変更を `main` ブランチにコミットしてプッシュすると、`.github/workflows/deploy-pwa.yml` が自動起動し、約1〜2分で本番環境（`https://noguchi3564.github.io/enkakuji2/`）へ反映される。
+2. **クライアント側のPWA更新挙動:**
+   - 新しいバージョンがデプロイされた場合、Service Worker の `skipWaiting` および `clientsClaim` により、次回アクセス時またはバックグラウンド通信完了時に即座に新しいアセットへ自動更新される。手動で強制更新したい場合はブラウザのキャッシュクリアまたはリロードを実行する。
