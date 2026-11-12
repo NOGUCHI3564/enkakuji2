@@ -44,16 +44,18 @@ export const CORE_VALUES_OPTIONS: string[] = [
   "地球にやさしく",
 ];
 
-const AGE_OPTIONS = [
-  "未設定",
-  "10代",
-  "20代",
-  "30代",
-  "40代",
-  "50代",
-  "60代",
-  "70代以上",
-];
+const calculateAge = (dateString?: string): string | null => {
+  if (!dateString || !dateString.match(/^\d{4}-\d{2}-\d{2}$/)) return null;
+  const birth = new Date(dateString);
+  if (isNaN(birth.getTime())) return null;
+  const today = new Date();
+  let age = today.getFullYear() - birth.getFullYear();
+  const m = today.getMonth() - birth.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
+    age--;
+  }
+  return age >= 0 && age < 130 ? `${age}歳` : null;
+};
 
 const GENDER_OPTIONS = [
   "未設定",
@@ -81,7 +83,13 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
   onSaveProfile,
   onClose,
 }) => {
-  const [birthDate, setBirthDate] = useState(profile.birthDate || "未設定");
+  const [birthDate, setBirthDate] = useState(
+    profile.birthDate &&
+      !profile.birthDate.includes("代") &&
+      profile.birthDate !== "未設定"
+      ? profile.birthDate
+      : ""
+  );
   const [gender, setGender] = useState(profile.gender || "未設定");
   const [lifeContext, setLifeContext] = useState(profile.lifeContext || "未設定");
   const [currentResponsibilities, setCurrentResponsibilities] = useState(
@@ -94,6 +102,8 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
     profile.coreValues || []
   );
   const [feedbackSaved, setFeedbackSaved] = useState(false);
+
+  const currentAge = calculateAge(birthDate);
 
   const handleToggleValue = (val: string) => {
     soundEngine.playWaterDrop(1.1);
@@ -112,7 +122,7 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
 
     const updated: UserLifeProfile = {
       ...profile,
-      birthDate: birthDate === "未設定" ? "" : birthDate,
+      birthDate: birthDate.trim(),
       gender: gender === "未設定" ? "" : gender,
       lifeContext: lifeContext === "未設定" ? "" : lifeContext,
       currentResponsibilities: currentResponsibilities.trim(),
@@ -170,23 +180,26 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
               <span>1. あなたの背景・経験（任意）</span>
             </div>
 
-            {/* 年代・性別・立場 */}
+            {/* 生年月日・性別・立場 */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
-                <label className="block text-xs text-slate-400 font-serif mb-1">
-                  年代
-                </label>
-                <select
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block text-xs text-slate-400 font-serif">
+                    生年月日
+                  </label>
+                  {currentAge && (
+                    <span className="text-[11px] text-amber-300 font-serif font-bold">
+                      現在 {currentAge}
+                    </span>
+                  )}
+                </div>
+                <input
+                  type="date"
                   value={birthDate}
+                  max={new Date().toISOString().split("T")[0]}
                   onChange={(e) => setBirthDate(e.target.value)}
-                  className="w-full rounded-xl bg-slate-900 border border-white/15 px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-amber-400"
-                >
-                  {AGE_OPTIONS.map((opt) => (
-                    <option key={opt} value={opt}>
-                      {opt}
-                    </option>
-                  ))}
-                </select>
+                  className="w-full rounded-xl bg-slate-900 border border-white/15 px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-amber-400 [color-scheme:dark]"
+                />
               </div>
 
               <div>
