@@ -95,6 +95,7 @@ export const LifeMemoriesModal: React.FC<LifeMemoriesModalProps> = ({
     }));
 
     const updatedProfile: UserLifeProfile = {
+      ...currentProfile,
       birthDate:
         result.extracted_profile?.birthDate || currentProfile.birthDate || "",
       gender: result.extracted_profile?.gender || currentProfile.gender || "",

@@ -13,6 +13,7 @@ import { StoneManifestationModal } from "./components/StoneManifestationModal";
 import { StoneDetailDrawer } from "./components/StoneDetailDrawer";
 import { SettingsAndGraphModal } from "./components/SettingsAndGraphModal";
 import { LifeMemoriesModal } from "./components/LifeMemoriesModal";
+import { UserProfileModal } from "./components/UserProfileModal";
 import {
   Sparkles,
   Wind,
@@ -22,6 +23,7 @@ import {
   Download,
   BookHeart,
   ShieldCheck,
+  Compass,
 } from "lucide-react";
 
 interface BeforeInstallPromptEvent extends Event {
@@ -64,6 +66,7 @@ export const App: React.FC = () => {
 
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isLifeMemoriesOpen, setIsLifeMemoriesOpen] = useState(false);
+  const [isUserProfileOpen, setIsUserProfileOpen] = useState(false);
   const [showPrivacyWhisper, setShowPrivacyWhisper] = useState(false);
   const [deferredPrompt, setDeferredPrompt] =
     useState<BeforeInstallPromptEvent | null>(null);
@@ -139,6 +142,22 @@ export const App: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-2">
+              <button
+                onClick={() => setIsUserProfileOpen(true)}
+                className="relative inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-xs text-amber-100/90 font-serif backdrop-blur-md transition"
+                title="プロフィールと価値観"
+              >
+                <Compass className="w-3.5 h-3.5 text-amber-300/90" />
+                <span>価値観</span>
+                {lifeProfile.coreValues && lifeProfile.coreValues.length > 0 ? (
+                  <span className="text-amber-300 font-sans text-[11px]">
+                    {lifeProfile.coreValues.length}
+                  </span>
+                ) : (
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                )}
+              </button>
+
               <button
                 onClick={() => setIsLifeMemoriesOpen(true)}
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-xs text-amber-100/90 font-serif backdrop-blur-md transition"
@@ -261,6 +280,7 @@ export const App: React.FC = () => {
         <AssessmentModal
           lifeProfile={lifeProfile}
           onOpenLifeMemories={() => setIsLifeMemoriesOpen(true)}
+          onOpenUserProfile={() => setIsUserProfileOpen(true)}
           onStart={(assessment) => beginInquirySession(assessment)}
           onCancel={() => setViewMode("GARDEN_HOME")}
         />
@@ -327,6 +347,15 @@ export const App: React.FC = () => {
           profile={lifeProfile}
           onSaveProfile={updateLifeProfile}
           onClose={() => setIsLifeMemoriesOpen(false)}
+        />
+      )}
+
+      {/* 10. プロフィールと価値観（18枚のフラットカードから2枚選択）モーダル */}
+      {isUserProfileOpen && (
+        <UserProfileModal
+          profile={lifeProfile}
+          onSaveProfile={updateLifeProfile}
+          onClose={() => setIsUserProfileOpen(false)}
         />
       )}
     </div>

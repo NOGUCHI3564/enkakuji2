@@ -39,11 +39,14 @@ export interface LifeMemoryItem {
   createdAt: string;
 }
 
-// スマートフォン内に永続保存されるユーザーの「人生の記憶（プロフィール＆喜怒哀楽の記憶群）」
+// スマートフォン内に永続保存されるユーザーの「プロフィール・価値観・人生の記憶」
 export interface UserLifeProfile {
-  birthDate?: string;       // 生年月日または生まれ年（任意）
+  birthDate?: string;       // 生年月日または年代（任意）
   gender?: string;          // 性別（任意）
-  lifeContext?: string;     // 現在の立場や暮らしの背景（任意）
+  lifeContext?: string;     // 現在の立場・役割（任意）
+  currentResponsibilities?: string; // 抱えている責任や向き合っていること（任意自由記述）
+  pastExperiences?: string; // 心に残る経験や転機（任意自由記述）
+  coreValues: string[];     // 選択された2つの価値観（18枚から直感で2つ選択）
   memories: LifeMemoryItem[]; // 喜怒哀楽の記憶リスト（複数可）
   updatedAt: string;
 }

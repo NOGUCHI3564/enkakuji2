@@ -94,12 +94,15 @@ export async function deleteStoneFromDevice(stoneId: string): Promise<void> {
   }
 }
 
-// ユーザーの「人生の記憶（生年月日・性別・複数の喜怒哀楽エピソード）」の読み込み
+// ユーザーの「プロフィール・価値観・人生の記憶」の読み込み
 export async function loadLifeProfileFromDevice(): Promise<UserLifeProfile> {
   const defaultProfile: UserLifeProfile = {
     birthDate: "",
     gender: "",
     lifeContext: "",
+    currentResponsibilities: "",
+    pastExperiences: "",
+    coreValues: [],
     memories: [],
     updatedAt: new Date().toISOString(),
   };
@@ -110,17 +113,39 @@ export async function loadLifeProfileFromDevice(): Promise<UserLifeProfile> {
       const req = tx.objectStore(STORE_STATE).get("lifeProfile");
       req.onsuccess = () => {
         if (req.result) {
-          resolve({ ...defaultProfile, ...req.result });
+          const loaded = req.result;
+          resolve({
+            ...defaultProfile,
+            ...loaded,
+            coreValues: Array.isArray(loaded.coreValues) ? loaded.coreValues : [],
+          });
         } else {
           const raw = localStorage.getItem("enkakuji_life_profile");
-          resolve(raw ? { ...defaultProfile, ...JSON.parse(raw) } : defaultProfile);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            resolve({
+              ...defaultProfile,
+              ...parsed,
+              coreValues: Array.isArray(parsed.coreValues) ? parsed.coreValues : [],
+            });
+          } else {
+            resolve(defaultProfile);
+          }
         }
       };
       req.onerror = () => resolve(defaultProfile);
     });
   } catch {
     const raw = localStorage.getItem("enkakuji_life_profile");
-    return raw ? { ...defaultProfile, ...JSON.parse(raw) } : defaultProfile;
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      return {
+        ...defaultProfile,
+        ...parsed,
+        coreValues: Array.isArray(parsed.coreValues) ? parsed.coreValues : [],
+      };
+    }
+    return defaultProfile;
   }
 }
 

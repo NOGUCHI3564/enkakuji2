@@ -304,30 +304,43 @@ function generateLocalKnowledgeGraphResponse(
     };
   }
 
-  const memories = payload.assessment.lifeProfileSnapshot?.memories || [];
+  const profile = payload.assessment.lifeProfileSnapshot;
+  const values = profile?.coreValues || [];
+  const primaryValue = values.length > 0 ? `【${values.join("・")}】` : "";
+  const roleHint = profile?.lifeContext ? `${profile.lifeContext}として歩む中で、` : "";
+
+  const memories = profile?.memories || [];
   const sampleMemory = memories[turn % Math.max(1, memories.length)];
   const memoryHint = sampleMemory
-    ? `かつて「${sampleMemory.content.slice(0, 20)}…」と経験されたあなたにとって、`
-    : "";
+    ? `かつて「${sampleMemory.content.slice(0, 18)}…」と経験されたあなたにとって、`
+    : roleHint;
 
   const snippet = lastUserText
     ? `「${lastUserText.slice(0, 18)}${lastUserText.length > 18 ? "…" : ""}」`
     : "その思い";
 
+  // Base Phase（コーチング的深掘り）と Zen Shift（禅の揺らぎ）を織り交ぜた問い群
   const phaseQuestions: Record<1 | 2 | 3, string[]> = {
     1: [
-      `${memoryHint}${snippet}を抱えている今、無意識にぎゅっと握りしめている「こうあらねばならない」という力みは何でしょうか。`,
-      `もし今、丸木橋から手を離しても「下には柔らかい蒲団がある」としたら、一番に手放したい重荷は何ですか。`,
-      `生まれたままの心（不生の仏心）には何ひとつ欠けたものはありません。今の自分を責めているその声は、誰の声でしょうか。`,
+      // Base Phase: 傾聴と深掘り
+      `${memoryHint}${snippet}について伺いました。${primaryValue ? `${primaryValue}を大切にするあなたにとって、` : ""}その状況で一番重荷に感じていることは何でしょうか。`,
+      // Zen Shift: 丸木橋の手放し
+      `もし今、丸木橋から手を離しても「下には柔らかい蒲団がある」としたら、あなたが一番に手放したい力みは何ですか。`,
+      // Base Phase: 内省
+      `そのお気持ちの奥で、無意識に「こうでなければならない」と自分を縛っているルールがあるとしたら、それはどんな言葉でしょうか。`,
     ],
     2: [
-      `大海に浮かぶ一滴の泡のように、これまでの喜びも悲しみも大いなる命の流れの中にあります。10年後の静かな場所から今を見つめたら、何が見えますか。`,
-      `${memoryHint}${snippet}の奥で、あなたが本当に守りたいと願っている大切なものは何でしょうか。`,
-      `特別な何者かになろうとする焦りを一度脇に置いたとき、ただ目の前に残る「今日ひとつのこと」は何ですか。`,
+      // Zen Shift: 大海と一滴
+      `大海に浮かぶ一滴の泡のように、これまでの歩みも今の悩みも大きな命の流れの中にあります。10年後の静かな場所から今を見つめたら、何が見えますか。`,
+      // Base Phase: 価値観コンパスによる深掘り
+      `${primaryValue ? `${primaryValue}という価値観に立ち返ったとき、` : ""}${snippet}の奥で、あなたが本当に大切に守り抜きたいものは何でしょうか。`,
+      // Zen Shift: 平常心是道
+      `特別な何者かになろうとする焦りを一度脇に置いたとき、いま目の前に残る「今日ひとつの作務」は何ですか。`,
     ],
     3: [
-      `朝比奈宗源老師は「道は吾である」と説かれました。これまでの喜怒哀楽の歩みをすべて自らの道として引き受けるなら、今日どんな小さな一歩を選びますか。`,
-      `ここまで心を観察してきて、今あなたの肚（はら）の底から湧いてくる「自分の結論」をひと言で表すなら、どんな言葉になりますか。`,
+      // Phase 3: 主体的覚悟への収束
+      `朝比奈宗源老師は「道は吾である」と説かれました。これまでの歩みをすべて自らの道として引き受けるなら、今日ここからどんな小さな一歩を選びますか。`,
+      `ここまで心を静かに見つめてきて、いまあなたの肚（はら）の底から湧いてくる「自分の結論」をひと言で表すなら、どんな言葉になりますか。`,
     ],
   };
 
