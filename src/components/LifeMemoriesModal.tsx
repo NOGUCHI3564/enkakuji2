@@ -1,5 +1,5 @@
-// 「人生の記憶（Life Memories）」直感的・シンプル入力モーダル
-// 細かい説明文を極力省き、大きな文字と直感的なUIでパッと見てすぐ入力・確認できるデザイン。
+// 「人生に影響を与えた記憶（Life Memories）」入力モーダル
+// 何歳頃にどういう経験・転機があったかを自由に記し、AIがエピソードとして端末内に整理保存する。
 
 import React, { useState } from "react";
 import {
@@ -9,7 +9,7 @@ import {
 } from "../types/zen";
 import { organizeLifeMemoriesWithAI } from "../services/zenAiService";
 import { soundEngine } from "../services/soundEngine";
-import { X, Send, Trash2, Sparkles, UserCheck, ShieldCheck } from "lucide-react";
+import { X, Send, Trash2, Sparkles, ShieldCheck, Clock } from "lucide-react";
 
 interface LifeMemoriesModalProps {
   profile: UserLifeProfile;
@@ -64,9 +64,8 @@ export const LifeMemoriesModal: React.FC<LifeMemoriesModalProps> = ({
   const [filterEmotion, setFilterEmotion] = useState<EmotionCategory | "all">(
     "all"
   );
-  const [showProfileEdit, setShowProfileEdit] = useState(false);
 
-  // 語られたテキストをAIで整理してスマホ内に保存
+  // 語られたテキストから「何歳の頃、どんな経験・影響があったか」をAIで整理してスマホ内に保存
   const handleOrganizeAndSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!narrativeText.trim() || isOrganizing) return;
@@ -96,13 +95,6 @@ export const LifeMemoriesModal: React.FC<LifeMemoriesModalProps> = ({
 
     const updatedProfile: UserLifeProfile = {
       ...currentProfile,
-      birthDate:
-        result.extracted_profile?.birthDate || currentProfile.birthDate || "",
-      gender: result.extracted_profile?.gender || currentProfile.gender || "",
-      lifeContext:
-        result.extracted_profile?.lifeContext ||
-        currentProfile.lifeContext ||
-        "",
       memories: [...newMemoryItems, ...(currentProfile.memories || [])],
       updatedAt: new Date().toISOString(),
     };
@@ -113,7 +105,7 @@ export const LifeMemoriesModal: React.FC<LifeMemoriesModalProps> = ({
     setFeedbackMsg(
       newMemoryItems.length > 0
         ? `${newMemoryItems.length}件の記憶を記録しました`
-        : "プロフィールを更新しました"
+        : "記憶を更新しました"
     );
     setIsOrganizing(false);
     soundEngine.playWaterDrop(0.95);
@@ -129,31 +121,10 @@ export const LifeMemoriesModal: React.FC<LifeMemoriesModalProps> = ({
     onSaveProfile(updated);
   };
 
-  const handleManualProfileChange = (
-    field: "birthDate" | "gender" | "lifeContext",
-    value: string
-  ) => {
-    const updated: UserLifeProfile = {
-      ...currentProfile,
-      [field]: value,
-      updatedAt: new Date().toISOString(),
-    };
-    setCurrentProfile(updated);
-    onSaveProfile(updated);
-  };
-
   const filteredMemories =
     filterEmotion === "all"
       ? currentProfile.memories
       : currentProfile.memories.filter((m) => m.emotion === filterEmotion);
-
-  const profileSummary = [
-    currentProfile.birthDate,
-    currentProfile.gender,
-    currentProfile.lifeContext,
-  ]
-    .filter(Boolean)
-    .join(" ・ ");
 
   return (
     <div className="fixed inset-0 z-30 flex items-center justify-center p-3 sm:p-5 bg-black/80 backdrop-blur-md animate-fadeIn">
@@ -167,7 +138,7 @@ export const LifeMemoriesModal: React.FC<LifeMemoriesModalProps> = ({
           <X className="w-6 h-6" />
         </button>
 
-        {/* タイトル（大きくシンプルに） */}
+        {/* タイトル */}
         <div className="mb-5 pr-10">
           <div className="flex items-center gap-2.5 flex-wrap">
             <h2 className="font-serif text-2xl sm:text-3xl font-bold text-amber-50 tracking-wider">
@@ -178,8 +149,12 @@ export const LifeMemoriesModal: React.FC<LifeMemoriesModalProps> = ({
               このスマホ内のみ保存
             </span>
           </div>
-          <p className="font-serif text-sm sm:text-base text-amber-200/90 mt-1">
-            これまでの「喜・怒・哀・楽」やプロフィールを自由に書いてください
+          <p className="font-serif text-xs sm:text-sm text-amber-200/90 mt-1.5 leading-relaxed">
+            あなたの人生に影響を与えた経験や転機の記憶を記してください。
+            <br />
+            <span className="text-slate-400 text-xs">
+              「何歳頃、どういうことがあったか」を自由に書くと、AIが自動で整理して保存します。
+            </span>
           </p>
         </div>
 
@@ -191,8 +166,11 @@ export const LifeMemoriesModal: React.FC<LifeMemoriesModalProps> = ({
               value={narrativeText}
               onChange={(e) => setNarrativeText(e.target.value)}
               disabled={isOrganizing}
-              placeholder="例：1975年生まれ。30代で独立した時は本当に嬉しかった。3年前に父を亡くした時は悲しかった。休日に自然を歩くのが一番楽しい。"
-              className="w-full bg-transparent text-base sm:text-lg text-slate-100 placeholder:text-slate-500 focus:outline-none resize-none leading-relaxed"
+              placeholder="例：
+・24歳の頃、最初の仕事で大失敗したが、先輩に支えられて立ち直り責任感を学んだ。
+・32歳で独立。先が見えず不安だったが夢中になって道を開いた。
+・40歳の時、家族との別れを経験し、命の時間のかけがえのなさに気づいた。"
+              className="w-full bg-transparent text-sm sm:text-base text-slate-100 placeholder:text-slate-500 focus:outline-none resize-none leading-relaxed"
             />
 
             <button
@@ -208,7 +186,7 @@ export const LifeMemoriesModal: React.FC<LifeMemoriesModalProps> = ({
               ) : (
                 <>
                   <Send className="w-5 h-5" />
-                  <span>記録する（AIで自動整理）</span>
+                  <span>記憶を記録する（AIで自動整理）</span>
                 </>
               )}
             </button>
@@ -220,57 +198,6 @@ export const LifeMemoriesModal: React.FC<LifeMemoriesModalProps> = ({
             </p>
           )}
         </form>
-
-        {/* 2. 基本プロフィール（1行でスッキリ表示・タップで編集） */}
-        <div className="rounded-2xl bg-slate-900/90 border border-white/10 p-3.5 mb-5">
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2 text-sm sm:text-base text-slate-200">
-              <UserCheck className="w-4 h-4 text-amber-300 flex-shrink-0" />
-              <span className="truncate">
-                {profileSummary || "生年・性別・立場（任意）"}
-              </span>
-            </div>
-            <button
-              type="button"
-              onClick={() => setShowProfileEdit((p) => !p)}
-              className="px-3 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-xs sm:text-sm text-amber-200 font-serif flex-shrink-0 transition"
-            >
-              {showProfileEdit ? "閉じる" : "入力"}
-            </button>
-          </div>
-
-          {showProfileEdit && (
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mt-3 pt-3 border-t border-white/10">
-              <input
-                type="text"
-                value={currentProfile.birthDate || ""}
-                onChange={(e) =>
-                  handleManualProfileChange("birthDate", e.target.value)
-                }
-                placeholder="生まれ年・年代"
-                className="w-full rounded-xl bg-slate-950 border border-white/15 px-3 py-2 text-sm text-slate-100"
-              />
-              <input
-                type="text"
-                value={currentProfile.gender || ""}
-                onChange={(e) =>
-                  handleManualProfileChange("gender", e.target.value)
-                }
-                placeholder="性別"
-                className="w-full rounded-xl bg-slate-950 border border-white/15 px-3 py-2 text-sm text-slate-100"
-              />
-              <input
-                type="text"
-                value={currentProfile.lifeContext || ""}
-                onChange={(e) =>
-                  handleManualProfileChange("lifeContext", e.target.value)
-                }
-                placeholder="お仕事・今の立場"
-                className="w-full rounded-xl bg-slate-950 border border-white/15 px-3 py-2 text-sm text-slate-100"
-              />
-            </div>
-          )}
-        </div>
 
         {/* 3. 喜・怒・哀・楽タブ（大きく押しやすいボタン） */}
         <div className="space-y-3">
