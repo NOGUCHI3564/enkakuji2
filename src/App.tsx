@@ -307,12 +307,10 @@ export const App: React.FC = () => {
         </div>
       </div>
 
-      {/* 3. INITIAL_ASSESSMENT（禅問答の開始モーダル：人生の記憶の参照 ＋ 今回の問いの入力） */}
+      {/* 3. INITIAL_ASSESSMENT（禅問答の開始モーダル：問いの入力と対話開始に集中） */}
       {viewMode === "INITIAL_ASSESSMENT" && (
         <AssessmentModal
           lifeProfile={lifeProfile}
-          onOpenLifeMemories={() => setIsLifeMemoriesOpen(true)}
-          onOpenUserProfile={() => setIsUserProfileOpen(true)}
           onStart={(assessment) => beginInquirySession(assessment)}
           onCancel={() => setViewMode("GARDEN_HOME")}
         />
