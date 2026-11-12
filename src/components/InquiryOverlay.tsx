@@ -28,18 +28,18 @@ const PHASE_LABELS: Record<
   { title: string; subtitle: string; badgeClass: string }
 > = {
   1: {
-    title: "第一階梯：受容と手放し",
-    subtitle: "不生の仏心・丸木橋の力みを解く",
+    title: "自己探索：傾聴と受容",
+    subtitle: "あなたの心に耳を傾け、思考を深めています",
     badgeClass: "bg-sky-500/15 text-sky-200 border-sky-400/30",
   },
   2: {
-    title: "第二階梯：視野拡大と超越",
-    subtitle: "大海と一滴・本来の自己を観ずる",
+    title: "視点の転換：本質への問い",
+    subtitle: "思考の枠組みを解き、別の角度から見つめる",
     badgeClass: "bg-indigo-500/15 text-indigo-200 border-indigo-400/30",
   },
   3: {
-    title: "第三階梯：主体的覚悟",
-    subtitle: "苦中の真楽・道は吾である",
+    title: "主体的覚悟：内省の結び",
+    subtitle: "自らの足で歩き出す意志を結晶化する",
     badgeClass: "bg-amber-500/15 text-amber-200 border-amber-400/30",
   },
 };
