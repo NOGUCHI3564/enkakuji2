@@ -237,7 +237,7 @@ export const App: React.FC = () => {
               </button>
             )}
 
-            {/* メインアクション：禅問答を始めるボタン と プロフィール・価値観設定ボタンの明確な分離 */}
+            {/* メインアクション：対話を始めるボタン と プロフィール・価値観設定ボタンの明確な分離 */}
             <div className="space-y-2 pt-1">
               <div className="flex items-center gap-2">
                 <button
@@ -245,7 +245,7 @@ export const App: React.FC = () => {
                   className="flex-1 py-3.5 px-6 rounded-2xl bg-gradient-to-r from-amber-500/95 to-amber-600/95 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-serif font-bold text-sm sm:text-base tracking-[0.15em] shadow-xl shadow-amber-500/20 flex items-center justify-center gap-2 transition active:scale-[0.99]"
                 >
                   <Sparkles className="w-4 h-4 text-slate-950" />
-                  <span>禅問答を始める</span>
+                  <span>対話を始める</span>
                 </button>
 
                 <button

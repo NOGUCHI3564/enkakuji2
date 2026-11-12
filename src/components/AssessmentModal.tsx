@@ -43,7 +43,7 @@ export const AssessmentModal: React.FC<AssessmentModalProps> = ({
         {/* タイトル */}
         <div className="mb-5 pr-10">
           <h2 className="font-serif text-2xl sm:text-3xl font-bold tracking-wider text-amber-50">
-            禅問答を始める
+            対話を始める
           </h2>
 
           {/* 登録済みコンテキストのさりげない反映ステータス */}
@@ -64,7 +64,7 @@ export const AssessmentModal: React.FC<AssessmentModalProps> = ({
             </div>
           ) : (
             <p className="text-xs text-slate-400 font-serif mt-1.5">
-              あなたの心の波紋に寄り添い、禅の問いを紡ぎます
+              あなたの心の波紋に寄り添い、内省の問いを紡ぎます
             </p>
           )}
         </div>
@@ -89,7 +89,7 @@ export const AssessmentModal: React.FC<AssessmentModalProps> = ({
             className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-serif font-bold text-base sm:text-lg tracking-wider shadow-xl shadow-amber-500/20 flex items-center justify-center gap-2 transition transform active:scale-[0.99]"
           >
             <Sparkles className="w-5 h-5" />
-            <span>対話を始める</span>
+            <span>自身の心と向き合う</span>
             <ArrowRight className="w-5 h-5" />
           </button>
         </form>
