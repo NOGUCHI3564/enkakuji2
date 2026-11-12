@@ -237,25 +237,57 @@ export const App: React.FC = () => {
               </button>
             )}
 
-            {/* メインアクション（グラスモーフィズムの洗練されたピルボタン） */}
-            <div className="flex items-center gap-2">
-              <button
-                onClick={startNewAssessment}
-                className="flex-1 py-3.5 px-6 rounded-full bg-white/[0.08] hover:bg-white/[0.14] border border-amber-200/30 text-amber-50 font-serif text-sm sm:text-base tracking-[0.2em] backdrop-blur-md shadow-lg flex items-center justify-center gap-2 transition active:scale-[0.99]"
-              >
-                <Sparkles className="w-4 h-4 text-amber-300" />
-                <span>禅問答を始める</span>
-              </button>
+            {/* メインアクション：禅問答を始めるボタン と プロフィール・価値観設定ボタンの明確な分離 */}
+            <div className="space-y-2 pt-1">
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={startNewAssessment}
+                  className="flex-1 py-3.5 px-6 rounded-2xl bg-gradient-to-r from-amber-500/95 to-amber-600/95 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-serif font-bold text-sm sm:text-base tracking-[0.15em] shadow-xl shadow-amber-500/20 flex items-center justify-center gap-2 transition active:scale-[0.99]"
+                >
+                  <Sparkles className="w-4 h-4 text-slate-950" />
+                  <span>禅問答を始める</span>
+                </button>
 
-              <button
-                onClick={() =>
-                  startMeditation("rain", settings.defaultMeditationMinutes)
-                }
-                className="p-3.5 rounded-full bg-white/[0.05] hover:bg-white/[0.12] border border-white/15 text-sky-200/90 backdrop-blur-md transition"
-                title="自然音瞑想"
-              >
-                <Wind className="w-4 h-4" />
-              </button>
+                <button
+                  onClick={() =>
+                    startMeditation("rain", settings.defaultMeditationMinutes)
+                  }
+                  className="p-3.5 rounded-2xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-sky-200/90 backdrop-blur-md transition"
+                  title="自然音瞑想"
+                >
+                  <Wind className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  onClick={() => setIsUserProfileOpen(true)}
+                  className="py-2.5 px-3 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-amber-300/30 text-amber-200 font-serif text-xs flex items-center justify-center gap-1.5 backdrop-blur-md transition"
+                  title="プロフィールや価値観を設定する"
+                >
+                  <Compass className="w-3.5 h-3.5 text-amber-300 flex-shrink-0" />
+                  <span className="truncate">
+                    プロフィール・価値観
+                    {lifeProfile.coreValues && lifeProfile.coreValues.length > 0
+                      ? ` (${lifeProfile.coreValues.length}/2)`
+                      : ""}
+                  </span>
+                </button>
+
+                <button
+                  onClick={() => setIsLifeMemoriesOpen(true)}
+                  className="py-2.5 px-3 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-slate-200 font-serif text-xs flex items-center justify-center gap-1.5 backdrop-blur-md transition"
+                  title="人生の記憶（喜怒哀楽）を記録する"
+                >
+                  <BookHeart className="w-3.5 h-3.5 text-amber-300 flex-shrink-0" />
+                  <span className="truncate">
+                    人生の記憶
+                    {lifeProfile.memories.length > 0
+                      ? ` (${lifeProfile.memories.length})`
+                      : ""}
+                  </span>
+                </button>
+              </div>
             </div>
           </footer>
         </div>
