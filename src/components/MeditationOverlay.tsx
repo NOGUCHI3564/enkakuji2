@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import knowledgeGraph from "../../knowledge_graph.json";
 import { SoundType, PraxisOffer, ActiveSession } from "../types/zen";
 import { useZenStore } from "../store/useZenStore";
+import { soundEngine } from "../services/soundEngine";
 import {
   CloudRain,
   Waves,
@@ -17,6 +18,7 @@ import {
   Volume2,
   CheckCircle2,
   Sparkles,
+  ArrowLeft,
 } from "lucide-react";
 
 interface MeditationOverlayProps {
@@ -138,6 +140,7 @@ export const MeditationOverlay: React.FC<MeditationOverlayProps> = ({
   // 音量設定の取得と更新（useZenStore経由でlocalStorage保存 & soundEngineに即時反映）
   const settings = useZenStore((s) => s.settings);
   const updateSettings = useZenStore((s) => s.updateSettings);
+  const setViewMode = useZenStore((s) => s.setViewMode);
   const soundVolume = settings?.soundVolume ?? 0.8;
 
   const handleVolumeChange = (newVol: number) => {
@@ -150,6 +153,12 @@ export const MeditationOverlay: React.FC<MeditationOverlayProps> = ({
     } else {
       updateSettings({ soundVolume: 0.7 });
     }
+  };
+
+  // 心庭（ホーム画面）へ直接戻る
+  const handleBackToGarden = () => {
+    soundEngine.stopAmbientSound();
+    setViewMode("GARDEN_HOME");
   };
 
   useEffect(() => {
@@ -174,9 +183,20 @@ export const MeditationOverlay: React.FC<MeditationOverlayProps> = ({
 
   return (
     <div className="fixed inset-0 z-10 flex flex-col justify-between p-4 sm:p-7 pointer-events-none">
-      {/* 上部：音源選択・時間選択・音量スライダー */}
+      {/* 上部：心庭へ戻るボタン・音源選択・時間選択・音量スライダー */}
       <div className="flex flex-col gap-2.5 pointer-events-auto">
         <div className="flex flex-wrap items-center justify-between gap-2.5">
+          {/* 左端：心庭（ホーム）へ戻るボタン */}
+          <button
+            type="button"
+            onClick={handleBackToGarden}
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-slate-950/80 hover:bg-slate-900 border border-white/10 text-xs text-slate-300 hover:text-amber-200 backdrop-blur-md transition shadow-md shrink-0 active:scale-95"
+            title="心庭（ホーム）に戻る"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>心庭へ</span>
+          </button>
+
           {/* 自然環境音ピル */}
           <div className="flex items-center gap-1 bg-slate-950/80 border border-white/10 rounded-full p-1 backdrop-blur-md shadow-lg overflow-x-auto max-w-full">
             {SOUND_OPTIONS.map((s) => {
@@ -201,7 +221,7 @@ export const MeditationOverlay: React.FC<MeditationOverlayProps> = ({
           </div>
 
           {/* 瞑想時間ピル */}
-          <div className="flex items-center gap-1 bg-slate-950/80 border border-white/10 rounded-full p-1 backdrop-blur-md shadow-lg">
+          <div className="flex items-center gap-1 bg-slate-950/80 border border-white/10 rounded-full p-1 backdrop-blur-md shadow-lg shrink-0">
             {DURATION_OPTIONS.map((m) => (
               <button
                 key={m}
@@ -323,11 +343,12 @@ export const MeditationOverlay: React.FC<MeditationOverlayProps> = ({
       {/* 下部：瞑想を終えて問答・心庭へ戻る */}
       <div className="flex justify-center pointer-events-auto">
         <button
+          type="button"
           onClick={onFinish}
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-amber-500/20 hover:bg-amber-500/35 border border-amber-300/40 text-amber-100 font-serif text-sm tracking-wider backdrop-blur-md transition shadow-lg"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-amber-500/20 hover:bg-amber-500/35 border border-amber-300/40 text-amber-100 font-serif text-sm tracking-wider backdrop-blur-md transition shadow-lg active:scale-95"
         >
           <CheckCircle2 className="w-4 h-4 text-amber-300" />
-          <span>瞑想を終えて戻る</span>
+          <span>{activeSession ? "瞑想を終えて問答へ戻る" : "瞑想を終えて心庭へ戻る"}</span>
         </button>
       </div>
     </div>
