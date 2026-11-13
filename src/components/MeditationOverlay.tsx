@@ -182,174 +182,176 @@ export const MeditationOverlay: React.FC<MeditationOverlayProps> = ({
     totalSeconds > 0 ? ((totalSeconds - secondsLeft) / totalSeconds) * 100 : 100;
 
   return (
-    <div className="fixed inset-0 z-10 flex flex-col justify-between p-4 sm:p-7 pointer-events-none">
-      {/* 上部：心庭へ戻るボタン・音源選択・時間選択・音量スライダー */}
-      <div className="flex flex-col gap-2.5 pointer-events-auto">
-        <div className="flex flex-wrap items-center justify-between gap-2.5">
-          {/* 左端：心庭（ホーム）へ戻るボタン */}
-          <button
-            type="button"
-            onClick={handleBackToGarden}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-slate-950/80 hover:bg-slate-900 border border-white/10 text-xs text-slate-300 hover:text-amber-200 backdrop-blur-md transition shadow-md shrink-0 active:scale-95"
-            title="心庭（ホーム）に戻る"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span>心庭へ</span>
-          </button>
+    <div className="fixed inset-0 z-10 overflow-y-auto overscroll-contain pointer-events-auto bg-slate-950/40 backdrop-blur-[2px]">
+      <div className="min-h-full flex flex-col justify-between p-3.5 sm:p-6 max-w-lg mx-auto">
+        {/* 上部：心庭へ戻るボタン・音源選択・時間選択・音量スライダー */}
+        <div className="flex flex-col gap-2 shrink-0 pt-1">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            {/* 左端：心庭（ホーム）へ戻るボタン */}
+            <button
+              type="button"
+              onClick={handleBackToGarden}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900/90 hover:bg-slate-800 border border-white/15 text-xs text-slate-200 hover:text-amber-200 backdrop-blur-md transition shadow-md shrink-0 active:scale-95"
+              title="心庭（ホーム）に戻る"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>心庭へ</span>
+            </button>
 
-          {/* 自然環境音ピル */}
-          <div className="flex items-center gap-1 bg-slate-950/80 border border-white/10 rounded-full p-1 backdrop-blur-md shadow-lg overflow-x-auto max-w-full">
-            {SOUND_OPTIONS.map((s) => {
-              const active = ambientSound === s.id;
-              return (
+            {/* 自然環境音ピル */}
+            <div className="flex items-center gap-1 bg-slate-950/85 border border-white/10 rounded-full p-1 backdrop-blur-md shadow-lg overflow-x-auto max-w-full">
+              {SOUND_OPTIONS.map((s) => {
+                const active = ambientSound === s.id;
+                return (
+                  <button
+                    key={s.id}
+                    onClick={() => {
+                      onChangeSound(s.id, currentMinutes);
+                    }}
+                    className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium transition shrink-0 ${
+                      active
+                        ? "bg-amber-500/25 text-amber-200 border border-amber-400/40 shadow-sm"
+                        : "text-slate-400 hover:text-slate-200"
+                    }`}
+                  >
+                    {s.icon}
+                    <span>{s.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* 瞑想時間ピル */}
+            <div className="flex items-center gap-0.5 bg-slate-950/85 border border-white/10 rounded-full p-1 backdrop-blur-md shadow-lg shrink-0">
+              {DURATION_OPTIONS.map((m) => (
                 <button
-                  key={s.id}
-                  onClick={() => {
-                    onChangeSound(s.id, currentMinutes);
-                  }}
-                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition shrink-0 ${
-                    active
-                      ? "bg-amber-500/25 text-amber-200 border border-amber-400/40 shadow-sm"
+                  key={m}
+                  onClick={() => onChangeSound(ambientSound, m)}
+                  className={`px-2.5 py-1 rounded-full text-[11px] font-medium transition ${
+                    currentMinutes === m
+                      ? "bg-sky-500/25 text-sky-200 border border-sky-400/40 shadow-sm"
                       : "text-slate-400 hover:text-slate-200"
                   }`}
                 >
-                  {s.icon}
-                  <span>{s.label}</span>
+                  {m}分
                 </button>
-              );
-            })}
-          </div>
-
-          {/* 瞑想時間ピル */}
-          <div className="flex items-center gap-1 bg-slate-950/80 border border-white/10 rounded-full p-1 backdrop-blur-md shadow-lg shrink-0">
-            {DURATION_OPTIONS.map((m) => (
-              <button
-                key={m}
-                onClick={() => onChangeSound(ambientSound, m)}
-                className={`px-3 py-1 rounded-full text-xs font-medium transition ${
-                  currentMinutes === m
-                    ? "bg-sky-500/25 text-sky-200 border border-sky-400/40 shadow-sm"
-                    : "text-slate-400 hover:text-slate-200"
-                }`}
-              >
-                {m}分
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* 音量調整スライダーバー */}
-        <div className="flex items-center justify-end">
-          <div className="inline-flex items-center gap-2.5 bg-slate-950/80 border border-white/10 rounded-full px-3.5 py-1.5 backdrop-blur-md shadow-lg">
-            <button
-              type="button"
-              onClick={handleToggleMute}
-              className="text-slate-400 hover:text-amber-200 transition focus:outline-none"
-              title={soundVolume <= 0.01 ? "ミュート解除" : "ミュート"}
-            >
-              {soundVolume <= 0.01 ? (
-                <VolumeX className="w-4 h-4 text-rose-400/90" />
-              ) : soundVolume < 0.5 ? (
-                <Volume1 className="w-4 h-4 text-amber-200/90" />
-              ) : (
-                <Volume2 className="w-4 h-4 text-amber-200" />
-              )}
-            </button>
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.05"
-              value={soundVolume}
-              onChange={(e) => handleVolumeChange(parseFloat(e.target.value))}
-              className="w-24 sm:w-28 h-1.5 bg-white/20 rounded-lg appearance-none cursor-pointer accent-amber-400"
-              title="瞑想音量"
-            />
-            <span className="text-[11px] font-mono text-slate-300 min-w-[28px] text-right">
-              {Math.round(soundVolume * 100)}%
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* 中央：呼吸する円相タイマーと身体技法（Praxis）ガイド */}
-      <div className="my-auto flex flex-col items-center justify-center max-w-md mx-auto w-full text-center pointer-events-auto">
-        {/* 呼吸する光の円相サークル */}
-        <div className="relative w-52 h-52 flex items-center justify-center mb-6">
-          <div className="absolute inset-0 rounded-full border border-amber-300/20 animate-pulse-slow" />
-          <div
-            className="absolute inset-3 rounded-full border border-sky-300/25 transition-transform duration-1000"
-            style={{
-              transform: `scale(${0.92 + Math.sin(secondsLeft * 0.4) * 0.08})`,
-            }}
-          />
-          <div className="flex flex-col items-center">
-            <span className="text-[11px] tracking-widest text-amber-200/70 font-serif mb-1">
-              {secondsLeft > 0 ? "呼吸に身を委ねる" : "静寂の完了"}
-            </span>
-            <span className="font-serif text-4xl font-light tracking-widest text-amber-50">
-              {String(mins).padStart(2, "0")}:{String(secs).padStart(2, "0")}
-            </span>
-            <div className="w-24 h-1 bg-white/10 rounded-full overflow-hidden mt-3">
-              <div
-                className="h-full bg-amber-300/80 transition-all duration-1000"
-                style={{ width: `${progress}%` }}
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* 身体技法（Praxis）カード */}
-        <div className="w-full rounded-3xl bg-slate-950/70 border border-white/10 p-5 backdrop-blur-md shadow-xl">
-          <div className="flex items-center justify-between gap-2 mb-2">
-            <div className="flex flex-col text-left">
-              <span className="inline-flex items-center gap-1 text-[11px] text-emerald-300 font-serif">
-                <Sparkles className="w-3.5 h-3.5" />
-                円覚寺 身体技法（姿勢と呼吸の作法）
-              </span>
-              <span className="text-[10px] text-slate-400 font-serif">
-                {activePraxisOffer
-                  ? "AIが今のあなたに推薦した作法"
-                  : activeSession
-                  ? "対話の状況に合わせた作法"
-                  : "時間帯に合わせた作法"}
-              </span>
-            </div>
-            <select
-              value={currentPraxis.id}
-              onChange={(e) => setSelectedPraxisId(e.target.value)}
-              className="bg-slate-900/90 border border-white/15 rounded-xl px-2.5 py-1 text-xs text-amber-100 focus:outline-none"
-              title="他の作法に切り替える"
-            >
-              {praxesList.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.name}
-                </option>
               ))}
-            </select>
+            </div>
           </div>
-          <h3 className="font-serif text-base font-semibold text-amber-50 mb-1.5">
-            {currentPraxis.name}
-          </h3>
-          <p className="text-xs text-slate-300 leading-relaxed">
-            {currentPraxis.description}
-          </p>
-          <p className="text-[11px] text-amber-200/70 mt-2 font-serif">
-            目指す境地：{currentPraxis.target_state}
-          </p>
-        </div>
-      </div>
 
-      {/* 下部：瞑想を終えて問答・心庭へ戻る */}
-      <div className="flex justify-center pointer-events-auto">
-        <button
-          type="button"
-          onClick={onFinish}
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-amber-500/20 hover:bg-amber-500/35 border border-amber-300/40 text-amber-100 font-serif text-sm tracking-wider backdrop-blur-md transition shadow-lg active:scale-95"
-        >
-          <CheckCircle2 className="w-4 h-4 text-amber-300" />
-          <span>{activeSession ? "瞑想を終えて問答へ戻る" : "瞑想を終えて心庭へ戻る"}</span>
-        </button>
+          {/* 音量調整スライダーバー */}
+          <div className="flex items-center justify-end">
+            <div className="inline-flex items-center gap-2 bg-slate-950/85 border border-white/10 rounded-full px-3 py-1 backdrop-blur-md shadow-lg">
+              <button
+                type="button"
+                onClick={handleToggleMute}
+                className="text-slate-400 hover:text-amber-200 transition focus:outline-none"
+                title={soundVolume <= 0.01 ? "ミュート解除" : "ミュート"}
+              >
+                {soundVolume <= 0.01 ? (
+                  <VolumeX className="w-3.5 h-3.5 text-rose-400/90" />
+                ) : soundVolume < 0.5 ? (
+                  <Volume1 className="w-3.5 h-3.5 text-amber-200/90" />
+                ) : (
+                  <Volume2 className="w-3.5 h-3.5 text-amber-200" />
+                )}
+              </button>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.05"
+                value={soundVolume}
+                onChange={(e) => handleVolumeChange(parseFloat(e.target.value))}
+                className="w-20 sm:w-24 h-1 bg-white/20 rounded-lg appearance-none cursor-pointer accent-amber-400"
+                title="瞑想音量"
+              />
+              <span className="text-[10px] font-mono text-slate-300 min-w-[24px] text-right">
+                {Math.round(soundVolume * 100)}%
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* 中央：呼吸する円相タイマーと身体技法（Praxis）ガイド */}
+        <div className="my-3 sm:my-5 flex flex-col items-center justify-center w-full text-center">
+          {/* 呼吸する光の円相サークル（スマホではコンパクトに調整して見切れを防止） */}
+          <div className="relative w-36 h-36 sm:w-48 sm:h-48 flex items-center justify-center mb-3 sm:mb-4">
+            <div className="absolute inset-0 rounded-full border border-amber-300/20 animate-pulse-slow" />
+            <div
+              className="absolute inset-2 sm:inset-3 rounded-full border border-sky-300/25 transition-transform duration-1000"
+              style={{
+                transform: `scale(${0.92 + Math.sin(secondsLeft * 0.4) * 0.08})`,
+              }}
+            />
+            <div className="flex flex-col items-center">
+              <span className="text-[10px] sm:text-[11px] tracking-widest text-amber-200/70 font-serif mb-0.5">
+                {secondsLeft > 0 ? "呼吸に身を委ねる" : "静寂の完了"}
+              </span>
+              <span className="font-serif text-3xl sm:text-4xl font-light tracking-widest text-amber-50">
+                {String(mins).padStart(2, "0")}:{String(secs).padStart(2, "0")}
+              </span>
+              <div className="w-20 sm:w-24 h-1 bg-white/10 rounded-full overflow-hidden mt-2">
+                <div
+                  className="h-full bg-amber-300/80 transition-all duration-1000"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* 身体技法（Praxis）カード */}
+          <div className="w-full rounded-2xl sm:rounded-3xl bg-slate-950/80 border border-white/10 p-3.5 sm:p-5 backdrop-blur-md shadow-xl text-left">
+            <div className="flex items-center justify-between gap-2 mb-1.5">
+              <div className="flex flex-col">
+                <span className="inline-flex items-center gap-1 text-[11px] text-emerald-300 font-serif">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  円覚寺 身体技法（姿勢と呼吸の作法）
+                </span>
+                <span className="text-[10px] text-slate-400 font-serif">
+                  {activePraxisOffer
+                    ? "AIが今のあなたに推薦した作法"
+                    : activeSession
+                    ? "対話の状況に合わせた作法"
+                    : "時間帯に合わせた作法"}
+                </span>
+              </div>
+              <select
+                value={currentPraxis.id}
+                onChange={(e) => setSelectedPraxisId(e.target.value)}
+                className="bg-slate-900/90 border border-white/15 rounded-lg px-2 py-1 text-[11px] text-amber-100 focus:outline-none"
+                title="他の作法に切り替える"
+              >
+                {praxesList.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <h3 className="font-serif text-sm sm:text-base font-semibold text-amber-50 mb-1">
+              {currentPraxis.name}
+            </h3>
+            <p className="text-[11px] sm:text-xs text-slate-300 leading-relaxed">
+              {currentPraxis.description}
+            </p>
+            <p className="text-[10px] sm:text-[11px] text-amber-200/70 mt-1.5 font-serif">
+              目指す境地：{currentPraxis.target_state}
+            </p>
+          </div>
+        </div>
+
+        {/* 下部：瞑想を終えて問答・心庭へ戻る（余白をしっかり確保） */}
+        <div className="flex justify-center pt-1 pb-4 sm:pb-2 shrink-0">
+          <button
+            type="button"
+            onClick={onFinish}
+            className="inline-flex items-center gap-2 px-6 py-2.5 sm:py-3 rounded-full bg-amber-500/25 hover:bg-amber-500/35 border border-amber-300/40 text-amber-100 font-serif text-xs sm:text-sm tracking-wider backdrop-blur-md transition shadow-lg active:scale-95"
+          >
+            <CheckCircle2 className="w-4 h-4 text-amber-300" />
+            <span>{activeSession ? "瞑想を終えて問答へ戻る" : "瞑想を終えて心庭へ戻る"}</span>
+          </button>
+        </div>
       </div>
     </div>
   );
