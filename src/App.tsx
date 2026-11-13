@@ -293,12 +293,12 @@ export const App: React.FC = () => {
         </div>
       )}
 
-      {/* さりげないプライバシー安心トースト（起動時または「端末内保存」タップ時に数秒だけふわっと表示して自動で消える） */}
+      {/* さりげないプライバシー安心トースト（ホーム画面で起動時または「端末内保存」タップ時に数秒だけふわっと表示して自動で消える） */}
       <div
-        className={`fixed top-20 left-1/2 -translate-x-1/2 z-40 pointer-events-none transition-all duration-700 ${
-          showPrivacyWhisper
+        className={`fixed top-20 left-1/2 -translate-x-1/2 z-20 pointer-events-none transition-all duration-700 ${
+          showPrivacyWhisper && viewMode === "GARDEN_HOME" && !isUserProfileOpen && !isLifeMemoriesOpen && !isSettingsOpen
             ? "opacity-100 translate-y-0"
-            : "opacity-0 -translate-y-2"
+            : "opacity-0 -translate-y-2 pointer-events-none"
         }`}
       >
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-950/85 border border-emerald-400/35 text-xs sm:text-sm text-emerald-100 font-serif backdrop-blur-md shadow-xl whitespace-nowrap">
