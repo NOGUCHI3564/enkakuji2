@@ -5,7 +5,7 @@
 
 import React, { useEffect, useState } from "react";
 import knowledgeGraph from "../../knowledge_graph.json";
-import { SoundType, PraxisOffer } from "../types/zen";
+import { SoundType, PraxisOffer, ActiveSession } from "../types/zen";
 import {
   CloudRain,
   Waves,
@@ -22,6 +22,7 @@ interface MeditationOverlayProps {
   totalSeconds: number;
   isPlaying: boolean;
   activePraxisOffer?: PraxisOffer | null;
+  activeSession?: ActiveSession | null;
   onChangeSound: (sound: SoundType, minutes: number) => void;
   onTick: () => void;
   onFinish: () => void;
@@ -67,21 +68,73 @@ const SOUND_OPTIONS: Array<{
 
 const DURATION_OPTIONS = [3, 5, 10];
 
+// 対話の文脈や時間帯に応じて最適な身体技法（Praxis）を動的に導出する
+function getDefaultPraxisId(
+  activePraxisOffer?: PraxisOffer | null,
+  activeSession?: ActiveSession | null
+): string {
+  // 1. AIからの明示的な推薦がある場合
+  if (activePraxisOffer?.praxis_id) {
+    return activePraxisOffer.praxis_id;
+  }
+
+  // 2. 進行中の禅問答セッションがある場合
+  if (activeSession) {
+    // 覚悟への収束期（Phase 3）なら「立腰・丹田呼気充実（丹田呼吸）」
+    if (activeSession.currentPhase === 3) {
+      return "Pra_TandenBreathing";
+    }
+
+    // セッションの目標智慧（targetWisdomId）から導出
+    const wisdom =
+      knowledgeGraph.wisdoms[
+        activeSession.targetWisdomId as keyof typeof knowledgeGraph.wisdoms
+      ];
+    if (wisdom && wisdom.praxis_ids && wisdom.praxis_ids.length > 0) {
+      return wisdom.praxis_ids[0];
+    }
+
+    // 推定された苦悩ノード（estimatedSufferingId）から導出
+    const sufferingId = activeSession.estimatedSufferingId;
+    if (sufferingId === "Suf_Grief") return "Pra_GasshoRecitation"; // 喪失・悲嘆 -> 合掌感謝
+    if (sufferingId === "Suf_Isolation") return "Pra_SweepingSamu"; // 孤立感 -> 掃き清め
+    if (sufferingId === "Suf_Decline") return "Pra_ChairZazen"; // 衰え -> イス坐禅
+    if (sufferingId === "Suf_Anxiety") return "Pra_SurrenderBreath"; // 焦燥 -> 手放しの呼吸
+    if (sufferingId === "Suf_FearOfFailure") return "Pra_SurrenderBreath"; // 失敗の恐れ -> 手放しの呼吸
+    if (sufferingId === "Suf_PerfectionismBurnout") return "Pra_OpenHandSurrender"; // 完璧主義 -> 丸木橋の手放し
+  }
+
+  // 3. ホーム画面から直接入った場合（時間帯に応じた自然な作法）
+  const hour = new Date().getHours();
+  if (hour >= 5 && hour < 11) {
+    return "Pra_MorningNamu"; // 朝の立腰念誦法
+  } else if (hour >= 11 && hour < 18) {
+    return "Pra_ChairZazen"; // 日中はイス坐禅（仕事や日常の合間にしやすい）
+  } else {
+    return "Pra_SurrenderBreath"; // 夜は無意識呼吸への帰依（リラックス・安眠）
+  }
+}
+
 export const MeditationOverlay: React.FC<MeditationOverlayProps> = ({
   ambientSound,
   secondsLeft,
   totalSeconds,
   isPlaying,
   activePraxisOffer,
+  activeSession,
   onChangeSound,
   onTick,
   onFinish,
 }) => {
   const praxesList = Object.values(knowledgeGraph.praxes);
-  const [selectedPraxisId, setSelectedPraxisId] = useState<string>(
-    activePraxisOffer?.praxis_id || "Pra_OpenHandSurrender"
+  const [selectedPraxisId, setSelectedPraxisId] = useState<string>(() =>
+    getDefaultPraxisId(activePraxisOffer, activeSession)
   );
   const currentMinutes = Math.round(totalSeconds / 60) || 3;
+
+  useEffect(() => {
+    setSelectedPraxisId(getDefaultPraxisId(activePraxisOffer, activeSession));
+  }, [activePraxisOffer, activeSession]);
 
   useEffect(() => {
     if (!isPlaying) return;
@@ -172,14 +225,24 @@ export const MeditationOverlay: React.FC<MeditationOverlayProps> = ({
         {/* 身体技法（Praxis）カード */}
         <div className="w-full rounded-3xl bg-slate-950/70 border border-white/10 p-5 backdrop-blur-md shadow-xl">
           <div className="flex items-center justify-between gap-2 mb-2">
-            <span className="inline-flex items-center gap-1 text-[11px] text-emerald-300 font-serif">
-              <Sparkles className="w-3.5 h-3.5" />
-              円覚寺 身体技法（Praxis）
-            </span>
+            <div className="flex flex-col text-left">
+              <span className="inline-flex items-center gap-1 text-[11px] text-emerald-300 font-serif">
+                <Sparkles className="w-3.5 h-3.5" />
+                円覚寺 身体技法（姿勢と呼吸の作法）
+              </span>
+              <span className="text-[10px] text-slate-400 font-serif">
+                {activePraxisOffer
+                  ? "AIが今のあなたに推薦した作法"
+                  : activeSession
+                  ? "対話の状況に合わせた作法"
+                  : "時間帯に合わせた作法"}
+              </span>
+            </div>
             <select
               value={currentPraxis.id}
               onChange={(e) => setSelectedPraxisId(e.target.value)}
               className="bg-slate-900/90 border border-white/15 rounded-xl px-2.5 py-1 text-xs text-amber-100 focus:outline-none"
+              title="他の作法に切り替える"
             >
               {praxesList.map((p) => (
                 <option key={p.id} value={p.id}>

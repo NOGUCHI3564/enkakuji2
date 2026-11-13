@@ -259,7 +259,19 @@ export const InquiryOverlay: React.FC<InquiryOverlayProps> = ({
         <div className="flex items-center justify-between gap-2 px-1">
           <button
             type="button"
-            onClick={() => onStartMeditation("rain", 3)}
+            onClick={() => {
+              const sound: SoundType =
+                session.currentPhase === 3
+                  ? "silence"
+                  : session.currentLightMood === "ocean_deep"
+                  ? "waves"
+                  : session.currentLightMood === "sakura_compassion"
+                  ? "stream"
+                  : session.estimatedSufferingId === "Suf_Isolation"
+                  ? "forest"
+                  : "rain";
+              onStartMeditation(sound, 3);
+            }}
             disabled={isLoading}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900/75 hover:bg-slate-800 border border-white/10 text-xs text-sky-200/90 backdrop-blur-md transition"
           >

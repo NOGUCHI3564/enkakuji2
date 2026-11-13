@@ -337,6 +337,7 @@ export const App: React.FC = () => {
           totalSeconds={meditationTotalSeconds}
           isPlaying={isMeditationPlaying}
           activePraxisOffer={activeSession?.activePraxisOffer}
+          activeSession={activeSession}
           onChangeSound={(sound, mins) => startMeditation(sound, mins)}
           onTick={tickMeditation}
           onFinish={finishMeditation}
