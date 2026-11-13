@@ -1,9 +1,15 @@
 // 自然環境音瞑想システム & 覚悟の石 発光サウンドエンジン
 // 本物の高音質実音MP3音源（雨・波・森・小川・寺院の鐘）による高品位サウンドエンジン
-// スマートフォン（iOS Safari / Android Chrome / PWA）対応強化版：
-// 1. 各自然音（雨、波、森、小川）を本物の録音によるシームレスループMP3で再生。
-// 2. 寺院の磬子（けいす・シンギングボウル）の実音MP3を覚悟の石顕現・瞑想完了時に再生。
-// 3. iOSのマナーモード（消音スイッチ）でもメディア音声として再生される設計＆滑らかなフェードイン/アウト。
+// 【完全シームレス・デュアル・クロスフェード・ループ（Gapless Web Audio Engine）】
+// 
+// 特徴:
+// 1. Web Audio API によるメモリ内 AudioBuffer デコード再生。
+//    ブラウザの <audio> 要素の仕様による終端での無音ラグ・息継ぎ（100〜300msの途切れ）を根本から解消。
+// 2. 2系統のノードによるデュアル・クロスフェード（Double-Buffering Crossfade Loop）:
+//    音源の終端 2.5秒手前から次のノードを重ねて滑らかにフェードイン・フェードアウト。
+//    MP3の境界パディングや波形の不連続を完全に溶かし込み、永遠に途切れない静寂の響きを実現。
+// 3. 寺院の磬子（けいす・シンギングボウル）の実音MP3も AudioBuffer から即時・高音質再生。
+// 4. iOS Safari / Android Chrome / PWA のマナーモード・メディアセッション対応。
 
 import { SoundType } from "../types/zen";
 
@@ -26,9 +32,18 @@ const SOUND_GAIN_MULTIPLIERS: Record<SoundType, number> = {
   silence: 0,
 };
 
+// クロスフェードのオーバーラップ時間（秒）
+const CROSSFADE_DURATION = 2.5;
+
 // iOS Safari の消音スイッチ制限を解除する極小WAV
 const SILENT_UNLOCK_WAV =
   "data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA";
+
+interface AmbientSourceSlot {
+  source: AudioBufferSourceNode;
+  gain: GainNode;
+  stopTime: number;
+}
 
 class ZenSoundEngine {
   private ctx: AudioContext | null = null;
@@ -37,36 +52,22 @@ class ZenSoundEngine {
   private volume = 0.8;
   private unlockAudioEl: HTMLAudioElement | null = null;
 
-  // 環境音（MP3ループ）再生用
-  private currentAmbientAudio: HTMLAudioElement | null = null;
-  private ambientFadeInterval: number | null = null;
+  // デコード済み AudioBuffer キャッシュ
+  private audioBufferCache: Map<string, AudioBuffer> = new Map();
+  private pendingFetches: Map<string, Promise<AudioBuffer | null>> = new Map();
 
-  // 事前プリロード済みオーディオキャッシュ
-  private audioPreloadCache: Map<string, HTMLAudioElement> = new Map();
+  // 環境音（シームレス・クロスフェード）再生管理
+  private ambientMasterGain: GainNode | null = null;
+  private activeAmbientSlots: Set<AmbientSourceSlot> = new Set();
+  private ambientLoopTimer: number | null = null;
+  private ambientSessionId = 0;
 
   constructor() {
-    // 起動時に各実音MP3を静かにバックグラウンドプリロード
+    // 起動時に各実音MP3をバックグラウンドで先読み＆デコード
     if (typeof window !== "undefined") {
+      // ユーザー操作前でも fetch は可能
       this.preloadAll();
     }
-  }
-
-  private preloadAll() {
-    try {
-      Object.entries(AUDIO_URLS).forEach(([key, url]) => {
-        const audio = new Audio();
-        audio.preload = "auto";
-        audio.src = url;
-        this.audioPreloadCache.set(key, audio);
-      });
-    } catch {
-      // ignore
-    }
-  }
-
-  private getEffectiveAmbientVolume(sound: SoundType = this.currentSound): number {
-    const mult = SOUND_GAIN_MULTIPLIERS[sound] ?? 0.8;
-    return Math.max(0, Math.min(1, this.volume * mult));
   }
 
   private ensureContext(): AudioContext {
@@ -113,21 +114,73 @@ class ZenSoundEngine {
     return this.ctx;
   }
 
+  // 音声ファイルを fetch して AudioBuffer にデコード（キャッシュ対応）
+  private async getAudioBuffer(key: string): Promise<AudioBuffer | null> {
+    const cached = this.audioBufferCache.get(key);
+    if (cached) return cached;
+
+    const pending = this.pendingFetches.get(key);
+    if (pending) return pending;
+
+    const url = AUDIO_URLS[key as keyof typeof AUDIO_URLS];
+    if (!url) return null;
+
+    const fetchPromise = (async () => {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const arrayBuffer = await response.arrayBuffer();
+        const ctx = this.ensureContext();
+        const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
+        this.audioBufferCache.set(key, audioBuffer);
+        return audioBuffer;
+      } catch (err) {
+        console.warn(`Failed to load audio for ${key}:`, err);
+        return null;
+      } finally {
+        this.pendingFetches.delete(key);
+      }
+    })();
+
+    this.pendingFetches.set(key, fetchPromise);
+    return fetchPromise;
+  }
+
+  private preloadAll() {
+    try {
+      Object.keys(AUDIO_URLS).forEach((key) => {
+        // バックグラウンドで静かに fetch 開始
+        this.getAudioBuffer(key).catch(() => {});
+      });
+    } catch {
+      // ignore
+    }
+  }
+
+  private getEffectiveAmbientVolume(sound: SoundType = this.currentSound): number {
+    const mult = SOUND_GAIN_MULTIPLIERS[sound] ?? 0.8;
+    return Math.max(0, Math.min(1, this.volume * mult));
+  }
+
   public setVolume(vol: number) {
     this.volume = Math.max(0, Math.min(1, vol));
 
-    // AudioContext のマスターゲイン更新
     if (this.masterGain && this.ctx) {
       this.masterGain.gain.setTargetAtTime(
         this.volume,
         this.ctx.currentTime,
-        0.15
+        0.1
       );
     }
 
-    // 再生中の環境音MP3のボリュームも自然音ごとの最適係数で即時連動
-    if (this.currentAmbientAudio && !this.ambientFadeInterval) {
-      this.currentAmbientAudio.volume = this.getEffectiveAmbientVolume();
+    // 再生中の環境音マスターゲインも即時更新
+    if (this.ambientMasterGain && this.ctx) {
+      const target = this.getEffectiveAmbientVolume();
+      this.ambientMasterGain.gain.setTargetAtTime(
+        target,
+        this.ctx.currentTime,
+        0.1
+      );
     }
   }
 
@@ -139,7 +192,7 @@ class ZenSoundEngine {
     return this.currentSound;
   }
 
-  // UI操作時や問いかけ表示時の、落ち着いた低音「おりん（鈴）」の柔らかな響き（即時サイン波）
+  // UI操作時の「おりん（鈴）」の柔らかな響き（即時サイン波）
   public playWaterDrop(pitchMultiplier = 1.0) {
     try {
       const ctx = this.ensureContext();
@@ -167,16 +220,29 @@ class ZenSoundEngine {
     }
   }
 
-  // 「覚悟の石」顕現時・瞑想完了時の本物の「磬子（けいす・寺院シンギングボウル）」実音MP3再生
+  // 「覚悟の石」顕現時・瞑想完了時の本物の「磬子（けいす・寺院シンギングボウル）」実音再生
   public playStoneManifestationBell() {
     try {
-      this.ensureContext();
-      if (this.volume <= 0.01) return;
+      const ctx = this.ensureContext();
+      if (!this.masterGain || this.volume <= 0.01) return;
 
-      const bellAudio = new Audio(AUDIO_URLS.bell);
-      bellAudio.volume = Math.min(1.0, this.volume * 0.95);
-      bellAudio.play().catch(() => {
-        // フォールバック: 万一オーディオファイル再生がブロックされた場合は合成音
+      this.getAudioBuffer("bell").then((buffer) => {
+        if (!buffer || !this.ctx || !this.masterGain) {
+          this.playSyntheticBellFallback();
+          return;
+        }
+
+        const source = this.ctx.createBufferSource();
+        source.buffer = buffer;
+
+        const bellGain = this.ctx.createGain();
+        bellGain.gain.value = Math.min(1.0, this.volume * 0.95);
+
+        source.connect(bellGain);
+        bellGain.connect(this.masterGain);
+
+        source.start(this.ctx.currentTime);
+      }).catch(() => {
         this.playSyntheticBellFallback();
       });
     } catch {
@@ -213,88 +279,160 @@ class ZenSoundEngine {
     }
   }
 
-  // 自然環境音（雨・波・森・小川・静寂）の開始（高品質本物MP3によるシームレスループ再生）
+  // 自然環境音（雨・波・森・小川・静寂）の開始
+  // 【完全シームレス・デュアル・クロスフェード・ループ】
   public startAmbientSound(type: SoundType) {
     this.stopAmbientSound();
     this.currentSound = type;
     if (type === "silence") return;
 
     try {
-      this.ensureContext();
-      const soundUrl = AUDIO_URLS[type];
-      if (!soundUrl) return;
+      const ctx = this.ensureContext();
+      const sessionId = ++this.ambientSessionId;
 
-      const audio = new Audio(soundUrl);
-      audio.loop = true;
-      audio.volume = 0; // フェードイン開始
-
+      // 自然音全体のマスターゲインノードを作成
+      const ambientMaster = ctx.createGain();
       const targetVolume = this.getEffectiveAmbientVolume(type);
-      this.currentAmbientAudio = audio;
 
-      audio.play().then(() => {
-        // 1.2秒かけて滑らかに目標音量までフェードイン
-        const stepTimeMs = 50;
-        const totalSteps = 1200 / stepTimeMs;
-        let currentStep = 0;
+      // 初回は 1.2秒 かけて静かにフェードイン
+      const now = ctx.currentTime;
+      ambientMaster.gain.setValueAtTime(0.0001, now);
+      ambientMaster.gain.linearRampToValueAtTime(targetVolume, now + 1.2);
+      ambientMaster.connect(this.masterGain || ctx.destination);
+      this.ambientMasterGain = ambientMaster;
 
-        if (this.ambientFadeInterval) {
-          clearInterval(this.ambientFadeInterval);
-        }
-
-        this.ambientFadeInterval = window.setInterval(() => {
-          currentStep++;
-          const progress = Math.min(1, currentStep / totalSteps);
-          if (audio) {
-            audio.volume = targetVolume * progress;
-          }
-          if (progress >= 1) {
-            if (this.ambientFadeInterval) {
-              clearInterval(this.ambientFadeInterval);
-              this.ambientFadeInterval = null;
-            }
-          }
-        }, stepTimeMs);
+      // AudioBuffer を取得してデュアル・クロスフェード・ループを開始
+      this.getAudioBuffer(type).then((buffer) => {
+        if (!buffer || this.ambientSessionId !== sessionId || !this.ctx) return;
+        this.runSeamlessLoop(buffer, sessionId);
       }).catch((err) => {
-        console.warn("Ambient sound autoplay prevented or failed:", err);
+        console.warn("Error loading ambient buffer:", err);
       });
     } catch (e) {
       console.warn("Error starting ambient sound:", e);
     }
   }
 
+  // デュアル・クロスフェード・ループの実行ルーチン
+  private runSeamlessLoop(buffer: AudioBuffer, sessionId: number) {
+    if (!this.ctx || !this.ambientMasterGain || this.ambientSessionId !== sessionId) {
+      return;
+    }
+
+    const duration = buffer.duration;
+    // クロスフェード幅（音源の長さに応じて最大2.5秒）
+    const fadeDuration = Math.min(CROSSFADE_DURATION, duration * 0.15);
+    // 次のトラックを開始する周期（長さ - クロスフェード幅）
+    const cycleInterval = Math.max(1.0, duration - fadeDuration);
+
+    // スロットの再生スケジュール
+    const scheduleSlot = (startTime: number) => {
+      if (!this.ctx || !this.ambientMasterGain || this.ambientSessionId !== sessionId) {
+        return;
+      }
+
+      const source = this.ctx.createBufferSource();
+      source.buffer = buffer;
+
+      const slotGain = this.ctx.createGain();
+
+      // フェードイン (startTime 〜 startTime + fadeDuration)
+      slotGain.gain.setValueAtTime(0.0001, startTime);
+      slotGain.gain.linearRampToValueAtTime(1.0, startTime + fadeDuration);
+
+      // フェードアウト (startTime + duration - fadeDuration 〜 startTime + duration)
+      const fadeOutStart = startTime + duration - fadeDuration;
+      slotGain.gain.setValueAtTime(1.0, fadeOutStart);
+      slotGain.gain.linearRampToValueAtTime(0.0001, startTime + duration);
+
+      source.connect(slotGain);
+      slotGain.connect(this.ambientMasterGain);
+
+      source.start(startTime);
+      const stopTime = startTime + duration + 0.1;
+      source.stop(stopTime);
+
+      const slot: AmbientSourceSlot = { source, gain: slotGain, stopTime };
+      this.activeAmbientSlots.add(slot);
+
+      source.onended = () => {
+        this.activeAmbientSlots.delete(slot);
+      };
+    };
+
+    // 1つ目のノードを即時開始
+    const firstStartTime = this.ctx.currentTime;
+    scheduleSlot(firstStartTime);
+
+    // 次のノードのスケジュールを管理する再帰タイマー
+    let nextStartTime = firstStartTime + cycleInterval;
+
+    const scheduleNext = () => {
+      if (this.ambientSessionId !== sessionId || !this.ctx) return;
+
+      const currentTime = this.ctx.currentTime;
+      // 次の開始予定時刻の 1秒前 に来たらスケジューリング
+      const timeUntilNext = (nextStartTime - currentTime) * 1000;
+
+      if (timeUntilNext <= 1200) {
+        // Web Audioのタイムラインに正確に予約
+        scheduleSlot(nextStartTime);
+        nextStartTime += cycleInterval;
+      }
+
+      // 500ms ごとに監視して時間通りに次をキュー
+      this.ambientLoopTimer = window.setTimeout(scheduleNext, 500);
+    };
+
+    this.ambientLoopTimer = window.setTimeout(scheduleNext, 500);
+  }
+
   // 自然環境音の停止（滑らかなフェードアウト）
   public stopAmbientSound() {
     this.currentSound = "silence";
-    if (this.ambientFadeInterval) {
-      clearInterval(this.ambientFadeInterval);
-      this.ambientFadeInterval = null;
+    this.ambientSessionId++; // 以前のスケジュールを直ちに無効化
+
+    if (this.ambientLoopTimer) {
+      clearTimeout(this.ambientLoopTimer);
+      this.ambientLoopTimer = null;
     }
 
-    const audio = this.currentAmbientAudio;
-    if (!audio) return;
-    this.currentAmbientAudio = null;
+    const master = this.ambientMasterGain;
+    const ctx = this.ctx;
+    const slots = Array.from(this.activeAmbientSlots);
+    this.activeAmbientSlots.clear();
+    this.ambientMasterGain = null;
+
+    if (!master || !ctx) {
+      slots.forEach((s) => {
+        try { s.source.stop(); } catch {}
+      });
+      return;
+    }
 
     try {
-      const initialVol = audio.volume;
-      const stepTimeMs = 40;
-      const totalSteps = 600 / stepTimeMs; // 0.6秒でフェードアウト
-      let currentStep = 0;
+      // 0.6秒かけて滑らかにフェードアウト
+      const now = ctx.currentTime;
+      master.gain.cancelScheduledValues(now);
+      master.gain.setValueAtTime(master.gain.value, now);
+      master.gain.linearRampToValueAtTime(0.0001, now + 0.6);
 
-      const fadeOutInterval = window.setInterval(() => {
-        currentStep++;
-        const progress = Math.min(1, currentStep / totalSteps);
-        audio.volume = Math.max(0, initialVol * (1 - progress));
-
-        if (progress >= 1 || audio.volume <= 0.01) {
-          clearInterval(fadeOutInterval);
-          audio.pause();
-          audio.currentTime = 0;
-          audio.removeAttribute("src");
-          audio.load();
-        }
-      }, stepTimeMs);
+      setTimeout(() => {
+        slots.forEach((s) => {
+          try {
+            s.source.stop();
+            s.source.disconnect();
+            s.gain.disconnect();
+          } catch {}
+        });
+        try {
+          master.disconnect();
+        } catch {}
+      }, 650);
     } catch {
-      audio.pause();
+      slots.forEach((s) => {
+        try { s.source.stop(); } catch {}
+      });
     }
   }
 }
