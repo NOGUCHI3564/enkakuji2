@@ -19,7 +19,7 @@ export type StoneShapeType =
   | "crystal_zen"
   | "moss_jewel";
 
-export type SoundType = "rain" | "waves" | "forest" | "stream" | "silence";
+export type SoundType = "rain" | "waves" | "forest" | "stream" | "bell" | "silence";
 
 export type EmotionCategory = "ki" | "do" | "ai" | "raku"; // 喜・怒・哀・楽
 

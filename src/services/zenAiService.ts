@@ -283,7 +283,7 @@ function generateLocalKnowledgeGraphResponse(
       Pra_SurrenderBreath: "waves",
       Pra_SweepingSamu: "forest",
       Pra_TandenBreathing: "silence",
-      Pra_GasshoRecitation: "stream",
+      Pra_GasshoRecitation: "bell",
       Pra_ChairZazen: "forest",
     };
     return {

@@ -14,7 +14,7 @@
 import { SoundType } from "../types/zen";
 
 const BASE = import.meta.env.BASE_URL || "/";
-const AUDIO_URLS: Record<Exclude<SoundType, "silence"> | "bell", string> = {
+const AUDIO_URLS: Record<Exclude<SoundType, "silence">, string> = {
   rain: `${BASE}audio/rain.mp3`,
   waves: `${BASE}audio/waves.mp3`,
   forest: `${BASE}audio/forest.mp3`,
@@ -29,6 +29,7 @@ const SOUND_GAIN_MULTIPLIERS: Record<SoundType, number> = {
   waves: 0.90,
   forest: 0.55,
   stream: 0.80,
+  bell: 0.85,
   silence: 0,
 };
 

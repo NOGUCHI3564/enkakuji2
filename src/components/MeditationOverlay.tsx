@@ -13,6 +13,7 @@ import {
   Waves,
   Trees,
   Droplets,
+  Bell,
   VolumeX,
   Volume1,
   Volume2,
@@ -62,6 +63,12 @@ const SOUND_OPTIONS: Array<{
     label: "小川",
     desc: "せせらぎと水琴の響き",
     icon: <Droplets className="w-4 h-4" />,
+  },
+  {
+    id: "bell",
+    label: "鐘",
+    desc: "寺院の磬子と静寂の余韻",
+    icon: <Bell className="w-4 h-4" />,
   },
   {
     id: "silence",
@@ -206,7 +213,7 @@ export const MeditationOverlay: React.FC<MeditationOverlayProps> = ({
                   <button
                     key={s.id}
                     onClick={() => onChangeSound(s.id, currentMinutes)}
-                    className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium transition shrink-0 ${
+                    className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium transition shrink-0 ${
                       active
                         ? "bg-amber-500/25 text-amber-200 border border-amber-400/40 shadow-sm"
                         : "text-slate-400 hover:text-slate-200"
