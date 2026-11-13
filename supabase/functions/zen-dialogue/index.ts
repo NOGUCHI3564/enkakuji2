@@ -109,13 +109,19 @@ function formatLifeProfileForPrompt(profile?: UserLifeProfile): string {
   const lines: string[] = [];
   if (profile.birthDate) {
     let ageStr = "";
-    if (profile.birthDate.match(/^\d{4}-\d{2}-\d{2}$/)) {
-      const birth = new Date(profile.birthDate);
+    const m = profile.birthDate.match(/^(\d{4})(?:[-/年](\d{1,2}))?(?:[-/月](\d{1,2}))?/);
+    if (m) {
+      const y = parseInt(m[1], 10);
+      const month = m[2] ? parseInt(m[2], 10) - 1 : 0;
+      const day = m[3] ? parseInt(m[3], 10) : 1;
+      const birth = new Date(y, month, day);
       if (!isNaN(birth.getTime())) {
         const today = new Date();
         let age = today.getFullYear() - birth.getFullYear();
-        const m = today.getMonth() - birth.getMonth();
-        if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;
+        if (m[2]) {
+          const monthDiff = today.getMonth() - birth.getMonth();
+          if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) age--;
+        }
         if (age >= 0 && age < 130) ageStr = `（現在 ${age}歳）`;
       }
     }

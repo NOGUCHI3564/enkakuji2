@@ -44,15 +44,37 @@ export const CORE_VALUES_OPTIONS: string[] = [
   "地球にやさしく",
 ];
 
-const calculateAge = (dateString?: string): string | null => {
-  if (!dateString || !dateString.match(/^\d{4}-\d{2}-\d{2}$/)) return null;
-  const birth = new Date(dateString);
-  if (isNaN(birth.getTime())) return null;
+const parseBirthDate = (raw?: string) => {
+  if (!raw) return { year: "", month: "", day: "" };
+  const clean = raw.trim();
+  const m = clean.match(/^(\d{4})(?:[-/年](\d{1,2}))?(?:[-/月](\d{1,2}))?/);
+  if (m) {
+    return {
+      year: m[1] || "",
+      month: m[2] ? String(parseInt(m[2], 10)) : "",
+      day: m[3] ? String(parseInt(m[3], 10)) : "",
+    };
+  }
+  return { year: "", month: "", day: "" };
+};
+
+const calculateAge = (yearStr: string, monthStr: string, dayStr: string): string | null => {
+  if (!yearStr) return null;
+  const y = parseInt(yearStr, 10);
+  if (isNaN(y) || y < 1900 || y > new Date().getFullYear()) return null;
+
   const today = new Date();
+  const m = monthStr ? parseInt(monthStr, 10) - 1 : 0;
+  const d = dayStr ? parseInt(dayStr, 10) : 1;
+  const birth = new Date(y, m, d);
+  if (isNaN(birth.getTime())) return null;
+
   let age = today.getFullYear() - birth.getFullYear();
-  const m = today.getMonth() - birth.getMonth();
-  if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
-    age--;
+  if (monthStr) {
+    const monthDiff = today.getMonth() - birth.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+      age--;
+    }
   }
   return age >= 0 && age < 130 ? `${age}歳` : null;
 };
@@ -83,13 +105,11 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
   onSaveProfile,
   onClose,
 }) => {
-  const [birthDate, setBirthDate] = useState(
-    profile.birthDate &&
-      !profile.birthDate.includes("代") &&
-      profile.birthDate !== "未設定"
-      ? profile.birthDate
-      : ""
-  );
+  const initialBirth = parseBirthDate(profile.birthDate);
+  const [birthYear, setBirthYear] = useState(initialBirth.year);
+  const [birthMonth, setBirthMonth] = useState(initialBirth.month);
+  const [birthDay, setBirthDay] = useState(initialBirth.day);
+
   const [gender, setGender] = useState(profile.gender || "未設定");
   const [lifeContext, setLifeContext] = useState(profile.lifeContext || "未設定");
   const [currentResponsibilities, setCurrentResponsibilities] = useState(
@@ -103,7 +123,7 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
   );
   const [feedbackSaved, setFeedbackSaved] = useState(false);
 
-  const currentAge = calculateAge(birthDate);
+  const currentAge = calculateAge(birthYear, birthMonth, birthDay);
 
   const handleToggleValue = (val: string) => {
     soundEngine.playWaterDrop(1.1);
@@ -120,9 +140,25 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
     if (e) e.preventDefault();
     soundEngine.playWaterDrop(1.2);
 
+    let formattedBirthDate = "";
+    if (birthYear) {
+      const y = birthYear.trim().padStart(4, "0");
+      if (birthMonth) {
+        const m = birthMonth.trim().padStart(2, "0");
+        if (birthDay) {
+          const d = birthDay.trim().padStart(2, "0");
+          formattedBirthDate = `${y}-${m}-${d}`;
+        } else {
+          formattedBirthDate = `${y}-${m}`;
+        }
+      } else {
+        formattedBirthDate = `${y}年`;
+      }
+    }
+
     const updated: UserLifeProfile = {
       ...profile,
-      birthDate: birthDate.trim(),
+      birthDate: formattedBirthDate,
       gender: gender === "未設定" ? "" : gender,
       lifeContext: lifeContext === "未設定" ? "" : lifeContext,
       currentResponsibilities: currentResponsibilities.trim(),
@@ -185,7 +221,7 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
               <div>
                 <div className="flex items-center justify-between mb-1">
                   <label className="block text-xs text-slate-400 font-serif">
-                    生年月日
+                    生年月日（西暦・数字入力）
                   </label>
                   {currentAge && (
                     <span className="text-[11px] text-amber-300 font-serif font-bold">
@@ -193,13 +229,55 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
                     </span>
                   )}
                 </div>
-                <input
-                  type="date"
-                  value={birthDate}
-                  max={new Date().toISOString().split("T")[0]}
-                  onChange={(e) => setBirthDate(e.target.value)}
-                  className="w-full rounded-xl bg-slate-900 border border-white/15 px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-amber-400 [color-scheme:dark]"
-                />
+                <div className="flex items-center gap-1.5">
+                  <div className="relative flex-[1.4]">
+                    <input
+                      type="number"
+                      inputMode="numeric"
+                      placeholder="1965"
+                      min={1900}
+                      max={new Date().getFullYear()}
+                      value={birthYear}
+                      onChange={(e) => setBirthYear(e.target.value)}
+                      className="w-full rounded-xl bg-slate-900 border border-white/15 pl-2.5 pr-6 py-2 text-sm text-slate-100 placeholder:text-slate-600 focus:outline-none focus:border-amber-400"
+                    />
+                    <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-slate-400 font-serif pointer-events-none">
+                      年
+                    </span>
+                  </div>
+
+                  <div className="relative flex-1">
+                    <input
+                      type="number"
+                      inputMode="numeric"
+                      placeholder="5"
+                      min={1}
+                      max={12}
+                      value={birthMonth}
+                      onChange={(e) => setBirthMonth(e.target.value)}
+                      className="w-full rounded-xl bg-slate-900 border border-white/15 pl-2 pr-5 py-2 text-sm text-slate-100 placeholder:text-slate-600 focus:outline-none focus:border-amber-400"
+                    />
+                    <span className="absolute right-1.5 top-1/2 -translate-y-1/2 text-xs text-slate-400 font-serif pointer-events-none">
+                      月
+                    </span>
+                  </div>
+
+                  <div className="relative flex-1">
+                    <input
+                      type="number"
+                      inputMode="numeric"
+                      placeholder="15"
+                      min={1}
+                      max={31}
+                      value={birthDay}
+                      onChange={(e) => setBirthDay(e.target.value)}
+                      className="w-full rounded-xl bg-slate-900 border border-white/15 pl-2 pr-5 py-2 text-sm text-slate-100 placeholder:text-slate-600 focus:outline-none focus:border-amber-400"
+                    />
+                    <span className="absolute right-1.5 top-1/2 -translate-y-1/2 text-xs text-slate-400 font-serif pointer-events-none">
+                      日
+                    </span>
+                  </div>
+                </div>
               </div>
 
               <div>
