@@ -76,7 +76,7 @@
       letter-spacing: 0.08em;
       color: #e2e8f0;
       font-weight: 400;
-      max-width: 600px;
+      max-width: 620px;
       margin: 0 auto;
       line-height: 1.7;
     }
@@ -252,42 +252,98 @@
       color: #0f172a;
     }
 
-    /* 4つの使い方ステップ */
-    .journey-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
+    /* ボタン・機能説明カード群 */
+    .buttons-grid {
+      display: flex;
+      flex-direction: column;
       gap: 16px;
       margin-bottom: 36px;
     }
 
-    .journey-card {
+    .btn-feature-card {
       border: 1px solid #e2e8f0;
-      border-radius: 10px;
-      padding: 16px 18px;
-      background: var(--bg-warm);
-      position: relative;
+      border-radius: 12px;
+      padding: 18px 22px;
+      background: #ffffff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
     }
 
-    .journey-tag {
-      font-family: 'Shippori Mincho', serif;
-      font-size: 12px;
+    .btn-feature-card.primary {
+      border-left: 5px solid #d97706;
+      background: #fffbeb;
+    }
+
+    .btn-feature-card.sub {
+      border-left: 5px solid #0284c7;
+    }
+
+    .btn-feature-card.profile {
+      border-left: 5px solid #8b5cf6;
+    }
+
+    .btn-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn-badge-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 13px;
       font-weight: 700;
-      color: #d97706;
-      margin-bottom: 6px;
-      display: block;
+      letter-spacing: 0.05em;
     }
 
-    .journey-title {
-      font-size: 15px;
+    .btn-badge-label.gold {
+      background: linear-gradient(135deg, #d97706, #b45309);
+      color: #ffffff;
+      box-shadow: 0 2px 6px rgba(217, 119, 6, 0.25);
+    }
+
+    .btn-badge-label.sky {
+      background: #e0f2fe;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+    }
+
+    .btn-badge-label.purple {
+      background: #f3e8ff;
+      color: #7e22ce;
+      border: 1px solid #e9d5ff;
+    }
+
+    .btn-tagline {
+      font-size: 14px;
       font-weight: 700;
       color: #0f172a;
-      margin-bottom: 6px;
     }
 
-    .journey-desc {
+    .btn-what-happens {
+      font-size: 13.5px;
+      color: #334155;
+      line-height: 1.6;
+    }
+
+    .btn-sub-points {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed #cbd5e1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
       font-size: 13px;
       color: #475569;
-      line-height: 1.55;
+    }
+
+    .btn-sub-points div strong {
+      color: #0f172a;
     }
 
     /* 自然音バッジリスト */
@@ -295,13 +351,13 @@
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      margin-top: 8px;
+      margin-top: 6px;
     }
 
     .sound-pill {
       background: #ffffff;
       border: 1px solid #cbd5e1;
-      padding: 3px 8px;
+      padding: 2px 8px;
       border-radius: 12px;
       font-size: 11px;
       color: #334155;
@@ -380,9 +436,6 @@
         text-align: center;
       }
       .install-columns {
-        grid-template-columns: 1fr;
-      }
-      .journey-grid {
         grid-template-columns: 1fr;
       }
       .content {
@@ -502,55 +555,86 @@
         </div>
       </section>
 
-      <!-- 3. アプリ自体の使い方 -->
+      <!-- 3. 各ボタンを押すとどうなるか -->
       <section>
         <h2 class="section-title">
           <span class="num">3</span>
-          心庭の使い方（心のジャーニー）
+          画面のボタンと使い方（それぞれのボタンを押すとどうなるか）
         </h2>
+        <p style="font-size: 13.5px; color: #475569; margin-bottom: 16px;">
+          心庭の画面にある各ボタンを押したときの動作や役割をご案内します。目的に合わせて自由にご利用いただけます。
+        </p>
 
-        <div class="journey-grid">
-          <!-- Step 1 -->
-          <div class="journey-card">
-            <span class="journey-tag">Step 1</span>
-            <h4 class="journey-title">プロフィール・価値観の登録</h4>
-            <p class="journey-desc">
-              「プロフィール・価値観」から、18枚の禅的カードから心惹かれる2枚を選択。これまでの歩みや現在の役割を記録し、深い対話の基盤を作ります。
+        <div class="buttons-grid">
+          <!-- ボタン 1: 対話を始める -->
+          <div class="btn-feature-card primary">
+            <div class="btn-header">
+              <span class="btn-badge-label gold">✨ 「対話を始める」ボタン</span>
+              <span class="btn-tagline">禅AIと語り合い、心の迷いから「覚悟の石」を見つける</span>
+            </div>
+            <p class="btn-what-happens">
+              日常の不安、焦り、家族や仕事への想いを気兼ねなく打ち明ける禅問答が始まります。AIが善悪の判断や評価をせず、円覚寺の禅の視点で温かく深く耳を傾けてくれます。
             </p>
-          </div>
-
-          <!-- Step 2 -->
-          <div class="journey-card">
-            <span class="journey-tag">Step 2</span>
-            <h4 class="journey-title">禅AIとの問答（傾聴と受容）</h4>
-            <p class="journey-desc">
-              「対話を始める」から、日常の焦りや迷い、家族や仕事への想いを気兼ねなく吐露します。AIが評価や判断をせず、円覚寺の禅の視点で温かく傾聴します。
-            </p>
-          </div>
-
-          <!-- Step 3 -->
-          <div class="journey-card">
-            <span class="journey-tag">Step 3</span>
-            <h4 class="journey-title">自然音瞑想（呼吸と身体技法）</h4>
-            <p class="journey-desc">
-              思考が煮詰まったら瞑想へ。呼吸の円相タイマー、円覚寺の身体技法とともに、高音質MP3の自然音に身を委ねて言葉を手放します。
-            </p>
-            <div class="sound-pill-list">
-              <span class="sound-pill">🌧️ 雨</span>
-              <span class="sound-pill">🌊 波</span>
-              <span class="sound-pill">🌲 森</span>
-              <span class="sound-pill">💧 小川</span>
-              <span class="sound-pill" style="border-color: #d97706; color: #b45309; font-weight: bold;">🔔 寺院の鐘</span>
-              <span class="sound-pill">🔇 静寂</span>
+            <div class="btn-sub-points">
+              <div>
+                <strong>・問答の中での瞑想（一時的な呼吸の休息）:</strong>
+                対話中に言葉で考えすぎて頭が疲れたときは、AIからの促しや画面のボタンから一時的に瞑想モードへ入り、呼吸を整えて思考を休めることができます。
+              </div>
+              <div>
+                <strong>・「覚悟の石」の顕現:</strong>
+                瞑想を経て自らの内面から湧き出た気づきや決意を言葉にすると、対話の集大成として世界に一つだけの「覚悟の石（星）」が結晶化し、心庭に据えられます。
+              </div>
             </div>
           </div>
 
-          <!-- Step 4 -->
-          <div class="journey-card">
-            <span class="journey-tag">Step 4</span>
-            <h4 class="journey-title">「覚悟の石」の顕現と心庭の育成</h4>
-            <p class="journey-desc">
-              瞑想を通じて湧き出た自発的な気づきや決意が、固有の銘と色彩を持つ「覚悟の石（星）」として結晶化。あなたの心庭に永遠に灯り続けます。
+          <!-- ボタン 2: 自然音瞑想 -->
+          <div class="btn-feature-card sub">
+            <div class="btn-header">
+              <span class="btn-badge-label sky">🍃 「自然音瞑想」ボタン（水色の風アイコン）</span>
+              <span class="btn-tagline">問答をせず、今すぐ音と呼吸で心を落ち着けたいときに</span>
+            </div>
+            <p class="btn-what-happens">
+              「対話を始める」の右隣にある風のアイコンを押すと、いつでもワンタップで瞑想画面が開きます。対話を介さず、短時間で静寂を味わいたいときに最適です。
+            </p>
+            <div class="btn-sub-points">
+              <div>
+                <strong>・6つの高音質自然音:</strong>
+                途切れのないシームレスな音に身を委ねられます。
+                <div class="sound-pill-list">
+                  <span class="sound-pill">🌧️ 雨</span>
+                  <span class="sound-pill">🌊 波</span>
+                  <span class="sound-pill">🌲 森</span>
+                  <span class="sound-pill">💧 小川</span>
+                  <span class="sound-pill" style="border-color: #d97706; color: #b45309; font-weight: bold;">🔔 寺院の鐘</span>
+                  <span class="sound-pill">🔇 静寂</span>
+                </div>
+              </div>
+              <div>
+                <strong>・呼吸タイマー & 身体技法:</strong>
+                中央の光の呼吸（円相）に合わせて息を吸い、吐き出します。円覚寺に伝わる姿勢や呼吸の作法（無意識呼吸への帰依など）も自由に選べます。
+              </div>
+            </div>
+          </div>
+
+          <!-- ボタン 3: プロフィール・価値観 -->
+          <div class="btn-feature-card profile">
+            <div class="btn-header">
+              <span class="btn-badge-label purple">🧭 「プロフィール・価値観」ボタン</span>
+              <span class="btn-tagline">あなたの人生の軸や歩みを設定する</span>
+            </div>
+            <p class="btn-what-happens">
+              18枚の禅的な価値観カード（「慈悲」「放下」「初心」「柔軟」など）から、いま心惹かれる2枚を直感で選択できます。ご自身の歩みや現在の役割を任意で書き留めておくことで、禅AIとの対話がより深くあなたに寄り添ったものになります。
+            </p>
+          </div>
+
+          <!-- ボタン 4: 覚悟の石の振り返り & 人生の記憶 -->
+          <div class="btn-feature-card" style="border-left: 5px solid #059669;">
+            <div class="btn-header">
+              <span class="btn-badge-label" style="background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0;">💎 「覚悟の石」の振り返り & 「人生の記憶」</span>
+              <span class="btn-tagline">日々の気づきや歩みをいつでも見返す</span>
+            </div>
+            <p class="btn-what-happens">
+              心庭（枯山水）に据えられた「覚悟の石」をタップすると、その石の固有の銘（例：『足元の息吹を愛しむ琥珀石』）や、授かった当時の対話記録、初心の言葉をいつでも振り返ることができます。「人生の記憶」では、喜怒哀楽のエピソードを心の手帳のように書き留めておくことができます。
             </p>
           </div>
         </div>
