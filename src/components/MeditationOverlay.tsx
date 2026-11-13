@@ -182,33 +182,31 @@ export const MeditationOverlay: React.FC<MeditationOverlayProps> = ({
     totalSeconds > 0 ? ((totalSeconds - secondsLeft) / totalSeconds) * 100 : 100;
 
   return (
-    <div className="fixed inset-0 z-10 overflow-y-auto overscroll-contain pointer-events-auto bg-slate-950/40 backdrop-blur-[2px]">
-      <div className="min-h-full flex flex-col justify-between p-3.5 sm:p-6 max-w-lg mx-auto">
-        {/* 上部：心庭へ戻るボタン・音源選択・時間選択・音量スライダー */}
-        <div className="flex flex-col gap-2 shrink-0 pt-1">
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            {/* 左端：心庭（ホーム）へ戻るボタン */}
+    <div className="fixed inset-0 z-10 h-dvh w-full flex flex-col justify-between p-3.5 sm:p-6 overflow-hidden pointer-events-auto bg-slate-950/40 backdrop-blur-[2px]">
+      <div className="w-full max-w-md mx-auto flex flex-col justify-between h-full">
+        {/* 上部コントロール：2行にすっきり統合 */}
+        <div className="flex flex-col gap-2 shrink-0">
+          {/* 1行目：左に「心庭へ」、右に「自然音選択ピル」 */}
+          <div className="flex items-center justify-between gap-1.5">
             <button
               type="button"
               onClick={handleBackToGarden}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900/90 hover:bg-slate-800 border border-white/15 text-xs text-slate-200 hover:text-amber-200 backdrop-blur-md transition shadow-md shrink-0 active:scale-95"
+              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-slate-900/90 hover:bg-slate-800 border border-white/15 text-xs text-slate-200 hover:text-amber-200 backdrop-blur-md transition shadow-md shrink-0 active:scale-95"
               title="心庭（ホーム）に戻る"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
               <span>心庭へ</span>
             </button>
 
-            {/* 自然環境音ピル */}
-            <div className="flex items-center gap-1 bg-slate-950/85 border border-white/10 rounded-full p-1 backdrop-blur-md shadow-lg overflow-x-auto max-w-full">
+            {/* 音源選択ピル（コンパクト横並び） */}
+            <div className="flex items-center gap-1 bg-slate-950/85 border border-white/10 rounded-full p-1 backdrop-blur-md shadow-lg overflow-x-auto">
               {SOUND_OPTIONS.map((s) => {
                 const active = ambientSound === s.id;
                 return (
                   <button
                     key={s.id}
-                    onClick={() => {
-                      onChangeSound(s.id, currentMinutes);
-                    }}
-                    className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium transition shrink-0 ${
+                    onClick={() => onChangeSound(s.id, currentMinutes)}
+                    className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium transition shrink-0 ${
                       active
                         ? "bg-amber-500/25 text-amber-200 border border-amber-400/40 shadow-sm"
                         : "text-slate-400 hover:text-slate-200"
@@ -220,14 +218,17 @@ export const MeditationOverlay: React.FC<MeditationOverlayProps> = ({
                 );
               })}
             </div>
+          </div>
 
-            {/* 瞑想時間ピル */}
-            <div className="flex items-center gap-0.5 bg-slate-950/85 border border-white/10 rounded-full p-1 backdrop-blur-md shadow-lg shrink-0">
+          {/* 2行目：左に「時間ピル」、右に「音量スライダー」 */}
+          <div className="flex items-center justify-between gap-2 px-0.5">
+            {/* 時間ピル */}
+            <div className="flex items-center gap-1 bg-slate-950/85 border border-white/10 rounded-full p-1 backdrop-blur-md shadow-md shrink-0">
               {DURATION_OPTIONS.map((m) => (
                 <button
                   key={m}
                   onClick={() => onChangeSound(ambientSound, m)}
-                  className={`px-2.5 py-1 rounded-full text-[11px] font-medium transition ${
+                  className={`px-2.5 py-0.5 rounded-full text-xs font-medium transition ${
                     currentMinutes === m
                       ? "bg-sky-500/25 text-sky-200 border border-sky-400/40 shadow-sm"
                       : "text-slate-400 hover:text-slate-200"
@@ -237,11 +238,9 @@ export const MeditationOverlay: React.FC<MeditationOverlayProps> = ({
                 </button>
               ))}
             </div>
-          </div>
 
-          {/* 音量調整スライダーバー */}
-          <div className="flex items-center justify-end">
-            <div className="inline-flex items-center gap-2 bg-slate-950/85 border border-white/10 rounded-full px-3 py-1 backdrop-blur-md shadow-lg">
+            {/* 音量調整スライダーバー */}
+            <div className="inline-flex items-center gap-2 bg-slate-950/85 border border-white/10 rounded-full px-3 py-1 backdrop-blur-md shadow-md shrink-0">
               <button
                 type="button"
                 onClick={handleToggleMute}
@@ -263,7 +262,7 @@ export const MeditationOverlay: React.FC<MeditationOverlayProps> = ({
                 step="0.05"
                 value={soundVolume}
                 onChange={(e) => handleVolumeChange(parseFloat(e.target.value))}
-                className="w-20 sm:w-24 h-1 bg-white/20 rounded-lg appearance-none cursor-pointer accent-amber-400"
+                className="w-16 sm:w-24 h-1 bg-white/20 rounded-lg appearance-none cursor-pointer accent-amber-400"
                 title="瞑想音量"
               />
               <span className="text-[10px] font-mono text-slate-300 min-w-[24px] text-right">
@@ -273,10 +272,9 @@ export const MeditationOverlay: React.FC<MeditationOverlayProps> = ({
           </div>
         </div>
 
-        {/* 中央：呼吸する円相タイマーと身体技法（Praxis）ガイド */}
-        <div className="my-3 sm:my-5 flex flex-col items-center justify-center w-full text-center">
-          {/* 呼吸する光の円相サークル（スマホではコンパクトに調整して見切れを防止） */}
-          <div className="relative w-36 h-36 sm:w-48 sm:h-48 flex items-center justify-center mb-3 sm:mb-4">
+        {/* 中央：呼吸する円相タイマー（コンパクトに引き締め、星雲の球体と美しく調和） */}
+        <div className="my-auto flex flex-col items-center justify-center shrink-0">
+          <div className="relative w-32 h-32 sm:w-40 sm:h-40 flex items-center justify-center">
             <div className="absolute inset-0 rounded-full border border-amber-300/20 animate-pulse-slow" />
             <div
               className="absolute inset-2 sm:inset-3 rounded-full border border-sky-300/25 transition-transform duration-1000"
@@ -291,7 +289,7 @@ export const MeditationOverlay: React.FC<MeditationOverlayProps> = ({
               <span className="font-serif text-3xl sm:text-4xl font-light tracking-widest text-amber-50">
                 {String(mins).padStart(2, "0")}:{String(secs).padStart(2, "0")}
               </span>
-              <div className="w-20 sm:w-24 h-1 bg-white/10 rounded-full overflow-hidden mt-2">
+              <div className="w-16 sm:w-20 h-1 bg-white/10 rounded-full overflow-hidden mt-1.5">
                 <div
                   className="h-full bg-amber-300/80 transition-all duration-1000"
                   style={{ width: `${progress}%` }}
@@ -299,18 +297,21 @@ export const MeditationOverlay: React.FC<MeditationOverlayProps> = ({
               </div>
             </div>
           </div>
+        </div>
 
-          {/* 身体技法（Praxis）カード */}
-          <div className="w-full rounded-2xl sm:rounded-3xl bg-slate-950/80 border border-white/10 p-3.5 sm:p-5 backdrop-blur-md shadow-xl text-left">
-            <div className="flex items-center justify-between gap-2 mb-1.5">
-              <div className="flex flex-col">
-                <span className="inline-flex items-center gap-1 text-[11px] text-emerald-300 font-serif">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  円覚寺 身体技法（姿勢と呼吸の作法）
+        {/* 下部領域：身体技法カード ＋ 終了ボタン（必ず1画面内に収まるスリム設計） */}
+        <div className="flex flex-col gap-2.5 shrink-0 pb-1">
+          {/* 身体技法カード */}
+          <div className="w-full rounded-2xl bg-slate-950/80 border border-white/10 p-3 sm:p-4 backdrop-blur-md shadow-xl text-left">
+            <div className="flex items-center justify-between gap-1.5 mb-1">
+              <div className="flex flex-col min-w-0">
+                <span className="inline-flex items-center gap-1 text-[11px] text-emerald-300 font-serif font-medium truncate">
+                  <Sparkles className="w-3.5 h-3.5 shrink-0" />
+                  円覚寺 身体技法
                 </span>
-                <span className="text-[10px] text-slate-400 font-serif">
+                <span className="text-[9px] text-slate-400 font-serif truncate">
                   {activePraxisOffer
-                    ? "AIが今のあなたに推薦した作法"
+                    ? "AI推薦の作法"
                     : activeSession
                     ? "対話の状況に合わせた作法"
                     : "時間帯に合わせた作法"}
@@ -319,7 +320,7 @@ export const MeditationOverlay: React.FC<MeditationOverlayProps> = ({
               <select
                 value={currentPraxis.id}
                 onChange={(e) => setSelectedPraxisId(e.target.value)}
-                className="bg-slate-900/90 border border-white/15 rounded-lg px-2 py-1 text-[11px] text-amber-100 focus:outline-none"
+                className="bg-slate-900/90 border border-white/15 rounded-lg px-2 py-0.5 text-[11px] text-amber-100 focus:outline-none shrink-0 max-w-[170px] truncate"
                 title="他の作法に切り替える"
               >
                 {praxesList.map((p) => (
@@ -329,28 +330,28 @@ export const MeditationOverlay: React.FC<MeditationOverlayProps> = ({
                 ))}
               </select>
             </div>
-            <h3 className="font-serif text-sm sm:text-base font-semibold text-amber-50 mb-1">
+            <h3 className="font-serif text-xs sm:text-sm font-semibold text-amber-50 mb-0.5">
               {currentPraxis.name}
             </h3>
-            <p className="text-[11px] sm:text-xs text-slate-300 leading-relaxed">
+            <p className="text-[11px] sm:text-xs text-slate-300 leading-snug line-clamp-2">
               {currentPraxis.description}
             </p>
-            <p className="text-[10px] sm:text-[11px] text-amber-200/70 mt-1.5 font-serif">
+            <p className="text-[10px] text-amber-200/70 mt-1 font-serif">
               目指す境地：{currentPraxis.target_state}
             </p>
           </div>
-        </div>
 
-        {/* 下部：瞑想を終えて問答・心庭へ戻る（余白をしっかり確保） */}
-        <div className="flex justify-center pt-1 pb-4 sm:pb-2 shrink-0">
-          <button
-            type="button"
-            onClick={onFinish}
-            className="inline-flex items-center gap-2 px-6 py-2.5 sm:py-3 rounded-full bg-amber-500/25 hover:bg-amber-500/35 border border-amber-300/40 text-amber-100 font-serif text-xs sm:text-sm tracking-wider backdrop-blur-md transition shadow-lg active:scale-95"
-          >
-            <CheckCircle2 className="w-4 h-4 text-amber-300" />
-            <span>{activeSession ? "瞑想を終えて問答へ戻る" : "瞑想を終えて心庭へ戻る"}</span>
-          </button>
+          {/* 最下部ボタン：瞑想を終えて戻る（常時視認可能） */}
+          <div className="flex justify-center pt-0.5">
+            <button
+              type="button"
+              onClick={onFinish}
+              className="w-full py-2.5 sm:py-3 rounded-full bg-gradient-to-r from-amber-500/25 via-amber-500/35 to-amber-500/25 hover:from-amber-500/35 hover:to-amber-500/45 border border-amber-300/40 text-amber-100 font-serif text-xs sm:text-sm font-medium tracking-wider backdrop-blur-md transition shadow-lg flex items-center justify-center gap-2 active:scale-[0.98]"
+            >
+              <CheckCircle2 className="w-4 h-4 text-amber-300 shrink-0" />
+              <span>{activeSession ? "瞑想を終えて問答へ戻る" : "瞑想を終えて心庭へ戻る"}</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
