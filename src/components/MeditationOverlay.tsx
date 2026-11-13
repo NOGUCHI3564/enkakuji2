@@ -6,12 +6,15 @@
 import React, { useEffect, useState } from "react";
 import knowledgeGraph from "../../knowledge_graph.json";
 import { SoundType, PraxisOffer, ActiveSession } from "../types/zen";
+import { useZenStore } from "../store/useZenStore";
 import {
   CloudRain,
   Waves,
   Trees,
   Droplets,
   VolumeX,
+  Volume1,
+  Volume2,
   CheckCircle2,
   Sparkles,
 } from "lucide-react";
@@ -132,6 +135,23 @@ export const MeditationOverlay: React.FC<MeditationOverlayProps> = ({
   );
   const currentMinutes = Math.round(totalSeconds / 60) || 3;
 
+  // 音量設定の取得と更新（useZenStore経由でlocalStorage保存 & soundEngineに即時反映）
+  const settings = useZenStore((s) => s.settings);
+  const updateSettings = useZenStore((s) => s.updateSettings);
+  const soundVolume = settings?.soundVolume ?? 0.8;
+
+  const handleVolumeChange = (newVol: number) => {
+    updateSettings({ soundVolume: Math.max(0, Math.min(1, newVol)) });
+  };
+
+  const handleToggleMute = () => {
+    if (soundVolume > 0.01) {
+      updateSettings({ soundVolume: 0 });
+    } else {
+      updateSettings({ soundVolume: 0.7 });
+    }
+  };
+
   useEffect(() => {
     setSelectedPraxisId(getDefaultPraxisId(activePraxisOffer, activeSession));
   }, [activePraxisOffer, activeSession]);
@@ -153,45 +173,82 @@ export const MeditationOverlay: React.FC<MeditationOverlayProps> = ({
     totalSeconds > 0 ? ((totalSeconds - secondsLeft) / totalSeconds) * 100 : 100;
 
   return (
-    <div className="fixed inset-0 z-10 flex flex-col justify-between p-5 sm:p-8 pointer-events-none">
-      {/* 上部：音源選択と時間選択 */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pointer-events-auto">
-        <div className="flex items-center gap-1.5 bg-slate-950/75 border border-white/10 rounded-full p-1 backdrop-blur-md">
-          {SOUND_OPTIONS.map((s) => {
-            const active = ambientSound === s.id;
-            return (
+    <div className="fixed inset-0 z-10 flex flex-col justify-between p-4 sm:p-7 pointer-events-none">
+      {/* 上部：音源選択・時間選択・音量スライダー */}
+      <div className="flex flex-col gap-2.5 pointer-events-auto">
+        <div className="flex flex-wrap items-center justify-between gap-2.5">
+          {/* 自然環境音ピル */}
+          <div className="flex items-center gap-1 bg-slate-950/80 border border-white/10 rounded-full p-1 backdrop-blur-md shadow-lg overflow-x-auto max-w-full">
+            {SOUND_OPTIONS.map((s) => {
+              const active = ambientSound === s.id;
+              return (
+                <button
+                  key={s.id}
+                  onClick={() => {
+                    onChangeSound(s.id, currentMinutes);
+                  }}
+                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition shrink-0 ${
+                    active
+                      ? "bg-amber-500/25 text-amber-200 border border-amber-400/40 shadow-sm"
+                      : "text-slate-400 hover:text-slate-200"
+                  }`}
+                >
+                  {s.icon}
+                  <span>{s.label}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* 瞑想時間ピル */}
+          <div className="flex items-center gap-1 bg-slate-950/80 border border-white/10 rounded-full p-1 backdrop-blur-md shadow-lg">
+            {DURATION_OPTIONS.map((m) => (
               <button
-                key={s.id}
-                onClick={() => {
-                  onChangeSound(s.id, currentMinutes);
-                }}
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition ${
-                  active
-                    ? "bg-amber-500/25 text-amber-200 border border-amber-400/40"
+                key={m}
+                onClick={() => onChangeSound(ambientSound, m)}
+                className={`px-3 py-1 rounded-full text-xs font-medium transition ${
+                  currentMinutes === m
+                    ? "bg-sky-500/25 text-sky-200 border border-sky-400/40 shadow-sm"
                     : "text-slate-400 hover:text-slate-200"
                 }`}
               >
-                {s.icon}
-                <span>{s.label}</span>
+                {m}分
               </button>
-            );
-          })}
+            ))}
+          </div>
         </div>
 
-        <div className="flex items-center gap-1 bg-slate-950/75 border border-white/10 rounded-full p-1 backdrop-blur-md">
-          {DURATION_OPTIONS.map((m) => (
+        {/* 音量調整スライダーバー */}
+        <div className="flex items-center justify-end">
+          <div className="inline-flex items-center gap-2.5 bg-slate-950/80 border border-white/10 rounded-full px-3.5 py-1.5 backdrop-blur-md shadow-lg">
             <button
-              key={m}
-              onClick={() => onChangeSound(ambientSound, m)}
-              className={`px-3 py-1 rounded-full text-xs transition ${
-                currentMinutes === m
-                  ? "bg-sky-500/25 text-sky-200 border border-sky-400/40"
-                  : "text-slate-400 hover:text-slate-200"
-              }`}
+              type="button"
+              onClick={handleToggleMute}
+              className="text-slate-400 hover:text-amber-200 transition focus:outline-none"
+              title={soundVolume <= 0.01 ? "ミュート解除" : "ミュート"}
             >
-              {m}分
+              {soundVolume <= 0.01 ? (
+                <VolumeX className="w-4 h-4 text-rose-400/90" />
+              ) : soundVolume < 0.5 ? (
+                <Volume1 className="w-4 h-4 text-amber-200/90" />
+              ) : (
+                <Volume2 className="w-4 h-4 text-amber-200" />
+              )}
             </button>
-          ))}
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.05"
+              value={soundVolume}
+              onChange={(e) => handleVolumeChange(parseFloat(e.target.value))}
+              className="w-24 sm:w-28 h-1.5 bg-white/20 rounded-lg appearance-none cursor-pointer accent-amber-400"
+              title="瞑想音量"
+            />
+            <span className="text-[11px] font-mono text-slate-300 min-w-[28px] text-right">
+              {Math.round(soundVolume * 100)}%
+            </span>
+          </div>
         </div>
       </div>
 

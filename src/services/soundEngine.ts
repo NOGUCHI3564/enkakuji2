@@ -16,6 +16,16 @@ const AUDIO_URLS: Record<Exclude<SoundType, "silence"> | "bell", string> = {
   bell: `${BASE}audio/bell.mp3`,
 };
 
+// 各自然環境音ごとの知覚ラウドネス・瞑想最適化ゲイン倍率
+// 「森」は小鳥のさえずりや高周波の刺激を抑え、静寂の深みを保つために控えめ（0.55）に設計
+const SOUND_GAIN_MULTIPLIERS: Record<SoundType, number> = {
+  rain: 0.85,
+  waves: 0.90,
+  forest: 0.55,
+  stream: 0.80,
+  silence: 0,
+};
+
 // iOS Safari の消音スイッチ制限を解除する極小WAV
 const SILENT_UNLOCK_WAV =
   "data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA";
@@ -52,6 +62,11 @@ class ZenSoundEngine {
     } catch {
       // ignore
     }
+  }
+
+  private getEffectiveAmbientVolume(sound: SoundType = this.currentSound): number {
+    const mult = SOUND_GAIN_MULTIPLIERS[sound] ?? 0.8;
+    return Math.max(0, Math.min(1, this.volume * mult));
   }
 
   private ensureContext(): AudioContext {
@@ -110,9 +125,9 @@ class ZenSoundEngine {
       );
     }
 
-    // 再生中の環境音MP3のボリュームも連動
+    // 再生中の環境音MP3のボリュームも自然音ごとの最適係数で即時連動
     if (this.currentAmbientAudio && !this.ambientFadeInterval) {
-      this.currentAmbientAudio.volume = this.volume;
+      this.currentAmbientAudio.volume = this.getEffectiveAmbientVolume();
     }
   }
 
@@ -213,7 +228,7 @@ class ZenSoundEngine {
       audio.loop = true;
       audio.volume = 0; // フェードイン開始
 
-      const targetVolume = this.volume;
+      const targetVolume = this.getEffectiveAmbientVolume(type);
       this.currentAmbientAudio = audio;
 
       audio.play().then(() => {
