@@ -67,7 +67,25 @@ export const InquiryOverlay: React.FC<InquiryOverlayProps> = ({
     assistantMessages[assistantMessages.length - 1]?.content ||
     "心を静めて、問いを紡いでいます…";
 
-  const phaseInfo = PHASE_LABELS[session.currentPhase] || PHASE_LABELS[1];
+  // 動的揺らぎ（Coaching ⇔ Zen Shift ⇔ Closing）に応じたリアルタイム表示
+  const currentMode = session.dialogueMode || (session.currentPhase === 3 ? "closing" : session.currentPhase === 2 ? "zen_shift" : "coaching");
+  const modeInfo = currentMode === "zen_shift"
+    ? {
+        title: "禅の揺らぎ：視点の転換",
+        subtitle: "思考の枠組みを外し、別の視点から見つめる",
+        badgeClass: "bg-indigo-500/20 text-indigo-200 border-indigo-400/40 shadow-lg shadow-indigo-500/10",
+      }
+    : currentMode === "closing"
+    ? {
+        title: "主体的覚悟：内省の結び",
+        subtitle: "自らの足で歩き出す意志を結晶化する",
+        badgeClass: "bg-amber-500/20 text-amber-200 border-amber-400/40 shadow-lg shadow-amber-500/10",
+      }
+    : {
+        title: "自己探索：傾聴と受容",
+        subtitle: "あなたの心に耳を傾け、思考を深めています",
+        badgeClass: "bg-sky-500/20 text-sky-200 border-sky-400/40 shadow-lg shadow-sky-500/10",
+      };
 
   useEffect(() => {
     if (showHistory) {
@@ -96,9 +114,9 @@ export const InquiryOverlay: React.FC<InquiryOverlayProps> = ({
         </button>
 
         <div
-          className={`px-3.5 py-1.5 rounded-full border text-xs font-serif tracking-wide backdrop-blur-md ${phaseInfo.badgeClass}`}
+          className={`px-3.5 py-1.5 rounded-full border text-xs font-serif tracking-wide backdrop-blur-md transition-all duration-500 ${modeInfo.badgeClass}`}
         >
-          {phaseInfo.title}
+          {modeInfo.title}
         </div>
 
         <button
@@ -178,17 +196,17 @@ export const InquiryOverlay: React.FC<InquiryOverlayProps> = ({
             {/* 現在の問いカード */}
             <div className="relative rounded-3xl bg-slate-950/65 border border-amber-100/15 px-6 py-7 backdrop-blur-md shadow-2xl">
               <p className="text-[11px] text-amber-300/80 tracking-widest font-serif mb-3">
-                {phaseInfo.subtitle}
+                {modeInfo.subtitle}
               </p>
               {isLoading ? (
                 <div className="py-6 flex flex-col items-center justify-center gap-3">
                   <div className="w-8 h-8 rounded-full border-2 border-amber-300/60 border-t-transparent animate-spin" />
                   <p className="font-serif text-sm text-amber-100/80 tracking-wider">
-                    {session.currentPhase === 1
-                      ? "あなたの心に寄り添い、問いを深めています…"
-                      : session.currentPhase === 2
-                      ? "大切にしている価値観と心の波紋を見つめています…"
-                      : "全脳の智慧と共鳴させ、覚悟を結晶化しています…"}
+                    {currentMode === "zen_shift"
+                      ? "視点を揺さぶる禅の智慧を紡いでいます…"
+                      : currentMode === "closing"
+                      ? "全脳の智慧と共鳴させ、覚悟を結晶化しています…"
+                      : "あなたの心に寄り添い、問いを深めています…"}
                   </p>
                 </div>
               ) : (

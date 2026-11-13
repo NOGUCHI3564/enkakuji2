@@ -99,9 +99,12 @@ export interface ResolutionStoneData {
   };
 }
 
+export type DialogueMode = "coaching" | "zen_shift" | "closing";
+
 export interface ZenAIResponse {
   response_type: "question" | "praxis_offer" | "resolution_stone";
   analysis: {
+    dialogue_mode?: DialogueMode;
     estimated_suffering_id: string;
     current_phase: 1 | 2 | 3;
     target_wisdom_id: string;
@@ -141,6 +144,7 @@ export interface ActiveSession {
   assessment: EmotionAssessment;
   messages: DialogueMessage[];
   currentPhase: 1 | 2 | 3;
+  dialogueMode?: DialogueMode;
   currentLightMood: LightMood;
   estimatedSufferingId: string;
   targetWisdomId: string;

@@ -246,6 +246,7 @@ function generateLocalKnowledgeGraphResponse(
     return {
       response_type: "resolution_stone",
       analysis: {
+        dialogue_mode: "closing",
         estimated_suffering_id: sufferingId,
         current_phase: 3,
         target_wisdom_id: finalWisdom.id,
@@ -288,6 +289,7 @@ function generateLocalKnowledgeGraphResponse(
     return {
       response_type: "praxis_offer",
       analysis: {
+        dialogue_mode: "zen_shift",
         estimated_suffering_id: sufferingId,
         current_phase: 2,
         target_wisdom_id: wisdom.id,
@@ -347,9 +349,18 @@ function generateLocalKnowledgeGraphResponse(
   const candidates = phaseQuestions[currentPhase];
   const questionText = candidates[(turn - 1) % candidates.length];
 
+  // 動的揺らぎ：1〜2問目はcoaching、3問目はzen_shift（比喩投下）、4問目は比喩を受けたcoaching（深掘り）、5問目以降は状況に応じてzen_shift
+  const computedMode: "coaching" | "zen_shift" | "closing" =
+    currentPhase === 3
+      ? "closing"
+      : turn <= 2 || turn === 4
+      ? "coaching"
+      : "zen_shift";
+
   return {
     response_type: "question",
     analysis: {
+      dialogue_mode: computedMode,
       estimated_suffering_id: sufferingId,
       current_phase: currentPhase,
       target_wisdom_id: wisdom.id,
