@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>心庭 — 禅問答から覚悟の石顕現までの動作フロー解説</title>
+  <title>心庭 — コーチング⇄禅モードの動的揺らぎと知識ネットワーク動作解説</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
@@ -39,12 +39,12 @@
       font-family: 'Zen Kaku Gothic New', -apple-system, BlinkMacSystemFont, sans-serif;
       background-color: #f8fafc;
       color: #334155;
-      line-height: 1.6;
+      line-height: 1.65;
       padding: 24px 16px;
     }
 
     .container {
-      max-width: 920px;
+      max-width: 980px;
       margin: 0 auto;
       background: #ffffff;
       border: 1px solid #e2e8f0;
@@ -71,16 +71,16 @@
 
     h1 {
       font-family: 'Shippori Mincho', serif;
-      font-size: 26px;
+      font-size: 25px;
       color: #fef3c7;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
       margin-bottom: 10px;
     }
 
     .header-desc {
       font-size: 13.5px;
       color: #cbd5e1;
-      max-width: 680px;
+      max-width: 720px;
       margin: 0 auto;
     }
 
@@ -89,7 +89,7 @@
     }
 
     .section {
-      margin-bottom: 36px;
+      margin-bottom: 40px;
     }
 
     .section-title {
@@ -109,8 +109,17 @@
       color: #fff;
       font-size: 12px;
       font-weight: 700;
-      padding: 2px 8px;
+      padding: 2px 10px;
       border-radius: 12px;
+      font-family: sans-serif;
+    }
+
+    .num-pill.blue {
+      background: #2563eb;
+    }
+
+    .num-pill.purple {
+      background: #7c3aed;
     }
 
     /* Mermaid コンテナ */
@@ -119,91 +128,140 @@
       border: 1px solid #e7e5e4;
       border-radius: 12px;
       padding: 20px 12px;
-      margin-bottom: 24px;
+      margin-bottom: 16px;
       overflow-x: auto;
     }
 
-    /* フェーズ解説カード */
-    .phase-card {
+    .sub-caption {
+      font-size: 13px;
+      color: #64748b;
+      margin-bottom: 14px;
+    }
+
+    /* 比較テーブル */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 24px;
+      font-size: 13px;
+    }
+
+    .compare-table th, .compare-table td {
       border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 18px 20px;
+      padding: 12px 14px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .compare-table th {
+      background: #f1f5f9;
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    .badge-coaching {
+      display: inline-block;
+      background: #dbeafe;
+      color: #1e40af;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    .badge-zen {
+      display: inline-block;
+      background: #fef3c7;
+      color: #92400e;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    .badge-praxis {
+      display: inline-block;
+      background: #e0f2fe;
+      color: #0369a1;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    .badge-closing {
+      display: inline-block;
+      background: #d1fae5;
+      color: #065f46;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    /* 知識ネットワーク解説グリッド */
+    .kg-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .kg-node-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 14px 16px;
       background: #ffffff;
-      margin-bottom: 16px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
     }
 
-    .phase-card.phase1 {
-      border-left: 5px solid #3b82f6;
-    }
-
-    .phase-card.phase2 {
-      border-left: 5px solid #0284c7;
-    }
-
-    .phase-card.phase3 {
-      border-left: 5px solid #d97706;
-      background: #fffbeb;
-    }
-
-    .phase-card.phase4 {
-      border-left: 5px solid #10b981;
-      background: #f0fdf4;
-    }
-
-    .phase-header {
+    .kg-node-card h4 {
+      font-size: 14px;
+      color: #0f172a;
+      margin-bottom: 6px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 8px;
-      flex-wrap: wrap;
     }
 
-    .phase-name {
-      font-size: 15px;
-      font-weight: 700;
-      color: #0f172a;
-    }
-
-    .phase-badge {
+    .kg-count {
       font-size: 11px;
+      background: #f1f5f9;
+      color: #475569;
       padding: 2px 8px;
       border-radius: 10px;
-      font-weight: 600;
-      background: #e2e8f0;
-      color: #475569;
     }
 
-    .phase-desc {
-      font-size: 13.5px;
-      color: #334155;
-      line-height: 1.6;
-      margin-bottom: 10px;
-    }
-
-    .criteria-box {
-      background: rgba(255,255,255,0.7);
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      padding: 10px 14px;
+    .kg-node-card p {
       font-size: 12.5px;
-      color: #1e293b;
+      color: #475569;
+      line-height: 1.5;
     }
 
-    .criteria-box strong {
-      color: #0f172a;
+    .example-box {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-top: 16px;
+      font-size: 13px;
+    }
+
+    .example-box h4 {
+      color: #92400e;
+      margin-bottom: 8px;
+      font-size: 14px;
     }
 
     .example-url {
       display: inline-block;
-      margin-top: 6px;
       font-family: monospace;
-      font-size: 11.5px;
-      background: #f1f5f9;
-      padding: 4px 8px;
+      font-size: 12px;
+      background: #ffffff;
+      border: 1px solid #fcd34d;
+      padding: 3px 8px;
       border-radius: 4px;
-      color: #0369a1;
-      word-break: break-all;
+      color: #b45309;
+      margin: 4px 0;
     }
 
     footer {
@@ -215,7 +273,7 @@
       border-top: 1px solid #e2e8f0;
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 640px) {
       .content {
         padding: 20px 16px;
       }
@@ -230,154 +288,196 @@
   <div class="container">
     <header>
       <div class="temple-tag">臨済宗大本山 円覚寺</div>
-      <h1>禅問答から覚悟の石顕現までの動作フロー</h1>
+      <h1>コーチング ⇄ 禅モードの動的揺らぎと知識ネットワーク</h1>
       <p class="header-desc">
-        ユーザーが問いを投げかけ、AIの傾聴・瞑想を経て自発的な覚悟に至り、円覚寺ブログ記事へのリンクと石が心庭に灯るまでの論理的アルゴリズムと分岐条件の全貌です。
+        「傾聴のコーチング思考」と「知識ネットワークを用いた禅的視点転換（Zen Shift）」をどのような条件で切り分け、最終的に覚悟の石とブログ記事へ導くかの設計図です。
       </p>
     </header>
 
     <div class="content">
 
-      <!-- Mermaid フローチャート -->
+      <!-- 1. メインフローチャート -->
       <section class="section">
         <h2 class="section-title">
-          <span class="num-pill">Flow</span>
-          対話と判断のフローチャート（Mermaid.js）
+          <span class="num-pill">Flow 1</span>
+          対話モードの動的切り分け・全動作フロー（Mermaid.js）
         </h2>
-        
+        <p class="sub-caption">
+          対話は固定的な一本道ではなく、ユーザーの発言や思考の膠着度合いに応じて「コーチング」と「禅モード」を動的に行き来（揺らぎ）します。
+        </p>
+
         <div class="mermaid-box">
           <pre class="mermaid">
 flowchart TD
-    %% 登場人物・ノード定義
-    Start(["① ユーザーが「対話を始める」を押す"]) --> Assessment["今の悩み・心境を入力\n（プロフィール価値観2枚を自動連携）"]
-    
-    Assessment --> Phase1["② 【Phase 1】 禅AIによる無条件傾聴\nユーザーの苦悩ノードを知識グラフから特定\n（将来不安/他者比較/喪失/焦り/人間関係/失敗の恐れ）"]
-    
-    Phase1 --> Branch1{"③ ユーザーの発言・状態を判定"}
-    
-    %% 分岐 1: 思考過多・言葉の疲労
-    Branch1 -- "「疲れた」「頭がパンクしそう」\n思考が煮詰まり言葉が空回り" --> OfferPraxis["④ 身体技法（瞑想）の提案\n【Praxis Offer】\n苦悩に合わせた技法・自然音・時間を推薦"]
-    
-    OfferPraxis --> DecisionPraxis{"ユーザーの選択"}
-    DecisionPraxis -- "「瞑想する」" --> Meditate["⑤ 一時的な瞑想モードへ入る\n・自然音（雨/波/森/川/鐘）\n・光の円相タイマーで呼吸休息\n・終了後に対話画面へ復帰"]
-    DecisionPraxis -- "「対話を続ける」" --> ContinueInquiry["対話（問答）を深める"]
-    
-    Meditate --> ContinueInquiry
-    
-    %% 分岐 2: 対話の継続・問い返し
-    Branch1 -- "まだ言葉で掘り下げ中" --> Deepen["禅の問いかけ\n善悪の評価をせず、受容と問い返し"]
-    Deepen --> Phase1
-    
-    %% 分岐 3: 自発的な気づき・覚悟の表出
-    Branch1 -- "「手放していいと気づいた」\n「今を丁寧に生きようと思う」\n（または「覚悟をまとめる」押下）" --> Phase3["⑥ 【Phase 3】 「覚悟の石」の結晶化\nAIが智慧ノードと法話を選定"]
-    
-    ContinueInquiry --> Branch1
-    
-    %% 智慧ノードとブログ記事URLの選定
-    Phase3 --> SelectWisdom["⑦ 円覚寺の智慧とブログ記事の照合\n例：丸木橋にしがみつく手を離す譬え\n出典：碧巌録提唱「仏心のうち」\nURL: https://www.engakuji.or.jp/blog/39747/"]
-    
-    SelectWisdom --> ManifestationModal["⑧ 【覚悟の石 顕現モーダル】\n・寺院の磬子（鐘）がゴーンと鳴る\n・生成された石の銘（例：『足元の息吹を愛しむ琥珀石』）\n・気づきの言葉を表示\n・【円覚寺ブログ記事のリンク】を表示"]
-    
-    ManifestationModal --> SettleStone["⑨ 「心庭に据える」をタップ"]
-    
-    SettleStone --> GardenHome(["⑩ 【心庭（枯山水）への永久配置】\n・画面中央のガラス球・銀河の周りに石が灯る\n・下部ピルに石の銘が並ぶ\n・タップするといつでも当時の対話とブログ記事を振り返れる"])
+    Start(["① 対話開始（INITIAL_ASSESSMENT ➔ INQUIRY）"]) --> InputContext["入力・文脈の統合\n・今の悩み・心境\n・プロフィール（2つの価値観・年代・喜怒哀楽の記憶）"]
 
-    %% スタイル付け
+    InputContext --> TurnCheck{"② 現在の対話フェーズ・条件判定"}
+
+    %% 1〜2往復目、または整理中、またはZen Shift直後
+    TurnCheck -- "【条件A】 1〜2往復目（導入期）\nまたは 感情・現状の整理中\nまたは Zen Shift直後の受け止め" --> CoachingMode["③ 【Coaching モード】（対話の7〜8割）\n● 禅用語・仏教用語・説法は【完全禁止】\n● プロのライフコーチとして100%受容\n● 価値観を『裏のコンパス』にオープンクエスチョン1問"]
+
+    CoachingMode --> UserReply["ユーザーからの返信"]
+    UserReply --> TurnCheck
+
+    %% 3往復目以降：思考の堂々巡り・執着
+    TurnCheck -- "【条件B】 3往復目以降 かつ\n『もっと頑張らねば』『自分が悪い』『失敗できない』等の\n思考の堂々巡り・完璧主義・膠着状態\n（またはCoachingが2〜3回続き視点転換が必要）" --> ZenShiftMode["④ 【Zen Shift モード】（パラダイムシフト）\n● 円覚寺 知識ネットワーク（KNOWLEDGE_GRAPH）を参照\n● 苦悩ノードに対応する『法話・智慧』を検索\n● 仏教用語は避け『日常のやさしい比喩』として問いを投下\n（例：丸木橋から手を離しても下に蒲団があるとしたら？）"]
+
+    ZenShiftMode --> ReturnToCoaching["※重要ルール：次のターンは必ず\n【Coachingモード】に戻って\n比喩の受け止めを傾聴する（動的揺らぎ）"]
+    ReturnToCoaching --> UserReply
+
+    %% 身体技法（瞑想）への分岐
+    TurnCheck -- "【条件C】 『頭がパンクしそう』『考え疲れた』『息苦しい』等の\n言語的疲労・緊張を訴えた時\n（または中盤4〜6往復目で肚に落とす時 / 1セッション原則1回）" --> PraxisOffer["⑤ 【Praxis Offer モード】（身体技法・瞑想への誘い）\n● 知識ネットワークから苦悩に合う『身体技法』を選定\n● 最適な自然音（雨/波/森/小川/鐘/静寂）と時間を提案"]
+
+    PraxisOffer --> UserChoice{"ユーザーの選択"}
+    UserChoice -- "「瞑想する」" --> Meditation["⑥ 一時的瞑想モード（PRAXIS_MEDITATION）\n呼吸タイマーと自然音で思考を休める\n終了後、対話画面へ復帰"]
+    UserChoice -- "「対話を続ける」" --> UserReply
+    Meditation --> UserReply
+
+    %% 収束（覚悟の石）への分岐
+    TurnCheck -- "【条件D】 自発的な気づき・肚の据わった言葉が出た時\n（『手放していいと気づいた』『今を生きようと思う』等）\nまたは 8〜10往復目 / 「覚悟をまとめる」押下" --> ResolutionMode["⑦ 【Resolution Stone モード】（主体的収束）\n● ユーザー自身の結論を讃嘆\n● 知識ネットワークから最終智慧(Wisdom)と法話(Discourse)を決定"]
+
+    ResolutionMode --> StoneModal["⑧ 【覚悟の石 顕現モーダル】\n● 寺院の磬子（鐘）の実音が鳴る\n● 固有の石の銘（例：『丸木橋を手放す琥珀石』）を生成\n● 該当する円覚寺公式ブログ記事URLを表示\n（例：https://www.engakuji.or.jp/blog/39747/）"]
+
+    StoneModal --> SaveGarden(["⑨ 「心庭に据える」➔ 端末内に永久保存\n● ホーム画面中央の『心庭（枯山水）』に星（石）が灯る\n● 下部のアクションバーに銘が並び、いつでもブログと問答を振り返れる"])
+
+    %% クラス定義
     classDef startEnd fill:#0f172a,stroke:#d97706,stroke-width:2px,color:#fef3c7;
-    classDef condition fill:#fffbeb,stroke:#d97706,stroke-width:2px,color:#92400e;
-    classDef action fill:#ffffff,stroke:#cbd5e1,stroke-width:1.5px,color:#1e293b;
-    classDef highlight fill:#f0fdf4,stroke:#10b981,stroke-width:2px,color:#065f46;
-    classDef blueBox fill:#f0f9ff,stroke:#0284c7,stroke-width:1.5px,color:#0369a1;
+    classDef condition fill:#f8fafc,stroke:#475569,stroke-width:2px,color:#0f172a;
+    classDef coaching fill:#eff6ff,stroke:#2563eb,stroke-width:2px,color:#1e3a8a;
+    classDef zen fill:#fffbeb,stroke:#d97706,stroke-width:2px,color:#92400e;
+    classDef praxis fill:#f0f9ff,stroke:#0284c7,stroke-width:2px,color:#0369a1;
+    classDef closing fill:#f0fdf4,stroke:#10b981,stroke-width:2px,color:#065f46;
 
-    class Start,GardenHome startEnd;
-    class Branch1,DecisionPraxis condition;
-    class Assessment,Deepen,ContinueInquiry,SelectWisdom action;
-    class OfferPraxis,Meditate blueBox;
-    class Phase1,Phase3,ManifestationModal,SettleStone highlight;
+    class Start,SaveGarden startEnd;
+    class TurnCheck,UserChoice condition;
+    class CoachingMode,ReturnToCoaching coaching;
+    class ZenShiftMode zen;
+    class PraxisOffer,Meditation praxis;
+    class ResolutionMode,StoneModal closing;
           </pre>
         </div>
       </section>
 
-      <!-- 各ステップの基準・判定条件の解説 -->
+      <!-- 2. モード切り分け条件の比較表 -->
       <section class="section">
         <h2 class="section-title">
-          <span class="num-pill">Detail</span>
-          判断基準と動作の詳細解説
+          <span class="num-pill blue">Criteria</span>
+          コーチング思考 vs 禅モード：厳格な切り分け条件
         </h2>
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th style="width: 22%;">モード名</th>
+              <th style="width: 38%;">発動条件（いつ切り替わるか）</th>
+              <th style="width: 40%;">AIの思考と制約・振る舞い</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="badge-coaching">Coaching</span><br><strong>コーチング思考</strong><br>（対話の7〜8割）</td>
+              <td>
+                ・<strong>1〜2往復目（導入期は絶対）</strong><br>
+                ・ユーザーが現状や感情を言語化・整理している最中<br>
+                ・<strong>直前に禅モード（比喩）を使った次のターン</strong>
+              </td>
+              <td>
+                ・<strong>禅用語・仏教用語・説法は完全禁止</strong><br>
+                ・価値観（2枚）と人生の記憶を「裏のコンパス」として100%受容<br>
+                ・解決策を押し付けず、内省を深める質問を1つだけ投げかける
+              </td>
+            </tr>
+            <tr>
+              <td><span class="badge-zen">Zen Shift</span><br><strong>禅モード</strong><br>（パラダイムシフト）</td>
+              <td>
+                ・<strong>3往復目以降</strong>で、ユーザーが「頑張らねば」「失敗できない」「自分が悪い」等の<strong>思考の堂々巡り・過度な執着・膠着状態</strong>にある時<br>
+                ・コーチングが2〜3回続き、視点の脱構築（ブレイクスルー）が必要な時
+              </td>
+              <td>
+                ・ここで初めて <strong>知識ネットワーク（KNOWLEDGE_GRAPH）</strong> を参照<br>
+                ・知識グラフ内の法話（丸木橋と蒲団、大海と一滴など）を<strong>日常のやさしい比喩</strong>に変換して投下<br>
+                ・※次ターンでは原則Coachingに戻り、受け止めを傾聴する
+              </td>
+            </tr>
+            <tr>
+              <td><span class="badge-praxis">Praxis Offer</span><br><strong>身体技法・瞑想</strong></td>
+              <td>
+                ・ユーザーが「考えすぎて疲れた」「頭がパンクしそう」「息苦しい」など<strong>頭部の過負荷</strong>を訴えた時（1セッション原則1回）
+              </td>
+              <td>
+                ・知識ネットワークの身体技法（`praxes`）から最適な呼吸法・作法と自然音を選定し、一時的な瞑想を促す
+              </td>
+            </tr>
+            <tr>
+              <td><span class="badge-closing">Resolution Stone</span><br><strong>覚悟の石（収束）</strong></td>
+              <td>
+                ・ユーザーから<strong>自発的な気づき・覚悟の言葉</strong>（「手放していい」「今を生きる」等）が出た時<br>
+                ・または8〜10往復目／明示的完了要求時
+              </td>
+              <td>
+                ・知識ネットワークから最終的な智慧（`wisdoms`）と法話（`discourses`）を決定し、<strong>円覚寺ブログURL</strong>と共に「覚悟の石」を生成
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
 
-        <!-- Step 1: 苦悩の特定 -->
-        <div class="phase-card phase1">
-          <div class="phase-header">
-            <span class="phase-name">1. 何を基準に対話を進めるか？（苦悩ノードの特定）</span>
-            <span class="phase-badge">Phase 1: 傾聴</span>
+      <!-- 3. 知識ネットワークの正体 -->
+      <section class="section">
+        <h2 class="section-title">
+          <span class="num-pill purple">Network</span>
+          禅モードが使う「知識ネットワーク（knowledge_graph.json）」の正体
+        </h2>
+        <p class="sub-caption">
+          単なる「名言集」や「禅語辞典」ではありません。現代人の苦悩を出発点として、身体技法と法話を介して3段階の智慧へ変換する<strong>『5層構造の苦悩変容オントロジー（意味ネットワーク）』</strong>です。
+        </p>
+
+        <div class="mermaid-box">
+          <pre class="mermaid">
+flowchart LR
+    S["① Sufferings（苦悩ノード：6種）\n例：焦燥・無価値感 / 失敗の恐怖 / 喪失"] -->|"transforms_to（3段階のエッジ）\nPhase1:弛緩 ➔ Phase2:転換 ➔ Phase3:覚悟"| W["② Wisdoms（禅の智慧ノード：7種）\n例：不生の仏心 / 丸木橋を手放す安心 / 苦中の楽"]
+    
+    W -->|"discourse_ids"| D["③ Discourses（法話・提唱：10種）\n原文引用 ＋ 実在する円覚寺ブログURL"]
+    W -->|"praxis_ids"| P["④ Praxes（身体技法：7種）\n例：手放しの呼吸 / 立腰・丹田呼気 / 椅子坐禅"]
+    D -->|"speaker_id"| M["⑤ Masters（師家：3名）\n朝比奈宗源 / 横田南嶺 / 盤珪永琢"]
+
+    style S fill:#fee2e2,stroke:#ef4444,color:#991b1b
+    style W fill:#fef3c7,stroke:#d97706,color:#92400e
+    style D fill:#e0f2fe,stroke:#0284c7,color:#075985
+    style P fill:#f0fdf4,stroke:#10b981,color:#065f46
+    style M fill:#f3e8ff,stroke:#7c3aed,color:#5b21b6
+          </pre>
+        </div>
+
+        <div class="kg-grid">
+          <div class="kg-node-card">
+            <h4>① Sufferings（苦悩ノード）<span class="kg-count">6種</span></h4>
+            <p>「焦燥・無価値感」「死別・喪失」「失敗の恐怖」「孤立感」「老病の衰え」「完璧主義の燃え尽き」。緊張度や時間軸（過去/未来）の属性を持ち、Phase 1〜3の智慧へ繋がります。</p>
           </div>
-          <p class="phase-desc">
-            ユーザーが入力した悩みと、事前に登録された「プロフィール（2枚の価値観、年代、人生の記憶）」を掛け合わせ、知識グラフの6つの苦悩カテゴリーから最も近いものを推定・追跡します。
-          </p>
-          <div class="criteria-box">
-            <strong>判定基準:</strong>
-            「完璧・もっと・限界・焦り」➔ 完璧主義・燃え尽き／「比較・取り残された・自分には何もない」➔ 他者比較・自己無価値感／「別れ・喪失・後悔」➔ 悲嘆／「将来・健康・お金」➔ 不安。<br>
-            <strong>動作:</strong> 説教や助言を一切せず、受容と温かな問い返しを行います。
+          <div class="kg-node-card">
+            <h4>② Wisdoms（智慧ノード）<span class="kg-count">7種</span></h4>
+            <p>「不生の仏心」「大海と一滴の泡」「丸木橋と蒲団の安心」「共苦の慈悲」など、苦悩を根本からひっくり返す禅のパラダイムシフトの到達点です。</p>
+          </div>
+          <div class="kg-node-card">
+            <h4>③ Discourses（法話・ブログURL）<span class="kg-count">10種</span></h4>
+            <p>Zen Shiftでの比喩の元ネタであり、石の顕現時に表示される出典データ。各法話が<strong>円覚寺公式ブログの個別記事URL</strong>を持っています。</p>
+          </div>
+          <div class="kg-node-card">
+            <h4>④ Praxes（身体技法ノード）<span class="kg-count">7種</span></h4>
+            <p>頭で考えすぎるのを止めるための身体アプローチ（「手放しの呼吸」「開手放下」「丹田呼気」「掃き清めの作務」等）が各智慧と紐づいています。</p>
           </div>
         </div>
 
-        <!-- Step 2: 瞑想への分岐 -->
-        <div class="phase-card phase2">
-          <div class="phase-header">
-            <span class="phase-name">2. どういう条件で瞑想へ分岐するか？（身体技法の提示）</span>
-            <span class="phase-badge">Phase 2: 転換（Praxis Offer）</span>
-          </div>
-          <p class="phase-desc">
-            禅問答は言葉だけで解決するものではありません。思考が過剰になり言語的な袋小路に入った瞬間をAIが検知します。
+        <div class="example-box">
+          <h4>💡 知識ネットワークからブログURLと石が表示される実例</h4>
+          <p>
+            たとえば「何をやっても足りない・手を離せない」という苦悩（<code>Suf_Anxiety</code>）から、瞑想を経て「力みを手放して今を生きよう」という気づきに至った場合：
           </p>
-          <div class="criteria-box">
-            <strong>分岐条件:</strong>
-            ユーザーの発言に「考えすぎて頭が痛い」「言葉が出ない」「頭では分かっているがパンクしそう」といった兆候が現れた時、あるいは2〜3ターンの対話が深まった時。<br>
-            <strong>動作:</strong>
-            「思考の糸を一度休めて、身体技法と自然音に身を委ねませんか」とカードを提示。ユーザーが「瞑想する」を選ぶと、一時的に呼吸タイマーと自然音（雨・波・森・川・鐘）の画面へ移行し、頭を休めます。
-          </div>
-        </div>
-
-        <!-- Step 3: 覚悟の石の結晶化とブログURL選定 -->
-        <div class="phase-card phase3">
-          <div class="phase-header">
-            <span class="phase-name">3. どんな結論になり、どうやってブログURLが決まるか？</span>
-            <span class="phase-badge">Phase 3: 結実（Resolution Stone）</span>
-          </div>
-          <p class="phase-desc">
-            瞑想や対話を経て、ユーザー自身の口から「自発的な気づき」が語られた時、対話の集大成として「覚悟の石」を結晶化させます。
-          </p>
-          <div class="criteria-box">
-            <strong>結論の基準:</strong>
-            「空いた両手で今を生きよう」「人と比べず足元を大切にしよう」などの自己受容・覚悟。<br>
-            <strong>ブログURL選定ロジック:</strong>
-            その気づきに対応する円覚寺の智慧（朝比奈宗源老師・横田南嶺管長）の法話記事が自動選定されます。
-            <br>
-            <span style="display:block; margin-top:6px; font-weight:bold;">【実際の選定例】</span>
-            ・「執着を手放す・委ねる」気づきの場合：<br>
-            　➔ 『丸木橋から足を滑らせた者が、しがみつく手を離せば布団の上だった』という譬え話（碧巌録提唱）<br>
-            　<span class="example-url">リンク先: https://www.engakuji.or.jp/blog/39747/</span><br>
-            ・「逆境に立ち向かう・肚を据える」気づきの場合：<br>
-            　➔ 『苦中の楽こそ真の楽・どのような逆境でも自ら責任を引き受ける』（覚悟はよいか）<br>
-            　<span class="example-url">リンク先: https://www.engakuji.or.jp/blog/39003/</span>
-          </div>
-        </div>
-
-        <!-- Step 4: 心庭への配置 -->
-        <div class="phase-card phase4">
-          <div class="phase-header">
-            <span class="phase-name">4. 覚悟の石はどこに表示されるようになるか？</span>
-            <span class="phase-badge">Phase 4: 心庭への据樹</span>
-          </div>
-          <p class="phase-desc">
-            顕現した石は、ユーザーのスマホ端末内に大切に保存され、心庭（枯山水）を彩る星となります。
-          </p>
-          <div class="criteria-box">
-            <strong>表示場所と動作:</strong>
-            1. <strong>顕現モーダル:</strong> 鐘の音とともに中央に3Dの石が出現。気づきの銘（例：『足元の息吹を愛しむ琥珀石』）とブログ記事リンクが表示される。<br>
-            2. <strong>心庭（ホーム画面中央）:</strong> 「心庭に据える」を押すと、枯山水の砂紋の上に美しい光の星（石）として永久配置される。<br>
-            3. <strong>画面下部のアクションバー:</strong> 据えられた石の銘がガラスのピルとして並び、タップするといつでも当時の問答と円覚寺ブログ記事を読み返せる。
-          </div>
+          <ul style="margin: 8px 0 0 20px;">
+            <li><strong>選定される智慧:</strong> <code>Wis_LettingGoBridge</code>（執着を手放す安心）</li>
+            <li><strong>紐づく法話（Discourse）:</strong> 朝比奈宗源老師「丸木橋から足を滑らせても、手を離せば下は布団の上だ」</li>
+            <li><strong>表示されるブログURL:</strong> <span class="example-url">https://www.engakuji.or.jp/blog/39747/</span></li>
+            <li><strong>覚悟の石の表示場所:</strong> 顕現モーダルに鐘の音とともに3D出現 ➔ 「心庭に据える」を押すと<strong>ホーム画面中央の枯山水（銀河の周り）に星として永久配置</strong>され、画面下部のピルからもいつでも再読可能になります。</li>
+          </ul>
         </div>
 
       </section>
@@ -386,7 +486,7 @@ flowchart TD
 
     <footer>
       <strong>臨済宗大本山 円覚寺 心庭（しんてい）</strong><br>
-      対話と呼吸のアルゴリズム解説ドキュメント
+      コーチングと禅の動的揺らぎ・知識ネットワーク解説ドキュメント
     </footer>
   </div>
 
