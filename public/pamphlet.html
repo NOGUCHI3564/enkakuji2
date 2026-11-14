@@ -3,21 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>心庭（しんてい）ご利用ガイド・パンフレット — 臨済宗大本山 円覚寺</title>
+  <title>心庭（しんてい）ご利用ガイド — 臨済宗大本山 円覚寺</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --primary: #1e293b;
-      --accent: #b45309;
-      --accent-light: #fef3c7;
-      --bg-warm: #fafaf9;
-      --text-main: #334155;
-      --text-muted: #64748b;
-      --border: #e2e8f0;
-    }
-
     * {
       box-sizing: border-box;
       margin: 0;
@@ -25,616 +15,492 @@
     }
 
     body {
-      font-family: 'Zen Kaku Gothic New', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: #f1f5f9;
-      color: var(--text-main);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      padding: 24px 12px;
+      font-family: 'Zen Kaku Gothic New', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #f8fafc;
+      color: #334155;
+      line-height: 1.5;
+      padding: 20px 12px;
     }
 
-    .pamphlet-container {
-      max-width: 860px;
+    .pamphlet {
+      max-width: 760px;
       margin: 0 auto;
       background: #ffffff;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e2e8f0;
       border-radius: 16px;
       overflow: hidden;
-      border: 1px solid var(--border);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     }
 
-    /* ヘッダーエリア */
+    /* ヘッダー */
     .header {
-      background: linear-gradient(135deg, #090d16 0%, #1e293b 60%, #172554 100%);
+      background: #0f172a;
       color: #ffffff;
-      padding: 40px 36px 32px;
       text-align: center;
-      position: relative;
+      padding: 28px 20px 22px;
       border-bottom: 3px solid #d97706;
     }
 
-    .temple-sub {
+    .temple-name {
       font-family: 'Shippori Mincho', serif;
-      font-size: 14px;
-      letter-spacing: 0.25em;
-      color: #cbd5e1;
-      margin-bottom: 8px;
+      font-size: 13px;
+      letter-spacing: 0.2em;
+      color: #94a3b8;
+      margin-bottom: 4px;
     }
 
-    .title {
+    .app-title {
       font-family: 'Shippori Mincho', serif;
-      font-size: 32px;
+      font-size: 26px;
       font-weight: 700;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.1em;
       color: #fef3c7;
-      margin-bottom: 12px;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      margin-bottom: 6px;
     }
 
-    .catchphrase {
-      font-size: 15px;
-      letter-spacing: 0.08em;
-      color: #e2e8f0;
-      font-weight: 400;
-      max-width: 620px;
-      margin: 0 auto;
-      line-height: 1.7;
-    }
-
-    /* コンテンツ */
-    .content {
-      padding: 36px;
-    }
-
-    /* セクション共通 */
-    .section-title {
-      font-family: 'Shippori Mincho', serif;
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding-bottom: 8px;
-      border-bottom: 2px solid #e2e8f0;
-      margin-bottom: 20px;
-    }
-
-    .section-title .num {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 28px;
-      height: 28px;
-      background: #d97706;
-      color: #fff;
-      border-radius: 50%;
-      font-size: 14px;
-      font-weight: bold;
-      font-family: sans-serif;
-    }
-
-    /* QR & アクセスカード */
-    .qr-access-grid {
-      display: grid;
-      grid-template-columns: 240px 1fr;
-      gap: 28px;
-      background: var(--bg-warm);
-      border: 1px solid #e7e5e4;
-      border-radius: 12px;
-      padding: 24px;
-      align-items: center;
-      margin-bottom: 36px;
-    }
-
-    .qr-box {
-      text-align: center;
-      background: #ffffff;
-      padding: 14px;
-      border-radius: 12px;
-      border: 1px solid #e2e8f0;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-    }
-
-    .qr-box img {
-      width: 100%;
-      max-width: 200px;
-      height: auto;
-      display: block;
-      margin: 0 auto 8px;
-    }
-
-    .qr-box span {
-      font-size: 12px;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-
-    .access-desc h3 {
-      font-family: 'Shippori Mincho', serif;
-      font-size: 18px;
-      color: #0f172a;
-      margin-bottom: 10px;
-    }
-
-    .access-desc p {
-      font-size: 14px;
-      color: var(--text-main);
-      margin-bottom: 14px;
-    }
-
-    .url-badge {
-      display: inline-block;
-      background: #e2e8f0;
-      padding: 6px 12px;
-      border-radius: 6px;
+    .subtitle {
       font-size: 13px;
-      font-family: monospace;
-      color: #0f172a;
-      word-break: break-all;
-      border: 1px solid #cbd5e1;
-    }
-
-    .no-store-note {
-      margin-top: 10px;
-      font-size: 12px;
-      color: #d97706;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    /* インストール手順（2カラム） */
-    .install-columns {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-bottom: 36px;
-    }
-
-    .install-card {
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px;
-      background: #ffffff;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-    }
-
-    .install-card.ios {
-      border-top: 4px solid #3b82f6;
-    }
-
-    .install-card.android {
-      border-top: 4px solid #10b981;
-    }
-
-    .install-card-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: #0f172a;
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .step-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .step-item {
-      display: flex;
-      gap: 10px;
-      font-size: 13.5px;
-      line-height: 1.5;
-    }
-
-    .step-badge {
-      flex-shrink: 0;
-      width: 20px;
-      height: 20px;
-      background: #e2e8f0;
-      color: #334155;
-      font-size: 11px;
-      font-weight: bold;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 2px;
-    }
-
-    .step-item strong {
-      color: #0f172a;
-    }
-
-    /* ボタン・機能説明カード群 */
-    .buttons-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      margin-bottom: 36px;
-    }
-
-    .btn-feature-card {
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 18px 22px;
-      background: #ffffff;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-    }
-
-    .btn-feature-card.primary {
-      border-left: 5px solid #d97706;
-      background: #fffbeb;
-    }
-
-    .btn-feature-card.sub {
-      border-left: 5px solid #0284c7;
-    }
-
-    .btn-feature-card.profile {
-      border-left: 5px solid #8b5cf6;
-    }
-
-    .btn-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 10px;
-      flex-wrap: wrap;
-    }
-
-    .btn-badge-label {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 5px 14px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: 700;
+      color: #cbd5e1;
       letter-spacing: 0.05em;
     }
 
-    .btn-badge-label.gold {
-      background: linear-gradient(135deg, #d97706, #b45309);
-      color: #ffffff;
-      box-shadow: 0 2px 6px rgba(217, 119, 6, 0.25);
+    /* メインコンテンツ */
+    .content {
+      padding: 26px 28px;
     }
 
-    .btn-badge-label.sky {
+    .section {
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid #f1f5f9;
+    }
+
+    .num-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      background: #d97706;
+      color: #ffffff;
+      border-radius: 50%;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: sans-serif;
+    }
+
+    /* 1. QRコード */
+    .qr-container {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      background: #fafaf9;
+      border: 1px solid #e7e5e4;
+      border-radius: 12px;
+      padding: 16px 20px;
+    }
+
+    .qr-image {
+      width: 130px;
+      height: 130px;
+      background: #fff;
+      padding: 6px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      flex-shrink: 0;
+    }
+
+    .qr-image img {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .qr-info h3 {
+      font-size: 15px;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+
+    .qr-info p {
+      font-size: 13px;
+      color: #64748b;
+      margin-bottom: 8px;
+    }
+
+    .url-text {
+      font-family: monospace;
+      font-size: 12px;
+      background: #e2e8f0;
+      padding: 4px 8px;
+      border-radius: 4px;
+      color: #0f172a;
+      display: inline-block;
+    }
+
+    .free-tag {
+      font-size: 11.5px;
+      color: #b45309;
+      font-weight: 700;
+      margin-top: 6px;
+    }
+
+    /* 2. インストール手順 */
+    .install-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .install-box {
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 14px 16px;
+      background: #ffffff;
+    }
+
+    .install-box.ios {
+      border-top: 3px solid #2563eb;
+    }
+
+    .install-box.android {
+      border-top: 3px solid #10b981;
+    }
+
+    .device-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .steps {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 12.5px;
+      color: #334155;
+    }
+
+    .steps li {
+      display: flex;
+      gap: 6px;
+      line-height: 1.4;
+    }
+
+    .step-num {
+      color: #64748b;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .steps strong {
+      color: #0f172a;
+    }
+
+    .device-note {
+      font-size: 11px;
+      color: #64748b;
+      margin-top: 6px;
+      background: #f8fafc;
+      padding: 4px 6px;
+      border-radius: 4px;
+    }
+
+    /* 3. 使い方 */
+    .usage-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .usage-item {
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 12px 16px;
+      background: #fafaf9;
+    }
+
+    .usage-item.profile {
+      border-left: 4px solid #8b5cf6;
+      background: #faf5ff;
+    }
+
+    .usage-item.inquiry {
+      border-left: 4px solid #d97706;
+      background: #fffbeb;
+    }
+
+    .usage-item.meditation {
+      border-left: 4px solid #0284c7;
+      background: #f0f9ff;
+    }
+
+    .usage-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .btn-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .badge-purple {
+      background: #ede9fe;
+      color: #6d28d9;
+    }
+
+    .badge-gold {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .badge-sky {
       background: #e0f2fe;
       color: #0369a1;
-      border: 1px solid #bae6fd;
     }
 
-    .btn-badge-label.purple {
-      background: #f3e8ff;
-      color: #7e22ce;
-      border: 1px solid #e9d5ff;
-    }
-
-    .btn-tagline {
-      font-size: 14px;
+    .usage-title {
+      font-size: 13.5px;
       font-weight: 700;
       color: #0f172a;
     }
 
-    .btn-what-happens {
-      font-size: 13.5px;
-      color: #334155;
-      line-height: 1.6;
-    }
-
-    .btn-sub-points {
-      margin-top: 10px;
-      padding-top: 10px;
-      border-top: 1px dashed #cbd5e1;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      font-size: 13px;
+    .usage-desc {
+      font-size: 12.5px;
       color: #475569;
+      line-height: 1.5;
     }
 
-    .btn-sub-points div strong {
+    .usage-desc strong {
       color: #0f172a;
-    }
-
-    /* 自然音バッジリスト */
-    .sound-pill-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 6px;
-    }
-
-    .sound-pill {
-      background: #ffffff;
-      border: 1px solid #cbd5e1;
-      padding: 2px 8px;
-      border-radius: 12px;
-      font-size: 11px;
-      color: #334155;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
     }
 
     /* フッター */
     .footer {
-      background: #f8fafc;
-      padding: 24px 36px;
-      border-top: 1px solid var(--border);
+      background: #f1f5f9;
       text-align: center;
-      font-size: 12px;
-      color: var(--text-muted);
+      padding: 16px;
+      border-top: 1px solid #e2e8f0;
+      font-size: 11.5px;
+      color: #64748b;
     }
 
-    .footer-temple {
-      font-family: 'Shippori Mincho', serif;
-      font-size: 15px;
-      color: #1e293b;
-      font-weight: 600;
-      margin-bottom: 4px;
+    .footer strong {
+      color: #334155;
     }
 
-    /* 印刷スタイル (A4 1〜2枚に綺麗に収まる) */
-    @media print {
-      body {
-        background: #ffffff;
-        padding: 0;
-      }
-      .pamphlet-container {
-        box-shadow: none;
-        border: none;
-        max-width: 100%;
-        border-radius: 0;
-      }
-      .header {
-        padding: 24px 20px 20px;
-      }
-      .content {
-        padding: 20px;
-      }
-      .print-btn {
-        display: none;
-      }
-    }
-
+    /* 印刷スタイル */
     .print-bar {
       text-align: right;
-      max-width: 860px;
-      margin: 0 auto 12px;
+      max-width: 760px;
+      margin: 0 auto 10px;
     }
 
     .print-btn {
       background: #1e293b;
-      color: #ffffff;
+      color: #fff;
       border: none;
-      padding: 8px 18px;
+      padding: 6px 14px;
       border-radius: 6px;
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 12px;
       cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      transition: background 0.2s;
     }
 
-    .print-btn:hover {
-      background: #334155;
+    @media print {
+      body {
+        background: #fff;
+        padding: 0;
+      }
+      .pamphlet {
+        border: none;
+        box-shadow: none;
+        max-width: 100%;
+      }
+      .print-bar {
+        display: none;
+      }
+      .header {
+        padding: 18px;
+      }
+      .content {
+        padding: 16px;
+      }
+      .section {
+        margin-bottom: 16px;
+      }
     }
 
-    @media (max-width: 640px) {
-      .qr-access-grid {
-        grid-template-columns: 1fr;
+    @media (max-width: 580px) {
+      .qr-container {
+        flex-direction: column;
         text-align: center;
       }
-      .install-columns {
+      .install-grid {
         grid-template-columns: 1fr;
       }
       .content {
-        padding: 20px 16px;
-      }
-      .header {
-        padding: 28px 16px 20px;
-      }
-      .title {
-        font-size: 24px;
+        padding: 16px;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- 印刷用ボタンバー -->
   <div class="print-bar">
-    <button type="button" class="print-btn" onclick="window.print()">🖨️ パンフレットを印刷 / PDF保存</button>
+    <button type="button" class="print-btn" onclick="window.print()">🖨️ 印刷 / PDF保存</button>
   </div>
 
-  <div class="pamphlet-container">
+  <div class="pamphlet">
     <!-- ヘッダー -->
     <header class="header">
-      <div class="temple-sub">臨済宗大本山 円覚寺</div>
-      <h1 class="title">心庭 — 禅問答と覚悟の石</h1>
-      <p class="catchphrase">言葉を紡ぎ、呼吸を整え、心の庭に自らの「覚悟」を灯す。<br>日常の迷いや焦りを静かに手放す、あなただけのデジタル禅体験。</p>
+      <div class="temple-name">臨済宗大本山 円覚寺</div>
+      <h1 class="app-title">心庭（しんてい）</h1>
+      <p class="subtitle">禅問答と自然の呼吸で、心に「覚悟の石」を灯すアプリ</p>
     </header>
 
     <div class="content">
-      <!-- 1. アプリをひらく（QRコード） -->
-      <section>
+      <!-- 1. QRコード -->
+      <section class="section">
         <h2 class="section-title">
-          <span class="num">1</span>
-          アプリを用意する（QRコード & URL）
+          <span class="num-badge">1</span>
+          アプリを開く（ダウンロード不要）
         </h2>
-        <div class="qr-access-grid">
-          <div class="qr-box">
-            <img src="qr_code_enkakuji2.png" alt="アプリアクセスQRコード">
-            <span>スマホのカメラでスキャン</span>
+        <div class="qr-container">
+          <div class="qr-image">
+            <img src="qr_code_enkakuji2.png" alt="QRコード">
           </div>
-          <div class="access-desc">
-            <h3>アプリストアのダウンロードは一切不要です</h3>
-            <p>
-              『心庭』はPWA（最新のウェブアプリ規格）を採用しています。スマートフォンのカメラでQRコードを読み取るだけで、今すぐブラウザからご利用いただけます。
-            </p>
-            <div class="url-badge">https://noguchi3564.github.io/enkakuji2/</div>
-            <div class="no-store-note">
-              ✓ 完全無料　✓ 会員登録なしですぐ開始　✓ 個人情報は安全に端末内保持
-            </div>
+          <div class="qr-info">
+            <h3>スマホのカメラをかざすだけで開きます</h3>
+            <p>App Store や Google Play からのダウンロードは不要です。完全無料で今すぐ使えます。</p>
+            <div class="url-text">https://noguchi3564.github.io/enkakuji2/</div>
+            <div class="free-tag">✓ 完全無料　✓ 面倒な登録なし　✓ データは端末内のみ保存</div>
           </div>
         </div>
       </section>
 
-      <!-- 2. ホーム画面へのインストール方法 -->
-      <section>
+      <!-- 2. ホーム画面に追加 -->
+      <section class="section">
         <h2 class="section-title">
-          <span class="num">2</span>
-          ホーム画面に追加してアプリとして使う（PWAインストール）
+          <span class="num-badge">2</span>
+          ホーム画面に追加する（全画面で使う）
         </h2>
-        <p style="font-size: 13.5px; color: #475569; margin-bottom: 16px;">
-          ホーム画面に追加すると、アドレスバーのない全画面表示となり、いつでもワンタップで静寂の心庭へ戻ることができます。
-        </p>
-
-        <div class="install-columns">
-          <!-- iOS -->
-          <div class="install-card ios">
-            <h3 class="install-card-title">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06Z"/><path d="M10 2c1 .5 2 2 2 5"/></svg>
-              iPhone / iPad（Safari）
-            </h3>
-            <ol class="step-list">
-              <li class="step-item">
-                <span class="step-badge">1</span>
-                <div>必ず <strong>Safari</strong> でQRコードを読み取り、ページを開きます。</div>
+        <div class="install-grid">
+          <!-- iPhone / iPad -->
+          <div class="install-box ios">
+            <div class="device-name">
+              <span>🍎 iPhone / iPad</span>
+            </div>
+            <ol class="steps">
+              <li>
+                <span class="step-num">①</span>
+                <div>必ず <strong>Safari</strong> で開きます。</div>
               </li>
-              <li class="step-item">
-                <span class="step-badge">2</span>
-                <div>画面下部の中央にある <strong>「共有アイコン（四角から上矢印 ↑）」</strong> をタップします。</div>
+              <li>
+                <span class="step-num">②</span>
+                <div>
+                  <strong>「共有ボタン」</strong>（四角から上矢印 ↑）をタップ。<br>
+                  <span class="device-note">※ iPhoneは画面下部、iPadは画面右上にあります。</span>
+                </div>
               </li>
-              <li class="step-item">
-                <span class="step-badge">3</span>
-                <div>メニューを少し下にスクロールし、<strong>「ホーム画面に追加」</strong> を選択します。</div>
+              <li>
+                <span class="step-num">③</span>
+                <div>メニューから <strong>「ホーム画面に追加」</strong> を選択。</div>
               </li>
-              <li class="step-item">
-                <span class="step-badge">4</span>
-                <div>右上の <strong>「追加」</strong> をタップすると、ホーム画面に「心庭」のアイコンが追加されます。</div>
+              <li>
+                <span class="step-num">④</span>
+                <div>右上の <strong>「追加」</strong> をタップして完了です。</div>
               </li>
             </ol>
           </div>
 
           <!-- Android -->
-          <div class="install-card android">
-            <h3 class="install-card-title">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
-              Android（Google Chrome）
-            </h3>
-            <ol class="step-list">
-              <li class="step-item">
-                <span class="step-badge">1</span>
-                <div><strong>Google Chrome</strong> でQRコードを読み取り、ページを開きます。</div>
+          <div class="install-box android">
+            <div class="device-name">
+              <span>🤖 Android</span>
+            </div>
+            <ol class="steps">
+              <li>
+                <span class="step-num">①</span>
+                <div><strong>Google Chrome</strong> で開きます。</div>
               </li>
-              <li class="step-item">
-                <span class="step-badge">2</span>
-                <div>画面右上の <strong>「︙（縦の3点メニュー）」</strong> をタップします。</div>
+              <li>
+                <span class="step-num">②</span>
+                <div>右上のメニュー <strong>「︙（縦の3点）」</strong> をタップ。</div>
               </li>
-              <li class="step-item">
-                <span class="step-badge">3</span>
-                <div>メニューから <strong>「アプリをインストール」</strong>（または「ホーム画面に追加」）を選択します。</div>
+              <li>
+                <span class="step-num">③</span>
+                <div><strong>「アプリをインストール」</strong>（または「ホーム画面に追加」）を選択。</div>
               </li>
-              <li class="step-item">
-                <span class="step-badge">4</span>
-                <div>確認画面で <strong>「インストール」</strong> をタップすると、ホーム画面にアプリアイコンが追加されます。</div>
+              <li>
+                <span class="step-num">④</span>
+                <div><strong>「インストール」</strong> をタップして完了です。</div>
               </li>
             </ol>
           </div>
         </div>
       </section>
 
-      <!-- 3. 各ボタンを押すとどうなるか -->
-      <section>
+      <!-- 3. アプリの使い方 -->
+      <section class="section">
         <h2 class="section-title">
-          <span class="num">3</span>
-          画面のボタンと使い方（それぞれのボタンを押すとどうなるか）
+          <span class="num-badge">3</span>
+          使い方のながれ（画面のボタン）
         </h2>
-        <p style="font-size: 13.5px; color: #475569; margin-bottom: 16px;">
-          心庭の画面にある各ボタンを押したときの動作や役割をご案内します。目的に合わせて自由にご利用いただけます。
-        </p>
-
-        <div class="buttons-grid">
-          <!-- ボタン 1: 対話を始める -->
-          <div class="btn-feature-card primary">
-            <div class="btn-header">
-              <span class="btn-badge-label gold">✨ 「対話を始める」ボタン</span>
-              <span class="btn-tagline">禅AIと語り合い、心の迷いから「覚悟の石」を見つける</span>
+        <div class="usage-list">
+          <!-- ① プロフィール・価値観（最上段） -->
+          <div class="usage-item profile">
+            <div class="usage-header">
+              <span class="btn-badge badge-purple">まず最初に入力</span>
+              <span class="usage-title">「プロフィール・価値観」ボタン</span>
             </div>
-            <p class="btn-what-happens">
-              日常の不安、焦り、家族や仕事への想いを気兼ねなく打ち明ける禅問答が始まります。AIが善悪の判断や評価をせず、円覚寺の禅の視点で温かく深く耳を傾けてくれます。
-            </p>
-            <div class="btn-sub-points">
-              <div>
-                <strong>・問答の中での瞑想（一時的な呼吸の休息）:</strong>
-                対話中に言葉で考えすぎて頭が疲れたときは、AIからの促しや画面のボタンから一時的に瞑想モードへ入り、呼吸を整えて思考を休めることができます。
-              </div>
-              <div>
-                <strong>・「覚悟の石」の顕現:</strong>
-                瞑想を経て自らの内面から湧き出た気づきや決意を言葉にすると、対話の集大成として世界に一つだけの「覚悟の石（星）」が結晶化し、心庭に据えられます。
-              </div>
-            </div>
-          </div>
-
-          <!-- ボタン 2: 自然音瞑想 -->
-          <div class="btn-feature-card sub">
-            <div class="btn-header">
-              <span class="btn-badge-label sky">🍃 「自然音瞑想」ボタン（水色の風アイコン）</span>
-              <span class="btn-tagline">問答をせず、今すぐ音と呼吸で心を落ち着けたいときに</span>
-            </div>
-            <p class="btn-what-happens">
-              「対話を始める」の右隣にある風のアイコンを押すと、いつでもワンタップで瞑想画面が開きます。対話を介さず、短時間で静寂を味わいたいときに最適です。
-            </p>
-            <div class="btn-sub-points">
-              <div>
-                <strong>・6つの高音質自然音:</strong>
-                途切れのないシームレスな音に身を委ねられます。
-                <div class="sound-pill-list">
-                  <span class="sound-pill">🌧️ 雨</span>
-                  <span class="sound-pill">🌊 波</span>
-                  <span class="sound-pill">🌲 森</span>
-                  <span class="sound-pill">💧 小川</span>
-                  <span class="sound-pill" style="border-color: #d97706; color: #b45309; font-weight: bold;">🔔 寺院の鐘</span>
-                  <span class="sound-pill">🔇 静寂</span>
-                </div>
-              </div>
-              <div>
-                <strong>・呼吸タイマー & 身体技法:</strong>
-                中央の光の呼吸（円相）に合わせて息を吸い、吐き出します。円覚寺に伝わる姿勢や呼吸の作法（無意識呼吸への帰依など）も自由に選べます。
-              </div>
-            </div>
-          </div>
-
-          <!-- ボタン 3: プロフィール・価値観 -->
-          <div class="btn-feature-card profile">
-            <div class="btn-header">
-              <span class="btn-badge-label purple">🧭 「プロフィール・価値観」ボタン</span>
-              <span class="btn-tagline">あなたの人生の軸や歩みを設定する</span>
-            </div>
-            <p class="btn-what-happens">
-              18枚の禅的な価値観カード（「慈悲」「放下」「初心」「柔軟」など）から、いま心惹かれる2枚を直感で選択できます。ご自身の歩みや現在の役割を任意で書き留めておくことで、禅AIとの対話がより深くあなたに寄り添ったものになります。
+            <p class="usage-desc">
+              18枚の禅カードから直感で2枚の価値観を選び、年代や歩みを入力します。AIがあなたの立場を理解して寄り添う土台となります。
             </p>
           </div>
 
-          <!-- ボタン 4: 覚悟の石の振り返り & 人生の記憶 -->
-          <div class="btn-feature-card" style="border-left: 5px solid #059669;">
-            <div class="btn-header">
-              <span class="btn-badge-label" style="background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0;">💎 「覚悟の石」の振り返り & 「人生の記憶」</span>
-              <span class="btn-tagline">日々の気づきや歩みをいつでも見返す</span>
+          <!-- ② 対話を始める（中段） -->
+          <div class="usage-item inquiry">
+            <div class="usage-header">
+              <span class="btn-badge badge-gold">心の対話をする</span>
+              <span class="usage-title">「対話を始める」ボタン</span>
             </div>
-            <p class="btn-what-happens">
-              心庭（枯山水）に据えられた「覚悟の石」をタップすると、その石の固有の銘（例：『足元の息吹を愛しむ琥珀石』）や、授かった当時の対話記録、初心の言葉をいつでも振り返ることができます。「人生の記憶」では、喜怒哀楽のエピソードを心の手帳のように書き留めておくことができます。
+            <p class="usage-desc">
+              日常の悩みや迷いを話すと、禅AIが温かく傾聴してくれます。<br>
+              <strong>・問答中の瞑想：</strong> 途中で考え疲れたら、一時的に瞑想に入って呼吸を休められます。<br>
+              <strong>・覚悟の石：</strong> 最後に自分の気づきを伝えると、あなただけの「覚悟の石」が庭に灯ります。
+            </p>
+          </div>
+
+          <!-- ③ 自然音瞑想（下段） -->
+          <div class="usage-item meditation">
+            <div class="usage-header">
+              <span class="btn-badge badge-sky">静寂を味わう</span>
+              <span class="usage-title">「自然音瞑想」ボタン（風のマーク）</span>
+            </div>
+            <p class="usage-desc">
+              対話をせず、今すぐ呼吸を整えたいときに押します。雨・波・森・小川・<strong>鐘の音</strong>・静寂と、呼吸の波（円相）でいつでも心を落ち着けられます。
             </p>
           </div>
         </div>
@@ -643,8 +509,8 @@
 
     <!-- フッター -->
     <footer class="footer">
-      <div class="footer-temple">臨済宗大本山 円覚寺（神奈川県鎌倉市山ノ内409）</div>
-      <p>心庭（しんてい）は、毎日の呼吸と心を整えるためのデジタル禅体験アプリです。</p>
+      <strong>臨済宗大本山 円覚寺</strong>（鎌倉市山ノ内409）<br>
+      日々の呼吸と心を整える、あなただけの心の庭へ。
     </footer>
   </div>
 
