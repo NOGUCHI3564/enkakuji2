@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>司会者用アンチョコ：『心庭』改良ワークショップ・ビジネス検討会</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Zen Kaku Gothic New', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #f1f5f9;
+      color: #334155;
+      line-height: 1.65;
+      padding: 24px 16px;
+    }
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+    }
+
+    /* ヘッダー */
+    header {
+      background: linear-gradient(135deg, #090d16 0%, #1e293b 65%, #312e81 100%);
+      color: #ffffff;
+      padding: 36px 32px;
+      border-bottom: 4px solid #d97706;
+    }
+    .badge-top {
+      display: inline-block;
+      background: rgba(217, 119, 6, 0.25);
+      border: 1px solid #f59e0b;
+      color: #fde68a;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+      letter-spacing: 0.08em;
+    }
+    h1 {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 26px;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+    .header-sub {
+      font-size: 13.5px;
+      color: #cbd5e1;
+      max-width: 760px;
+    }
+
+    /* 印刷バー */
+    .top-bar {
+      max-width: 980px;
+      margin: 0 auto 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      color: #334155;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      padding: 5px 12px;
+      border-radius: 20px;
+      transition: all 0.2s;
+    }
+    .nav-links a:hover {
+      background: #1e293b;
+      color: #ffffff;
+    }
+    .print-btn {
+      background: #0f172a;
+      color: #ffffff;
+      border: none;
+      padding: 7px 16px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .content { padding: 32px 36px; }
+    .section { margin-bottom: 42px; }
+    .section-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 20px;
+      color: #0f172a;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .pill {
+      font-family: sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 12px;
+      color: #ffffff;
+      background: #d97706;
+    }
+    .pill.blue { background: #2563eb; }
+    .pill.green { background: #059669; }
+    .pill.purple { background: #7c3aed; }
+
+    /* 司会者の問いかけカード */
+    .mc-prompt-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .mc-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 18px 20px;
+      background: #fafaf9;
+      position: relative;
+    }
+    .mc-card.focus { border-top: 4px solid #d97706; background: #fffbeb; }
+    .mc-card.biz { border-top: 4px solid #059669; background: #f0fdf4; }
+    .mc-card.alt { border-top: 4px solid #2563eb; background: #eff6ff; }
+    .mc-card.ux { border-top: 4px solid #7c3aed; background: #faf5ff; }
+
+    .mc-theme {
+      font-size: 12px;
+      font-weight: 700;
+      color: #475569;
+      margin-bottom: 6px;
+      display: block;
+    }
+    .mc-serif {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #0f172a;
+      background: #ffffff;
+      border-left: 3px solid #94a3b8;
+      padding: 10px 12px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+    .mc-hints {
+      font-size: 12.5px;
+      color: #475569;
+      padding-left: 16px;
+    }
+    .mc-hints li { margin-bottom: 4px; }
+
+    /* 市場調査テーブル */
+    .table-wrap { overflow-x: auto; margin-bottom: 16px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 11px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: #f1f5f9;
+      color: #0f172a;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .app-name { font-weight: 700; color: #0f172a; font-size: 13.5px; }
+    .app-origin { font-size: 11px; color: #64748b; display: block; }
+    .num-highlight { font-weight: 700; color: #b45309; }
+    .market-insight {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-left: 4px solid #2563eb;
+      padding: 14px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+    }
+
+    /* イベント×課金アイデアグリッド */
+    .option-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: 16px;
+    }
+    .option-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 18px 20px;
+      background: #ffffff;
+    }
+    .option-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: #fef3c7;
+      color: #92400e;
+      margin-bottom: 6px;
+    }
+    .option-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+    .option-desc { font-size: 13px; color: #475569; margin-bottom: 8px; }
+    .option-price {
+      font-size: 12px;
+      font-weight: 700;
+      color: #059669;
+      background: #ecfdf5;
+      padding: 4px 10px;
+      border-radius: 6px;
+      display: inline-block;
+    }
+
+    /* タイムテーブル */
+    .timeline-table th { background: #1e293b; color: #ffffff; }
+
+    footer {
+      background: #f8fafc;
+      padding: 20px;
+      text-align: center;
+      font-size: 12px;
+      color: #64748b;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    @media print {
+      body { background: #fff; padding: 0; }
+      .top-bar { display: none; }
+      .container { box-shadow: none; border: none; max-width: 100%; }
+      .content { padding: 20px; }
+    }
+    @media (max-width: 640px) {
+      .content { padding: 20px 16px; }
+      .option-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <nav class="nav-links">
+      <a href="#agenda">① 進行タイムテーブル</a>
+      <a href="#prompts">② 司会者の問いかけ集</a>
+      <a href="#market">③ 競合・関連アプリ市場調査</a>
+      <a href="#monetize">④ イベント連動・課金オプション</a>
+    </nav>
+    <button type="button" class="print-btn" onclick="window.print()">🖨️ 印刷 / PDF保存</button>
+  </div>
+
+  <div class="container">
+    <header>
+      <span class="badge-top">FACILITATOR'S CHEAT SHEET / 司会者用アンチョコ</span>
+      <h1>『心庭』改良アイデアソン・ビジネス検討会 進行ガイド</h1>
+      <p class="header-sub">
+        参加者がアプリを体験した直後に「どう改良すれば良くなるか」「ビジネスとしてどう広げるか」「どんな別の使い方があるか」を活発に議論するための、司会者用の問いかけ台本＆市場調査データ集です。
+      </p>
+    </header>
+
+    <div class="content">
+
+      <!-- 1. 進行タイムテーブル -->
+      <section class="section" id="agenda">
+        <h2 class="section-title">
+          <span class="pill">Step 1</span>
+          ワークショップ標準タイムテーブル（目安：60〜90分）
+        </h2>
+        <div class="table-wrap">
+          <table class="timeline-table">
+            <thead>
+              <tr>
+                <th style="width: 15%;">時間配分</th>
+                <th style="width: 25%;">フェーズ</th>
+                <th style="width: 60%;">司会者の動きとゴール</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>0〜10分</strong></td>
+                <td><strong>1. 体験の直後の感想シェア</strong></td>
+                <td>「正直な第一印象」を出してもらう。良い点だけでなく「分かりにくかった点・モヤっとした点」も歓迎する空気を作る。</td>
+              </tr>
+              <tr>
+                <td><strong>10〜30分</strong></td>
+                <td><strong>2. 体験・UI/UXの改良議論</strong></td>
+                <td>「また明日も開きたくなるには？」「家族や友人に勧めるならどこを直す？」を掘り下げる。</td>
+              </tr>
+              <tr>
+                <td><strong>30〜50分</strong></td>
+                <td><strong>3. 別の使い方・新用途の探索</strong></td>
+                <td>「個人の悩み相談以外」の切り口（企業研修、介護、観光、教育、外国人向け等）をブレインストーミングする。</td>
+              </tr>
+              <tr>
+                <td><strong>50〜75分</strong></td>
+                <td><strong>4. ビジネス化・イベント課金案</strong></td>
+                <td><strong>※アンチョコの競合データ（CalmやAwarefy等）を共有。</strong>「お寺×アプリ×イベント」で納得感のある収益モデルを議論する。</td>
+              </tr>
+              <tr>
+                <td><strong>75〜90分</strong></td>
+                <td><strong>5. まとめ・次の一歩の決定</strong></td>
+                <td>出たアイデアを「すぐ試せる改良」と「大きな事業案」に分類して共有し、閉会する。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 2. 司会者の問いかけ集 -->
+      <section class="section" id="prompts">
+        <h2 class="section-title">
+          <span class="pill purple">Step 2</span>
+          議論が止まった時の「司会者の問いかけ集（キラークエスチョン）」
+        </h2>
+        <div class="mc-prompt-grid">
+          <!-- 問いかけ1 -->
+          <div class="mc-card ux">
+            <span class="mc-theme">【視点A】体験と継続性（リテンション）</span>
+            <div class="mc-serif">
+              「今日『覚悟の石』ができました。では、『明日の朝、もう一度このアプリを開きたくなる理由』を作るとしたら何が必要でしょうか？」
+            </div>
+            <ul class="mc-hints">
+              <li>毎日の短い「一言問いかけ（今日の公案）」通知？</li>
+              <li>石が育つ・庭に季節の変化（紅葉・雪・桜）が出る？</li>
+              <li>家族や仲間と「覚悟の石」を贈り合える機能？</li>
+            </ul>
+          </div>
+
+          <!-- 問いかけ2 -->
+          <div class="mc-card focus">
+            <span class="mc-theme">【視点B】AIの振る舞い（コーチング vs 禅）</span>
+            <div class="mc-serif">
+              「AIの返答は、今の『優しく寄り添う感じ』が良いですか？それとも、お寺らしく『もう少しズバッと喝を入れるモード』も選べる方が良いでしょうか？」
+            </div>
+            <ul class="mc-hints">
+              <li>優しい傾聴コース vs 厳しい禅問答コースの選択制</li>
+              <li>横田管長や過去の師家の「音声」で語りかけてほしいか？</li>
+              <li>文字入力が面倒な高齢者向けの「音声入力」対応は？</li>
+            </ul>
+          </div>
+
+          <!-- 問いかけ3 -->
+          <div class="mc-card alt">
+            <span class="mc-theme">【視点C】まったく違う使い方（横展開・新用途）</span>
+            <div class="mc-serif">
+              「『個人の悩み相談』という枠を一度外してみて、このアプリを別の場所や仕事で使うとしたら、誰のどんな場面で役立ちそうでしょうか？」
+            </div>
+            <ul class="mc-hints">
+              <li><strong>企業・仕事：</strong> 大事な商談や1on1面談の前の「3分間リセット」</li>
+              <li><strong>観光・インバウンド：</strong> 英語対応して鎌倉拝観のデジタルお土産に</li>
+              <li><strong>福祉・介護：</strong> 介護で疲弊した家族への深夜の傾聴パートナー</li>
+              <li><strong>教育・学校：</strong> 子どもや学生の「自分の価値観を知る」教材</li>
+            </ul>
+          </div>
+
+          <!-- 問いかけ4 -->
+          <div class="mc-card biz">
+            <span class="mc-theme">【視点D】お金・持続可能性（マネタイズ）</span>
+            <div class="mc-serif">
+              「お寺のアプリに『月額980円』と出ると少し構えてしまいますよね。では、どんな形やイベントとのセットなら、気持ちよく『お金を払いたい（お布施したい）』と思えますか？」
+            </div>
+            <ul class="mc-hints">
+              <li>「課金」ではなく「お布施・喜捨（投げ銭）」という体験</li>
+              <li>リアルな坐禅会・拝観・お守り（物販）とセットにする</li>
+              <li>個人から取るのではなく「企業の福利厚生」として導入してもらう</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. 関連・競合アプリのウェブ調査結果 -->
+      <section class="section" id="market">
+        <h2 class="section-title">
+          <span class="pill blue">Data</span>
+          関連・競合アプリの市場規模・売上・DL数調査（議論の前提データ）
+        </h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>アプリ名</th>
+                <th>ダウンロード数</th>
+                <th>売上規模・収益モデル（推定含む）</th>
+                <th>特徴と『心庭』へのヒント</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <span class="app-name">Calm / Headspace</span>
+                  <span class="app-origin">米国（世界2大巨頭）</span>
+                </td>
+                <td>
+                  <strong>Calm:</strong> <span class="num-highlight">1億DL以上</span><br>
+                  <strong>Headspace:</strong> <span class="num-highlight">8,000万DL以上</span>
+                </td>
+                <td>
+                  ・各社とも最盛期 <strong>年間売上100億円超</strong>（企業価値数千億円規模）<br>
+                  ・個人年額サブスク（約70ドル）＋ <strong>法人福利厚生（BtoB）</strong>＋ 医療連携
+                </td>
+                <td>
+                  DL数が頭打ちになった後も、<strong>法人導入とLTV向上で売上を伸ばしている</strong>。単体瞑想から生活・睡眠・企業ケアへ拡大。
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="app-name">Upmind</span>
+                  <span class="app-origin">日本（国内最大級）</span>
+                </td>
+                <td><span class="num-highlight">累計200万DL突破</span></td>
+                <td>
+                  ・売上非公開（推定数億〜十数億円規模へ成長中）<br>
+                  ・個人サブスク（月1,650円/年6,600円）＋ <strong>法人健康経営 ＋ アスリート支援</strong>
+                </td>
+                <td>
+                  スマホカメラでの自律神経計測（可視化）と、<strong>プロスポーツチームや企業空間プロデュース</strong>などリアル連携が強い。
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="app-name">Awarefy</span>
+                  <span class="app-origin">日本（AI×認知行動療法）</span>
+                </td>
+                <td><span class="num-highlight">累計100万DL突破</span><br>(2026年1月時点)</td>
+                <td>
+                  ・売上非公開（シリーズAで約4億円資金調達）<br>
+                  ・個人サブスク ＋ 法人支援 ＋ <strong>リアルの福祉リワーク施設運営</strong>
+                </td>
+                <td>
+                  『心庭』に最も近い「AI対話パートナー（ファイさん）」を持つ。アプリだけでなく<strong>リアル拠点（施設）と組み合わせている</strong>点が重要。
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="app-name">AI副住職くん / ブッダボット</span>
+                  <span class="app-origin">日本（お寺・仏教AI特化）</span>
+                </td>
+                <td>寺院導入・限定公開ベース</td>
+                <td>
+                  ・一般ユーザー課金は難しい一方、<strong>寺院向けSaaS（月額1万円等）</strong>や<strong>デジタルお布施決済</strong>でマネタイズを確立。
+                </td>
+                <td>
+                  仏教相談アプリは「一般人から直接月額を取る」よりも、<strong>お寺や法人の業務・接点支援ツール</strong>として売る方が収益化しやすい。
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="market-insight">
+          <strong>💡 司会者が参加者に伝えるべき「市場のリアル（まとめ）」：</strong><br>
+          現在、世界の瞑想・メンタルアプリ市場は「ダウンロードさせれば儲かる」時代が終わり、<strong>① 企業の福利厚生（BtoB）</strong> と <strong>② リアルな場・イベント（施設・体験）との融合</strong> にシフトしています。『心庭』には<strong>「円覚寺という本物の聖地（リアル拠点）」</strong>があるため、他社には絶対に真似できない強みがあります！
+        </div>
+      </section>
+
+      <!-- 4. イベント×課金オプション調査結果 -->
+      <section class="section" id="monetize">
+        <h2 class="section-title">
+          <span class="pill green">Options</span>
+          イベントと組み合わせた「課金・収益化オプション」調査案
+        </h2>
+        <div class="option-grid">
+          <div class="option-card">
+            <span class="option-tag">案1：O2O（リアルイベント×限定体験）</span>
+            <h4 class="option-title">坐禅会・法話イベント連動「特別の石」アンロック</h4>
+            <p class="option-desc">
+              円覚寺や各地のイベント（坐禅会・写経・講演）の参加者に会場限定QRを配布。読み込むと、アプリ内の心庭に<strong>「イベント限定の特別な覚悟の石」</strong>や<strong>「師家の限定法話音声」</strong>が授与される（デジタル御朱印）。
+            </p>
+            <span class="option-price">課金方法：イベント参加費（3,000〜5,000円）に付加価値として包含</span>
+          </div>
+
+          <div class="option-card">
+            <span class="option-tag">案2：BtoB（法人研修×継続アプリ）</span>
+            <h4 class="option-title">企業向け「鎌倉禅リトリート＋アプリ3ヶ月プラン」</h4>
+            <p class="option-desc">
+              企業の管理職・新入社員向けに「円覚寺でのリアル禅研修」を実施し、日常に戻った後のメンタルケア・振り返りツールとして『心庭』の法人専用アカウントをセット提供する。
+            </p>
+            <span class="option-price">課金方法：法人研修パッケージ（1社 30万〜100万円）</span>
+          </div>
+
+          <div class="option-card">
+            <span class="option-tag">案3：観光・インバウンド連携</span>
+            <h4 class="option-title">拝観連動「境内・歩き瞑想＆多言語禅ガイド」</h4>
+            <p class="option-desc">
+              英語・中国語に対応し、鎌倉観光や円覚寺拝観の際に境内のスポット（山門・仏殿・妙香池）と連動した音声ガイド・問答を提供。拝観記念の石を持ち帰れるようにする。
+            </p>
+            <span class="option-price">課金方法：特別拝観チケット / 多言語パス（500〜1,500円）</span>
+          </div>
+
+          <div class="option-card">
+            <span class="option-tag">案4：お寺ならではの納得課金</span>
+            <h4 class="option-title">強制しない「デジタルお布施（喜捨）・お守り物販」</h4>
+            <p class="option-desc">
+              アプリは完全無料・プライバシー安全で提供しつつ、問答で心が軽くなったユーザーが感謝の気持ちとして少額を喜捨できるボタンを設置。または、授かった「覚悟の石」と同じ銘を刻んだ木札・お守りを郵送販売する。
+            </p>
+            <span class="option-price">課金方法：任意のお布施（300円〜）/ オリジナル木札・お守り（1,500〜3,000円）</span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <footer>
+      <strong>臨済宗大本山 円覚寺『心庭』改善ワークショップ・司会者用アンチョコ</strong><br>
+      市場データは公開情報および業界動向に基づく参考値です。議論の活性化にご活用ください。
+    </footer>
+  </div>
+
+</body>
+</html>
