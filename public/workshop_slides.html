@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第8回 和×AI研究会｜秋の鎌倉「禅の心×AI」編 ワークショップ資料</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0f172a;
+      --washi: #fbf8f1;
+      --washi-border: #e2d9c8;
+      --ink: #1e293b;
+      --navy: #002060;
+      --gold: #b45309;
+      --gold-light: #d97706;
+      --crimson: #9f2d20;
+      --moss: #3f6212;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Zen Kaku Gothic New', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #111827;
+      color: var(--ink);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ==================== パスワードゲート ==================== */
+    #auth-gate {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: radial-gradient(circle at center, #1e293b 0%, #090d16 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    #auth-gate.hidden { display: none; }
+
+    .auth-card {
+      width: 100%;
+      max-width: 420px;
+      background: var(--washi);
+      border: 2px solid #c9b99a;
+      border-radius: 16px;
+      padding: 36px 30px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.55);
+      text-align: center;
+      position: relative;
+    }
+    .auth-enso {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 14px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .auth-enso img { width: 100%; height: 100%; object-fit: contain; }
+    .auth-enso span {
+      position: absolute;
+      font-family: 'Shippori Mincho', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .auth-sub {
+      font-size: 12px;
+      color: var(--gold);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      margin-bottom: 6px;
+    }
+    .auth-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+    .auth-desc {
+      font-size: 13px;
+      color: #64748b;
+      margin-bottom: 22px;
+    }
+    .auth-input-wrap {
+      position: relative;
+      margin-bottom: 14px;
+    }
+    .auth-input {
+      width: 100%;
+      padding: 12px 44px 12px 14px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 16px;
+      background: #ffffff;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .auth-input:focus { border-color: var(--gold-light); }
+    .toggle-pw {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      color: #64748b;
+      padding: 4px;
+    }
+    .auth-btn {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .auth-btn:hover { opacity: 0.92; }
+    .auth-error {
+      margin-top: 10px;
+      font-size: 12.5px;
+      color: #dc2626;
+      font-weight: 600;
+      min-height: 18px;
+    }
+
+    /* ==================== ツールバー ==================== */
+    #app-shell { display: none; flex-direction: column; min-height: 100vh; }
+    #app-shell.unlocked { display: flex; }
+
+    .toolbar {
+      background: rgba(15, 23, 42, 0.95);
+      border-bottom: 1px solid #334155;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      color: #e2e8f0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .toolbar-badge {
+      background: rgba(217, 119, 6, 0.25);
+      border: 1px solid #f59e0b;
+      color: #fde68a;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+    }
+    .toolbar-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .tb-btn {
+      background: #1e293b;
+      color: #e2e8f0;
+      border: 1px solid #475569;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .tb-btn:hover { background: #334155; color: #ffffff; }
+    .tb-btn.active { background: #d97706; border-color: #f59e0b; color: #ffffff; }
+    .slide-counter {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fde68a;
+      min-width: 52px;
+      text-align: center;
+    }
+
+    /* ==================== スライドステージ ==================== */
+    .stage {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+    }
+    .slides-wrapper {
+      width: 100%;
+      max-width: 1120px;
+    }
+    .slide {
+      display: none;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: var(--washi);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+      position: relative;
+      border: 1px solid #d6cbb5;
+    }
+    .slide.active { display: flex; flex-direction: column; }
+
+    /* 一覧モード */
+    body.list-mode .stage { display: block; padding: 28px 16px; }
+    body.list-mode .slides-wrapper { margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
+    body.list-mode .slide { display: flex !important; flex-direction: column; }
+    body.list-mode .nav-arrow { display: none; }
+
+    /* 共通ヘッダー（スライド2〜5） */
+    .slide-header {
+      background: linear-gradient(90deg, #0f172a 0%, #1e293b 70%, #312e81 100%);
+      color: #ffffff;
+      padding: 18px 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 4px solid #d97706;
+      flex-shrink: 0;
+    }
+    .slide-header-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(20px, 2.5vw, 30px);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+    }
+    .slide-header-tag {
+      font-size: 12px;
+      color: #fde68a;
+      border: 1px solid rgba(253, 230, 138, 0.4);
+      padding: 3px 12px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+    .slide-body {
+      flex: 1;
+      padding: 26px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+    .slide-footer-num {
+      position: absolute;
+      bottom: 12px;
+      right: 22px;
+      font-size: 11px;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    /* ==================== SLIDE 1: 表紙 ==================== */
+    .slide-1 {
+      display: none;
+      background: #fbf8f1;
+    }
+    .slide-1.active { display: grid; grid-template-columns: 1.08fr 0.92fr; }
+    body.list-mode .slide-1 { display: grid !important; grid-template-columns: 1.08fr 0.92fr; }
+
+    .s1-left {
+      padding: 36px 38px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      background: linear-gradient(155deg, #fbf8f1 0%, #f3ecdc 100%);
+    }
+    .s1-enso-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .s1-enso {
+      width: 56px;
+      height: 56px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .s1-enso img { width: 100%; height: 100%; object-fit: contain; }
+    .s1-enso span {
+      position: absolute;
+      font-family: 'Shippori Mincho', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #1e293b;
+    }
+    .s1-edition {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(16px, 1.8vw, 22px);
+      font-weight: 700;
+      color: var(--crimson);
+      letter-spacing: 0.08em;
+    }
+    .s1-main-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(28px, 3.6vw, 44px);
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.25;
+      margin: 10px 0 6px;
+    }
+    .s1-theme {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(18px, 2.2vw, 26px);
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.4;
+      margin-bottom: 14px;
+    }
+    .s1-catch {
+      font-size: clamp(13px, 1.3vw, 16px);
+      color: #475569;
+      border-left: 3px solid var(--crimson);
+      padding-left: 12px;
+      font-weight: 500;
+    }
+    .s1-meta {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid #d6cbb5;
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(14px, 1.5vw, 18px);
+      font-weight: 700;
+      color: #1e293b;
+      line-height: 1.6;
+    }
+    .s1-leaves {
+      position: absolute;
+      bottom: 18px;
+      right: 22px;
+      display: flex;
+      gap: 6px;
+      opacity: 0.85;
+    }
+    .s1-leaves img { width: 28px; height: 28px; object-fit: contain; }
+
+    .s1-right {
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      gap: 12px;
+      background: #1e293b;
+    }
+    .s1-hero-img {
+      flex: 1.45;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+    .s1-hero-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .s1-photo-row {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .s1-photo-card {
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      background: #0f172a;
+    }
+    .s1-photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .s1-photo-cap {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(transparent, rgba(0, 0, 0, 0.82));
+      color: #ffffff;
+      padding: 16px 8px 6px;
+      font-size: clamp(10px, 1vw, 12px);
+      font-weight: 700;
+      text-align: center;
+    }
+
+    /* ==================== SLIDE 2: 席次 ==================== */
+    .seating-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto auto;
+      gap: 16px 24px;
+      width: 100%;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .seat-table {
+      background: #ffffff;
+      border: 2px solid #cbd5e1;
+      border-radius: 14px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+    }
+    .seat-table.t-a { border-left: 8px solid #b45309; }
+    .seat-table.t-b { border-left: 8px solid #1d4ed8; }
+    .seat-table.t-c { border-left: 8px solid #9f2d20; grid-column: span 2; }
+    .seat-table.t-d { border-left: 8px solid #047857; }
+    .seat-badge {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: #ffffff;
+      font-family: 'Shippori Mincho', serif;
+      font-size: 24px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .seat-names {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      flex: 1;
+    }
+    .seat-person {
+      font-size: clamp(16px, 1.8vw, 22px);
+      font-weight: 700;
+      color: var(--navy);
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      padding: 6px 16px;
+      border-radius: 8px;
+    }
+    .counter-bar {
+      background: linear-gradient(90deg, #475569, #334155);
+      color: #ffffff;
+      border-radius: 10px;
+      padding: 12px 20px;
+      text-align: center;
+      font-size: clamp(14px, 1.5vw, 18px);
+      font-weight: 700;
+      letter-spacing: 0.35em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .honorific-note {
+      position: absolute;
+      top: 14px;
+      right: 40px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #64748b;
+    }
+
+    /* ==================== SLIDE 3〜5: ワークショップカード ==================== */
+    .ws-box {
+      background: #ffffff;
+      border: 2px solid #d6cbb5;
+      border-radius: 16px;
+      padding: 32px 42px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+      max-width: 960px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .ws-item {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(20px, 2.5vw, 32px);
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+    .ws-item:last-child { margin-bottom: 0; }
+    .ws-highlight {
+      color: var(--crimson);
+      background: linear-gradient(transparent 65%, #fde68a 65%);
+      padding: 0 4px;
+    }
+    .ws-hero-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(26px, 3.2vw, 40px);
+      font-weight: 800;
+      color: var(--navy);
+      text-align: center;
+      margin-bottom: 18px;
+      line-height: 1.4;
+    }
+    .ws-guest {
+      text-align: center;
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(20px, 2.3vw, 28px);
+      font-weight: 700;
+      color: var(--gold);
+      background: #fffbeb;
+      border: 1.5px dashed #f59e0b;
+      padding: 12px 24px;
+      border-radius: 12px;
+      display: inline-block;
+      margin: 0 auto 20px;
+    }
+    .ws-links {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .ws-link-btn {
+      text-decoration: none;
+      background: #0f172a;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 9px 18px;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+    .ws-link-btn.secondary {
+      background: #ffffff;
+      color: #0f172a;
+      border: 1.5px solid #94a3b8;
+    }
+    .ws-link-btn:hover { opacity: 0.88; }
+
+    .work2-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 12px;
+      padding-left: 16px;
+    }
+    .work2-list li {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(20px, 2.2vw, 28px);
+      font-weight: 700;
+      color: #1e293b;
+      background: #f8fafc;
+      border-left: 5px solid var(--gold-light);
+      padding: 10px 18px;
+      border-radius: 8px;
+    }
+
+    /* 画面左右ナビ矢印 */
+    .nav-arrow {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 64px;
+      background: rgba(15, 23, 42, 0.7);
+      color: #ffffff;
+      border: 1px solid #475569;
+      border-radius: 10px;
+      font-size: 22px;
+      cursor: pointer;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .nav-arrow:hover { background: rgba(217, 119, 6, 0.9); }
+    .nav-prev { left: 14px; }
+    .nav-next { right: 14px; }
+
+    /* サムネイルドット */
+    .dots-bar {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 0 18px;
+    }
+    body.list-mode .dots-bar { display: none; }
+    .dot-btn {
+      padding: 5px 14px;
+      border-radius: 20px;
+      border: 1px solid #475569;
+      background: #1e293b;
+      color: #cbd5e1;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .dot-btn.active {
+      background: #d97706;
+      border-color: #f59e0b;
+      color: #ffffff;
+    }
+
+    /* スマホ対応 */
+    @media (max-width: 768px) {
+      .slide { aspect-ratio: auto; min-height: 480px; }
+      .slide-1.active, body.list-mode .slide-1 { grid-template-columns: 1fr; }
+      .s1-left { padding: 24px 20px; }
+      .s1-right { min-height: 280px; }
+      .slide-body { padding: 20px 18px; }
+      .seating-layout { grid-template-columns: 1fr; }
+      .seat-table.t-c { grid-column: span 1; }
+      .ws-box { padding: 22px 18px; }
+      .nav-arrow { display: none; }
+      .honorific-note { position: static; text-align: right; margin-bottom: 8px; }
+    }
+
+    /* 印刷用 */
+    @media print {
+      body { background: #fff; }
+      #auth-gate, .toolbar, .nav-arrow, .dots-bar { display: none !important; }
+      .stage { padding: 0; display: block !important; }
+      .slides-wrapper { max-width: 100%; }
+      .slide {
+        display: flex !important;
+        box-shadow: none;
+        border: 1px solid #ccc;
+        page-break-after: always;
+        margin-bottom: 20px;
+      }
+      .slide-1 { display: grid !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- パスワードロック画面 -->
+  <div id="auth-gate">
+    <div class="auth-card">
+      <div class="auth-enso">
+        <img src="workshop_assets/image5.png" alt="円相">
+        <span>禅</span>
+      </div>
+      <div class="auth-sub">第8回 和×AI研究会｜於 円覚寺 佛日庵</div>
+      <h1 class="auth-title">ワークショップ資料（限定公開）</h1>
+      <p class="auth-desc">閲覧するにはパスワードを入力してください</p>
+      <div class="auth-input-wrap">
+        <input id="pw-input" class="auth-input" type="password" placeholder="パスワードを入力" autocomplete="off">
+        <button type="button" id="toggle-pw" class="toggle-pw" aria-label="パスワード表示切替">👁️</button>
+      </div>
+      <button type="button" id="unlock-btn" class="auth-btn">資料を開く</button>
+      <div id="auth-error" class="auth-error"></div>
+    </div>
+  </div>
+
+  <!-- メインプレゼン画面 -->
+  <div id="app-shell">
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <span class="toolbar-badge">2026.11.14（土）佛日庵</span>
+        <span>第8回 和×AI研究会 ワークショップスライド</span>
+      </div>
+      <div class="toolbar-controls">
+        <button type="button" class="tb-btn" id="btn-prev">◀ 前へ</button>
+        <span class="slide-counter" id="slide-counter">1 / 5</span>
+        <button type="button" class="tb-btn" id="btn-next">次へ ▶</button>
+        <button type="button" class="tb-btn" id="btn-mode">📄 一覧表示</button>
+        <button type="button" class="tb-btn" id="btn-fs">⛶ 全画面</button>
+        <button type="button" class="tb-btn" onclick="window.print()">🖨️ 印刷</button>
+        <button type="button" class="tb-btn" id="btn-lock">🔒 ロック</button>
+      </div>
+    </div>
+
+    <button type="button" class="nav-arrow nav-prev" id="arrow-prev" aria-label="前のスライド">‹</button>
+    <button type="button" class="nav-arrow nav-next" id="arrow-next" aria-label="次のスライド">›</button>
+
+    <main class="stage">
+      <div class="slides-wrapper">
+
+        <!-- SLIDE 1: 表紙 -->
+        <section class="slide slide-1 active" data-index="0">
+          <div class="s1-left">
+            <div>
+              <div class="s1-enso-row">
+                <div class="s1-enso">
+                  <img src="workshop_assets/image5.png" alt="円相">
+                  <span>禅</span>
+                </div>
+                <div class="s1-edition">第8回</div>
+              </div>
+              <h1 class="s1-main-title">和×AI研究会</h1>
+              <div class="s1-theme">秋の鎌倉<br>「禅の心×AI」編</div>
+              <p class="s1-catch">紅葉を愛で、禅に触れ、一服の茶をいただく</p>
+            </div>
+            <div class="s1-meta">
+              於　円覚寺　佛日庵<br>
+              2026.11.14（土）
+            </div>
+            <div class="s1-leaves">
+              <img src="workshop_assets/image6.png" alt="">
+              <img src="workshop_assets/image7.png" alt="">
+              <img src="workshop_assets/image8.png" alt="">
+            </div>
+          </div>
+
+          <div class="s1-right">
+            <div class="s1-hero-img">
+              <img src="workshop_assets/image1.jpg" alt="円覚寺 山門">
+            </div>
+            <div class="s1-photo-row">
+              <div class="s1-photo-card">
+                <img src="workshop_assets/image2.jpg" alt="紅葉 秋の円覚寺">
+                <div class="s1-photo-cap">紅葉　秋の円覚寺</div>
+              </div>
+              <div class="s1-photo-card">
+                <img src="workshop_assets/image3.jpg" alt="禅 国宝 舎利殿">
+                <div class="s1-photo-cap">禅　国宝 舎利殿</div>
+              </div>
+              <div class="s1-photo-card">
+                <img src="workshop_assets/image4.jpg" alt="茶 一服の抹茶">
+                <div class="s1-photo-cap">茶　一服の抹茶</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SLIDE 2: 席次 -->
+        <section class="slide" data-index="1">
+          <div class="slide-header">
+            <h2 class="slide-header-title">ワークショップ　席次</h2>
+            <span class="slide-header-tag">Slide 2 / 5</span>
+          </div>
+          <div class="slide-body">
+            <div class="honorific-note">※敬称略</div>
+            <div class="seating-layout">
+              <div class="seat-table t-a">
+                <div class="seat-badge">A</div>
+                <div class="seat-names">
+                  <span class="seat-person">長尾</span>
+                  <span class="seat-person">萩原</span>
+                  <span class="seat-person">田中</span>
+                  <span class="seat-person">中西</span>
+                </div>
+              </div>
+
+              <div class="seat-table t-b">
+                <div class="seat-badge">B</div>
+                <div class="seat-names">
+                  <span class="seat-person">木村</span>
+                  <span class="seat-person">大川</span>
+                  <span class="seat-person">杉村</span>
+                </div>
+              </div>
+
+              <div class="seat-table t-c">
+                <div class="seat-badge">C</div>
+                <div class="seat-names">
+                  <span class="seat-person">柚木園</span>
+                  <span class="seat-person">妹背</span>
+                  <span class="seat-person">近藤</span>
+                  <span class="seat-person">小松</span>
+                  <span class="seat-person">福元</span>
+                  <span class="seat-person">衛藤</span>
+                </div>
+              </div>
+
+              <div class="seat-table t-d">
+                <div class="seat-badge">D</div>
+                <div class="seat-names">
+                  <span class="seat-person">タンタン</span>
+                  <span class="seat-person">志穂美</span>
+                </div>
+              </div>
+
+              <div class="counter-bar">カウンター</div>
+            </div>
+            <span class="slide-footer-num">第8回 和×AI研究会｜2026.11.14</span>
+          </div>
+        </section>
+
+        <!-- SLIDE 3: 自己紹介 -->
+        <section class="slide" data-index="2">
+          <div class="slide-header">
+            <h2 class="slide-header-title">ワークショップ　自己紹介</h2>
+            <span class="slide-header-tag">Slide 3 / 5</span>
+          </div>
+          <div class="slide-body">
+            <div class="ws-box">
+              <div class="ws-item">
+                ① 氏名 ／ 産地 ／ 人生（軽く）／ 現在
+              </div>
+              <div class="ws-item">
+                ② 佛日庵で感じた私の中の<span class="ws-highlight">“仏の心！”</span>
+              </div>
+            </div>
+            <span class="slide-footer-num">第8回 和×AI研究会｜2026.11.14</span>
+          </div>
+        </section>
+
+        <!-- SLIDE 4: Work 1 -->
+        <section class="slide" data-index="3">
+          <div class="slide-header">
+            <h2 class="slide-header-title">ワークショップ　Work １</h2>
+            <span class="slide-header-tag">Slide 4 / 5</span>
+          </div>
+          <div class="slide-body" style="text-align: center;">
+            <div class="ws-box">
+              <div class="ws-hero-title">
+                禅の心アプリ「心庭」を試す！
+              </div>
+              <div>
+                <div class="ws-guest">＝ 野口先生 登場！ ＝</div>
+              </div>
+              <div class="ws-links">
+                <a class="ws-link-btn" href="https://noguchi3564.github.io/enkakuji2/" target="_blank" rel="noopener">📱 『心庭』アプリを開く</a>
+                <a class="ws-link-btn secondary" href="https://noguchi3564.github.io/enkakuji2/pamphlet.html" target="_blank" rel="noopener">📖 使い方パンフレット</a>
+              </div>
+            </div>
+            <span class="slide-footer-num">第8回 和×AI研究会｜2026.11.14</span>
+          </div>
+        </section>
+
+        <!-- SLIDE 5: Work 2 -->
+        <section class="slide" data-index="4">
+          <div class="slide-header">
+            <h2 class="slide-header-title">ワークショップ　Work ２</h2>
+            <span class="slide-header-tag">Slide 5 / 5</span>
+          </div>
+          <div class="slide-body">
+            <div class="ws-box">
+              <div class="ws-hero-title" style="margin-bottom: 14px;">
+                禅の心“内省”アプリ「心庭」をはやらせる！
+              </div>
+              <ul class="work2-list">
+                <li>①「誰に？」</li>
+                <li>②「サービス改良のポイント」</li>
+                <li>③ 戦略　他</li>
+              </ul>
+              <div class="ws-links" style="margin-top: 18px;">
+                <a class="ws-link-btn secondary" href="https://noguchi3564.github.io/enkakuji2/facilitator_guide.html" target="_blank" rel="noopener">💡 司会者用アンチョコ（市場データ・課金案）</a>
+              </div>
+            </div>
+            <span class="slide-footer-num">第8回 和×AI研究会｜2026.11.14</span>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <div class="dots-bar" id="dots-bar">
+      <button type="button" class="dot-btn active" data-slide="0">1. 表紙</button>
+      <button type="button" class="dot-btn" data-slide="1">2. 席次</button>
+      <button type="button" class="dot-btn" data-slide="2">3. 自己紹介</button>
+      <button type="button" class="dot-btn" data-slide="3">4. Work 1</button>
+      <button type="button" class="dot-btn" data-slide="4">5. Work 2</button>
+    </div>
+  </div>
+
+  <script>
+    // 簡易パスワード検証（SHA-256）
+    const TARGET_HASH = '1b489294a89ed38f3701a220fad121c885fc00d87bee505e9cc8fadd26fa65e8';
+    const STORAGE_KEY = 'enkakuji2_workshop_unlocked';
+
+    // Pure-JS SHA-256 fallback (file:// 等で crypto.subtle が使えない環境向け)
+    function sha256Fallback(ascii) {
+      function rightRotate(value, amount) {
+        return (value >>> amount) | (value << (32 - amount));
+      }
+      const mathPow = Math.pow;
+      const maxWord = mathPow(2, 32);
+      let result = '';
+      const words = [];
+      const asciiBitLength = ascii.length * 8;
+      const hash = [];
+      const k = [];
+      let primeCounter = 0;
+      const isComposite = {};
+      for (let candidate = 2; primeCounter < 64; candidate++) {
+        if (!isComposite[candidate]) {
+          for (let i = 0; i < 313; i += candidate) isComposite[i] = candidate;
+          hash[primeCounter] = (mathPow(candidate, 0.5) * maxWord) | 0;
+          k[primeCounter++] = (mathPow(candidate, 1 / 3) * maxWord) | 0;
+        }
+      }
+      ascii += '\x80';
+      while (ascii.length % 64 - 56) ascii += '\x00';
+      for (let i = 0; i < ascii.length; i++) {
+        const j = ascii.charCodeAt(i);
+        words[i >> 2] |= j << (((3 - i) % 4) * 8);
+      }
+      words[words.length] = (asciiBitLength / maxWord) | 0;
+      words[words.length] = asciiBitLength;
+      for (let j = 0; j < words.length;) {
+        const w = words.slice(j, (j += 16));
+        const oldHash = hash.slice(0);
+        for (let i = 0; i < 64; i++) {
+          const w15 = w[i - 15], w2 = w[i - 2];
+          const a = hash[0], e = hash[4];
+          const temp1 = hash[7] + (rightRotate(e, 6) ^ rightRotate(e, 11) ^ rightRotate(e, 25)) + ((e & hash[5]) ^ (~e & hash[6])) + k[i] +
+            (w[i] = i < 16 ? w[i] : (w[i - 16] + (rightRotate(w15, 7) ^ rightRotate(w15, 18) ^ (w15 >>> 3)) + w[i - 7] + (rightRotate(w2, 17) ^ rightRotate(w2, 19) ^ (w2 >>> 10))) | 0);
+          const temp2 = (rightRotate(a, 2) ^ rightRotate(a, 13) ^ rightRotate(a, 22)) + ((a & hash[1]) ^ (a & hash[2]) ^ (hash[1] & hash[2]));
+          hash.unshift((temp1 + temp2) | 0);
+          hash[4] = (hash[4] + temp1) | 0;
+          hash.pop();
+        }
+        for (let i = 0; i < 8; i++) hash[i] = (hash[i] + oldHash[i]) | 0;
+      }
+      for (let i = 0; i < 8; i++) {
+        for (let j = 3; j + 1; j--) {
+          const b = (hash[i] >> (j * 8)) & 255;
+          result += (b < 16 ? '0' : '') + b.toString(16);
+        }
+      }
+      return result;
+    }
+
+    async function hashText(text) {
+      if (window.crypto && window.crypto.subtle) {
+        const buf = await window.crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+        return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+      }
+      return sha256Fallback(unescape(encodeURIComponent(text)));
+    }
+
+    const authGate = document.getElementById('auth-gate');
+    const appShell = document.getElementById('app-shell');
+    const pwInput = document.getElementById('pw-input');
+    const unlockBtn = document.getElementById('unlock-btn');
+    const authError = document.getElementById('auth-error');
+    const togglePw = document.getElementById('toggle-pw');
+
+    function showUnlocked() {
+      authGate.classList.add('hidden');
+      appShell.classList.add('unlocked');
+    }
+
+    function showLocked() {
+      sessionStorage.removeItem(STORAGE_KEY);
+      appShell.classList.remove('unlocked');
+      authGate.classList.remove('hidden');
+      pwInput.value = '';
+      authError.textContent = '';
+      pwInput.focus();
+    }
+
+    async function tryUnlock() {
+      const val = pwInput.value.trim();
+      if (!val) {
+        authError.textContent = 'パスワードを入力してください。';
+        return;
+      }
+      const digest = await hashText(val);
+      if (digest === TARGET_HASH) {
+        sessionStorage.setItem(STORAGE_KEY, '1');
+        authError.textContent = '';
+        showUnlocked();
+      } else {
+        authError.textContent = 'パスワードが正しくありません。';
+        pwInput.select();
+      }
+    }
+
+    if (sessionStorage.getItem(STORAGE_KEY) === '1') {
+      showUnlocked();
+    } else {
+      pwInput.focus();
+    }
+
+    unlockBtn.addEventListener('click', tryUnlock);
+    pwInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') tryUnlock();
+    });
+    togglePw.addEventListener('click', () => {
+      pwInput.type = pwInput.type === 'password' ? 'text' : 'password';
+    });
+    document.getElementById('btn-lock').addEventListener('click', showLocked);
+
+    // スライド制御
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const dots = Array.from(document.querySelectorAll('.dot-btn'));
+    const counter = document.getElementById('slide-counter');
+    let current = 0;
+
+    function goToSlide(idx) {
+      if (idx < 0) idx = 0;
+      if (idx >= slides.length) idx = slides.length - 1;
+      current = idx;
+      slides.forEach((s, i) => s.classList.toggle('active', i === current));
+      dots.forEach((d, i) => d.classList.toggle('active', i === current));
+      counter.textContent = `${current + 1} / ${slides.length}`;
+    }
+
+    document.getElementById('btn-prev').addEventListener('click', () => goToSlide(current - 1));
+    document.getElementById('btn-next').addEventListener('click', () => goToSlide(current + 1));
+    document.getElementById('arrow-prev').addEventListener('click', () => goToSlide(current - 1));
+    document.getElementById('arrow-next').addEventListener('click', () => goToSlide(current + 1));
+    dots.forEach(d => d.addEventListener('click', () => goToSlide(Number(d.dataset.slide))));
+
+    // 一覧表示切替
+    const btnMode = document.getElementById('btn-mode');
+    btnMode.addEventListener('click', () => {
+      const isList = document.body.classList.toggle('list-mode');
+      btnMode.classList.toggle('active', isList);
+      btnMode.textContent = isList ? '🖼️ スライド表示' : '📄 一覧表示';
+    });
+
+    // 全画面切替
+    document.getElementById('btn-fs').addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen?.();
+      } else {
+        document.exitFullscreen?.();
+      }
+    });
+
+    // キーボード操作（ロック解除後のみ）
+    document.addEventListener('keydown', (e) => {
+      if (!appShell.classList.contains('unlocked')) return;
+      if (document.body.classList.contains('list-mode')) return;
+      if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+        e.preventDefault();
+        goToSlide(current + 1);
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        goToSlide(current - 1);
+      } else if (e.key.toLowerCase() === 'f') {
+        document.getElementById('btn-fs').click();
+      }
+    });
+
+    // スワイプ操作
+    let touchStartX = 0;
+    document.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    document.addEventListener('touchend', (e) => {
+      if (!appShell.classList.contains('unlocked')) return;
+      if (document.body.classList.contains('list-mode')) return;
+      const diff = e.changedTouches[0].screenX - touchStartX;
+      if (Math.abs(diff) > 50) {
+        if (diff < 0) goToSlide(current + 1);
+        else goToSlide(current - 1);
+      }
+    }, { passive: true });
+  </script>
+</body>
+</html>
