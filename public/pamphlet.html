@@ -163,6 +163,38 @@
       gap: 14px;
     }
 
+    /* プライバシー安心ボックス */
+    .privacy-box {
+      background: #f0fdf4;
+      border: 1.5px solid #86efac;
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-bottom: 24px;
+    }
+
+    .privacy-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .privacy-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #166534;
+    }
+
+    .privacy-desc {
+      font-size: 12px;
+      color: #15803d;
+      line-height: 1.5;
+    }
+
+    .privacy-desc strong {
+      color: #14532d;
+    }
+
     .install-box {
       border: 1px solid #e2e8f0;
       border-radius: 10px;
@@ -461,6 +493,18 @@
           </div>
         </div>
       </section>
+
+      <!-- プライバシー安心設計バナー -->
+      <div class="privacy-box">
+        <div class="privacy-header">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+          <span class="privacy-title">【プライバシー安心設計】誰にも見られない、あなただけの空間</span>
+        </div>
+        <p class="privacy-desc">
+          対話やお悩み、プロフィールなどの個人情報は、<strong>クラウド上のデータベースには一切保存されません</strong>。<br>
+          すべてのデータはお手元の<strong>スマホ端末の中だけに安全に保存</strong>されますので、安心して本音をお話しいただけます。
+        </p>
+      </div>
 
       <!-- 3. アプリの使い方 -->
       <section class="section">
