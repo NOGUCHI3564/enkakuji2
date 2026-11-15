@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>『心庭』次世代PMF戦略：Sovereign Mental Care OS（個人主権型メンタルケアOS）</title>
+  <title>『心庭（Kokoroniwa）』グローバル事業計画書 — PoCゲート通過型・Calm超えスケール戦略</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
@@ -17,7 +17,7 @@
       padding: 24px 16px;
     }
     .top-bar {
-      max-width: 1120px;
+      max-width: 1140px;
       margin: 0 auto 12px;
       display: flex;
       justify-content: space-between;
@@ -50,7 +50,7 @@
     }
 
     .container {
-      max-width: 1120px;
+      max-width: 1140px;
       margin: 0 auto;
       background: #ffffff;
       color: #334155;
@@ -61,9 +61,9 @@
     }
 
     header {
-      background: linear-gradient(135deg, #090d16 0%, #1e1b4b 55%, #064e3b 100%);
+      background: linear-gradient(135deg, #090d16 0%, #1e1b4b 50%, #064e3b 100%);
       color: #ffffff;
-      padding: 36px 38px;
+      padding: 38px 40px;
       border-bottom: 4px solid #10b981;
     }
     .badge-top {
@@ -80,18 +80,34 @@
     }
     h1 {
       font-family: 'Shippori Mincho', serif;
-      font-size: 26px;
+      font-size: 27px;
       color: #ffffff;
       margin-bottom: 10px;
     }
     .header-sub {
       font-size: 14px;
       color: #e2e8f0;
-      max-width: 920px;
+      max-width: 940px;
     }
 
-    .content { padding: 34px 38px; }
-    .section { margin-bottom: 44px; }
+    .kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 22px;
+    }
+    .kpi-box {
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+    .kpi-box .k-label { font-size: 11px; color: #94a3b8; font-weight: 700; }
+    .kpi-box .k-val { font-size: 18px; color: #34d399; font-weight: 800; margin: 2px 0; }
+    .kpi-box .k-sub { font-size: 11.5px; color: #cbd5e1; }
+
+    .content { padding: 36px 40px; }
+    .section { margin-bottom: 46px; }
     .section-title {
       font-family: 'Shippori Mincho', serif;
       font-size: 20px;
@@ -117,40 +133,31 @@
     .pill.red { background: #dc2626; }
     .pill.slate { background: #334155; }
 
-    .invention-hero {
+    .hero-box {
       background: linear-gradient(135deg, #ecfdf5 0%, #eff6ff 100%);
       border: 2px solid #10b981;
       border-radius: 14px;
-      padding: 24px 28px;
-      margin-bottom: 22px;
+      padding: 22px 26px;
+      margin-bottom: 20px;
     }
-    .invention-hero .label {
+    .hero-box .label {
       font-size: 11.5px;
       font-weight: 800;
       color: #047857;
       letter-spacing: 0.08em;
       margin-bottom: 6px;
     }
-    .invention-hero h2 {
+    .hero-box h2 {
       font-family: 'Shippori Mincho', serif;
-      font-size: 20.5px;
+      font-size: 20px;
       color: #0f172a;
       line-height: 1.5;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
-    .invention-hero p { font-size: 13.5px; color: #334155; }
+    .hero-box p { font-size: 13.5px; color: #334155; }
 
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-bottom: 18px;
-    }
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 16px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
     .card {
       background: #f8fafc;
       border: 1px solid #cbd5e1;
@@ -178,42 +185,41 @@
     .card ul { padding-left: 18px; }
     .card li { margin-bottom: 4px; }
 
-    /* アーキテクチャ図 */
-    .arch-box {
-      background: #0f172a;
-      color: #f1f5f9;
-      border-radius: 14px;
-      padding: 24px;
-      margin-bottom: 16px;
-    }
-    .arch-flow {
+    /* Gate Flow */
+    .gate-grid {
       display: grid;
-      grid-template-columns: 1fr auto 1fr auto 1fr;
-      align-items: stretch;
-      gap: 12px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 18px;
     }
-    .arch-node {
-      background: #1e293b;
-      border: 1px solid #475569;
+    .gate-card {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-top: 4px solid #059669;
       border-radius: 10px;
       padding: 16px;
     }
-    .arch-node h4 {
-      font-size: 13.5px;
-      color: #34d399;
+    .gate-card.g1 { border-top-color: #0284c7; }
+    .gate-card.g2 { border-top-color: #4338ca; }
+    .gate-card.g3 { border-top-color: #d97706; }
+    .gate-num { font-size: 11px; font-weight: 800; color: #0f172a; letter-spacing: 0.06em; margin-bottom: 4px; }
+    .gate-card h4 { font-size: 14.5px; color: #0f172a; margin-bottom: 8px; }
+    .gate-card .go {
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-size: 12px;
       margin-bottom: 8px;
-      border-bottom: 1px solid #334155;
-      padding-bottom: 4px;
+      color: #065f46;
     }
-    .arch-node ul { padding-left: 16px; font-size: 12.2px; color: #cbd5e1; }
-    .arch-node li { margin-bottom: 5px; }
-    .arch-arrow {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      font-weight: 800;
-      color: #f59e0b;
+    .gate-card .nogo {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-size: 12px;
+      color: #991b1b;
     }
 
     table {
@@ -232,13 +238,23 @@
     }
     th { background: #1e293b; color: #ffffff; font-weight: 700; font-size: 12.5px; }
     tr:nth-child(even) td { background: #f8fafc; }
+    .num { font-variant-numeric: tabular-nums; font-weight: 700; color: #0f172a; }
+
+    .note-box {
+      background: #f1f5f9;
+      border-left: 4px solid #64748b;
+      padding: 12px 16px;
+      font-size: 12.5px;
+      color: #475569;
+      border-radius: 0 8px 8px 0;
+    }
 
     .weakness-box {
       background: #fef2f2;
       border: 2px solid #f87171;
       border-radius: 12px;
       padding: 18px 22px;
-      margin-top: 16px;
+      margin-top: 14px;
     }
     .weakness-box h4 { color: #991b1b; font-size: 15px; margin-bottom: 6px; }
     .weakness-box p { font-size: 13px; color: #7f1d1d; }
@@ -252,9 +268,8 @@
       color: #64748b;
     }
 
-    @media (max-width: 900px) {
-      .grid-3, .grid-2, .arch-flow { grid-template-columns: 1fr; }
-      .arch-arrow { transform: rotate(90deg); padding: 4px 0; }
+    @media (max-width: 980px) {
+      .kpi-strip, .gate-grid, .grid-3, .grid-2 { grid-template-columns: 1fr; }
       .content, header { padding: 22px 18px; }
     }
     @media print {
@@ -268,68 +283,85 @@
 
 <div class="top-bar">
   <div class="nav-links">
-    <a href="#sec1">① 本質と5つの上位原理</a>
-    <a href="#sec2">② 個人主権システム構造</a>
-    <a href="#sec3">③ 現実的な収益モデル</a>
-    <a href="#sec4">④ 旧モデルからの進化</a>
-    <a href="#sec5">⑤ 実現可能性と最大の弱点</a>
-    <a href="#sec6">⑥ Calm超えの桁上げ戦略</a>
+    <a href="#sec1">① 投資仮説とCalm超えの勝ち筋</a>
+    <a href="#sec2">② 製品構造と5つの上位原理</a>
+    <a href="#sec3">③ PoC通過ゲート（Stage-Gate）</a>
+    <a href="#sec4">④ 5カ年スケール収益計画</a>
+    <a href="#sec5">⑤ リスクと撤退・防衛線</a>
   </div>
   <button class="print-btn" onclick="window.print()">🖨️ 印刷 / PDF保存</button>
 </div>
 
 <div class="container">
   <header>
-    <div class="badge-top">SOVEREIGN MENTAL CARE OS / META-PRINCIPLES FROM 225 CASES</div>
-    <h1>『心庭』次世代PMF戦略：個人主権型メンタルケアOS</h1>
-    <p class="header-sub">「会社導入のアプリに社員は本音を書かない」という現実を直視し、メンタルヘルスケア（心を整え石を置く体験）の本質を1ミリも損なわず、AI開発大会225事例から抽出した『5つの上位概念原理』で現実的なマネタイズへ接続した進化モデルです。</p>
+    <div class="badge-top">GLOBAL BUSINESS PLAN / STAGE-GATE POC TO SCALE</div>
+    <h1>『心庭（Kokoroniwa）』グローバル事業計画書</h1>
+    <p class="header-sub"><strong>Calmを超える個人主権型ZenメンタルケアOS：</strong>「会社アプリに社員は本音を書かない」という前提と、Calmが抱える「受動的音声消費・高制作費・高広告費」の3大弱点を逆手に取り、PoC通過ゲート（Go/No-Go規律）を経てグローバル×全社員PEPY課金へスケールする事業計画です。</p>
+
+    <div class="kpi-strip">
+      <div class="kpi-box">
+        <div class="k-label">コア思想（不可侵領域）</div>
+        <div class="k-val">個人主権・監視ゼロ</div>
+        <div class="k-sub">生データは端末内完結／ローカル関所</div>
+      </div>
+      <div class="kpi-box">
+        <div class="k-label">獲得エンジン（対Calm優位性）</div>
+        <div class="k-val">ゼロCAC聖地導線</div>
+        <div class="k-sub">寺院・インバウンドQR＋非言語UI</div>
+      </div>
+      <div class="kpi-box">
+        <div class="k-label">法人スケール課金</div>
+        <div class="k-val">PEPY＋家族パック</div>
+        <div class="k-sub">1人月額400円×全社員＋子供モード</div>
+      </div>
+      <div class="kpi-box">
+        <div class="k-label">5年目目標（仮説積算）</div>
+        <div class="k-val">年商 150億円+</div>
+        <div class="k-sub">B2C 100万人＋法人PEPY 100万人</div>
+      </div>
+    </div>
   </header>
 
   <div class="content">
 
     <!-- Section 1 -->
     <div id="sec1" class="section">
-      <div class="section-title"><span class="pill">Core Essence + Meta-Principles</span> ① 本質の維持と「5つの上位概念原理」の統合</div>
+      <div class="section-title"><span class="pill">Executive Summary</span> ① なぜCalmを超えられるのか（非対称な勝ち筋）</div>
 
-      <div class="invention-hero">
-        <div class="label">REDEFINED ARCHITECTURE（核心の再定義）</div>
-        <h2>『心庭』は会社に心のデータを渡す監視計器ではなく、本人が自分の心を守り・予行演習し・合意した「配慮リクエスト」だけを外部と交渉できる個人主権型メンタルケアOSである。</h2>
-        <p><strong>なぜ旧案（組織気候センサー）を超えるのか：</strong>「社員が会社導入アプリに深刻な本音を書かない」という人間心理の壁を認めた上で、①『心のクローゼット』的な日々の儀式UXを守り、②異分野の優秀事例（Backfull・HIRAKU・Tsugumi・黒子筆・Todoku等）の上位処理原理を転用することで、<strong>本音を会社に晒さずに「休職・離職予防」の確実なROI</strong>を生み出します。</p>
+      <div class="hero-box">
+        <div class="label">STRATEGIC THESIS（事業仮説）</div>
+        <h2>「聴いて落ち着くだけのCalm」に対し、『心庭』は10秒の非言語禅リセット（広い入口）とAI予行演習（現実を変える奥行き）を掛け合わせ、高粗利・低CACで世界市場を獲る。</h2>
+        <p>Calmは数億ドル規模の巨人ですが、①有名人の英語朗読に依存するため多言語展開と制作費が重い、②莫大なデジタル広告費でCAC（顧客獲得単価）が高止まりしている、③受動的に音声を聴くだけで職場の人間関係や休職予防への直接的な因果が弱い、という構造的限界を抱えています。『心庭』は<strong>日本の本物の禅（Zen）と非言語の枯山水UI</strong>を軸に、Calmの収益構造（B2Cサブスク＋全社員PEPY＋健保連携）をより高い単位経済性で再現・凌駕します。</p>
       </div>
 
       <table>
         <thead>
           <tr>
-            <th style="width: 20%;">上位概念原理</th>
-            <th style="width: 24%;">着想を得た大会事例（異分野含む）</th>
-            <th style="width: 56%;">『心庭』（メンタルヘルスケア）への原理的転用</th>
+            <th style="width: 20%;">競争軸</th>
+            <th style="width: 38%;">Calm（Calm Business / Calm Health）</th>
+            <th style="width: 42%;">『心庭（Kokoroniwa）』の優位設計</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><strong>1. 非入力・最小選択トリガー原理</strong></td>
-            <td><strong>Todoku</strong>（No.48）<br><strong>mimamori</strong>（No.154）<br><strong>心のクローゼット</strong>（No.222）</td>
-            <td>心が本当に限界の時、人は長文を書けない。しんどい日は<strong>「重さに近い石を1タップ選ぶだけ」</strong>の儀式で完結させ、深夜アクセスや連続負荷などの無意識ログから、会社ではなく<strong>本人を守る休息・外部相談トリガー</strong>を起動する。</td>
+            <td><strong>体験と実効性</strong></td>
+            <td>受動的な「音声・音楽の消費」。気分は落ち着くが、翌日の職場の悩み・対人ストレスは残る。</td>
+            <td>入口は<strong>「10秒の石置きリセット（睡眠・集中）」</strong>、奥は<strong>「AIとの事前予行演習」</strong>。傷つく前に断り方・相談の仕方を試し、現実のストレスを予防する。</td>
           </tr>
           <tr>
-            <td><strong>2. 事前シミュレーション原理</strong></td>
-            <td><strong>HIRAKU</strong>（3位）<br><strong>ゆくすいえ</strong>（No.59）<br><strong>センタクアツ</strong>（No.149）</td>
-            <td>傷ついた後の「事後慰め」から脱却し、心庭内で<strong>「もし明日、上司に業務過多を伝えたら／休みを取ったらどうなるか」をAIと安全に予行演習（リハーサル）</strong>する。現実で折れる前に、自分を守る断り方・相談の仕方を試せる。</td>
+            <td><strong>コンテンツ原価と多言語展開</strong></td>
+            <td>有名人ナレーター収録など制作費が重く、言語ごとのローカライズコストが高い。</td>
+            <td><strong>「枯山水・石・波紋」の非言語UI＋多言語AI</strong>。制作限界費用ほぼゼロで初日から世界150ヶ国へ展開可能。</td>
           </tr>
           <tr>
-            <td><strong>3. ブラックボックス解体・ローカル関所原理</strong></td>
-            <td><strong>Tsugumi</strong>（ファイナリスト）<br><strong>黒子筆</strong>（No.42）<br><strong>Constitutional Input Prompt</strong>（No.104）</td>
-            <td>端末内に固有名詞・社名・個人情報を遮断する<strong>「ローカル関所」</strong>を設け、AIが「どの石からなぜその問いを返したか」の思考過程も透明化。外に出すのは<strong>本人が「伝えたい」と承認した配慮事項メモだけ</strong>に限定する。</td>
+            <td><strong>顧客獲得コスト（CAC）</strong></td>
+            <td>SNS・検索広告への巨額投資が必須で営業利益率を圧迫。</td>
+            <td>全国のお寺・観光地・企業研修の場に<strong>QRを置くだけ（qr-yado原理）</strong>。年間数千万人のインバウンド体験から世界へ自然拡散。</td>
           </tr>
           <tr>
-            <td><strong>4. 主観の交渉カード化・根拠照合原理</strong></td>
-            <td><strong>Backfull</strong>（1位）<br><strong>URADORI</strong>（No.47）<br><strong>復職ナビポータル</strong>（No.101）</td>
-            <td>「楽になった気がする」という主観止まりを突破。お寺研修や復職支援の変化を公的ストレス基準や勤怠統計と照合し、根拠のないAI推測を弾いた<strong>「健保・経営層と交渉できるROIレポート」</strong>および<strong>「産業医向け配慮カード」</strong>へ変換する。</td>
-          </tr>
-          <tr>
-            <td><strong>5. ゼロ導入コスト・既存動線寄生原理</strong></td>
-            <td><strong>qr-yado</strong>（No.109）<br><strong>だんどりさん</strong>（No.67）</td>
-            <td>新規アプリのインストール強制を廃止。お寺の境内、会社の休憩室、社員証裏の<strong>QRコード1枚やLINE/Slack導線</strong>から10秒で石を置ける体験にする。</td>
+            <td><strong>組織導入の信頼性</strong></td>
+            <td>社員の音声消費ログのみ（深い悩みには非対応、Healthは別導線）。</td>
+            <td><strong>ローカル関所（黒子筆原理）</strong>により会社に1ビットも生データを渡さず、本人の同意時のみ「配慮カード」や外部EAPへ接続。</td>
           </tr>
         </tbody>
       </table>
@@ -337,198 +369,150 @@
 
     <!-- Section 2 -->
     <div id="sec2" class="section">
-      <div class="section-title"><span class="pill indigo">Architecture</span> ② 具体的なシステム構造（個人主権 × 外部安全接続）</div>
-      <div class="arch-box">
-        <div class="arch-flow">
-          <div class="arch-node">
-            <h4>1. 個人の聖域層（Edge / 端末完結）</h4>
-            <ul>
-              <li><strong>1タップ儀式（Todoku型）</strong>：言葉が出ない日は石を選ぶだけで完了。心の重荷を庭に置いて手放す。</li>
-              <li><strong>内なる評議会＋事前演習（HIRAKU型）</strong>：穏やか・喝・論理の3視点が対話し、相談や断り方を安全にリハーサル。</li>
-              <li><strong>生テキスト絶対非送信</strong>：日記や本音はブラウザ/端末外へ1ビットも出さない。</li>
-            </ul>
-          </div>
-          <div class="arch-arrow">➔</div>
-          <div class="arch-node">
-            <h4>2. ローカル関所・合意ゲート</h4>
-            <ul>
-              <li><strong>ローカル関所（黒子筆型）</strong>：固有名詞や特定情報を端末内で自動マスキング。</li>
-              <li><strong>プロセス透明化（Tsugumi型）</strong>：AIの勝手な診断を排し、根拠となる本人の記録を明示。</li>
-              <li><strong>本人主権の出力選択</strong>：本人が望んだ時だけ「復職・業務配慮カード」や「外部SOS」を生成。</li>
-            </ul>
-          </div>
-          <div class="arch-arrow">➔</div>
-          <div class="arch-node">
-            <h4>3. 外部接続・ROI証明層</h4>
-            <ul>
-              <li><strong>非・会社ドメイン避難所</strong>：外部EAP・産業医・お寺対話へ直結（人事には見せない）。</li>
-              <li><strong>交渉書面化（Backfull型）</strong>：研修・ケアの前後変化と企業側の勤怠・離職データを突合しROIを可視化。</li>
-              <li><strong>復職伴走（復職ナビ型）</strong>：生活リズムと段階的負荷を産業医・本人間で安全に共有。</li>
-            </ul>
-          </div>
+      <div class="section-title"><span class="pill indigo">Product Architecture</span> ② 製品構造と「5つの上位概念原理」</div>
+      <p style="font-size: 13.5px; margin-bottom: 14px;">AI開発大会225事例（異分野の勝者含む）から抽出した上位処理原理を『心庭』のメンタルケアに統合し、<strong>「つらい時でも使えて、会社に監視されず、企業ROIが証明できる」</strong>製品構造を確立しています。</p>
+
+      <div class="grid-3">
+        <div class="card emerald">
+          <span class="card-tag">入口：人口80%が毎日使う</span>
+          <h3>10秒・非言語Zenリセット</h3>
+          <p><strong>Todoku / 心のクローゼット原理：</strong>言葉が出ない日も「重さに近い石を1タップで置く」だけで完了。寝る前・会議前の睡眠・集中リセットに加え、<strong>子ども用やさしい質問モード</strong>で家族全員を巻き込む。</p>
+        </div>
+        <div class="card indigo">
+          <span class="card-tag">中核：現実のストレス予防</span>
+          <h3>内なる評議会＋事前演習</h3>
+          <p><strong>HIRAKU / Tsugumi原理：</strong>穏やか・喝・論理の3AIが思考を整理。さらに「明日上司に業務過多を伝える」等を安全に<strong>予行演習（リハーサル）</strong>でき、AIの推論根拠も透明に表示する。</p>
+        </div>
+        <div class="card highlight">
+          <span class="card-tag">出口：監視ゼロの外部接続</span>
+          <h3>ローカル関所＋交渉カード</h3>
+          <p><strong>黒子筆 / Backfull / 復職ナビ原理：</strong>端末内で個人情報を自動遮断。本人が望んだ時だけ「産業医・人事向けの業務配慮カード」を出力し、企業側の勤怠・離職率データと突合してROIを証明。</p>
         </div>
       </div>
     </div>
 
     <!-- Section 3 -->
     <div id="sec3" class="section">
-      <div class="section-title"><span class="pill amber">Business Model</span> ③ 現実的な収益モデル（監視しない・本音を強要しない）</div>
-      <p style="font-size: 13.5px; margin-bottom: 14px;">「会社が社員を監視するツール」ではなく、<strong>「個人と外部専門家が使う安全な器」</strong>として導入チャネルを切り分けることで、心理的抵抗なく高単価な収益化を実現します。</p>
-      <table>
-        <thead>
-          <tr>
-            <th style="width: 22%;">レイヤー</th>
-            <th style="width: 24%;">導入主体と提供価値</th>
-            <th style="width: 26%;">課金・マネタイズ設計</th>
-            <th style="width: 28%;">ROI証明と成長エンジン</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Layer 1：<br>聖地・地域リアル研修</strong><br>（お寺・教会・公民館）</td>
-            <td>一般参加者・介護者・地域住民に対し、「会社と無関係な安心の場」でのマインドフルネス体験とアプリ習慣を提供。</td>
-            <td><strong>体験参加費・講師料</strong>（1,500〜5,000円/人）＋ 限定QR石・木札物販 ＋ 個人向けプレミアム機能（月額）。</td>
-            <td><strong>信頼ブランド＆ゼロCAC獲得場</strong>。研修前後のストレス指標改善率を蓄積し、次層の根拠にする。</td>
-          </tr>
-          <tr>
-            <td><strong>Layer 2：<br>健保・EAP・復職支援</strong><br>（本音を晒さないB2B）</td>
-            <td><strong>① 健康保険組合・外部EAP</strong>：人事から切り離された福利厚生として配布。<br><strong>② 復職・定着支援</strong>：休職者・新卒が「必要な配慮」を伝える伴走ツール。</td>
-            <td><strong>月額SaaS</strong>（10万〜30万円/社・健保）＋ <strong>お寺リトリート研修パッケージ</strong>（30万〜50万円/回）。</td>
-            <td>アプリ内の悩みではなく、<strong>「企業側の勤怠・休職率・傷病手当・離職率の前後比較」</strong>でROIを証明（1人離職防止で数百万円の損失回避）。</td>
-          </tr>
-          <tr>
-            <td><strong>Layer 3：<br>外部連携・エコシステム</strong><br>（寺社・自治体・介護）</td>
-            <td>全国の寺社・観光施設・自治体福祉窓口・介護事業所へのホワイトラベル供給。</td>
-            <td><strong>OEMライセンス料</strong> ＋ 外部相談送客・連携インセンティブ。</td>
-            <td>自社で直販営業を抱えず、既存の健保・寺社・福祉チャネルに乗せて全国展開。</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="section-title"><span class="pill">Stage-Gate PoC</span> ③ PoC通過ゲート設計（規律あるスケール基準）</div>
+      <p style="font-size: 13.5px; margin-bottom: 16px;">未検証の仮説のまま大型投資を行わず、<strong>各PoCゲートの定量基準（Go基準）を満たした場合のみ次フェーズへ資金・開発を投下</strong>します。基準未達時は即座にピボット（No-Goルール）を発動します。</p>
+
+      <div class="gate-grid">
+        <div class="gate-card">
+          <div class="gate-num">GATE 0（Month 1〜3）</div>
+          <h4>UX・習慣化PoC</h4>
+          <p style="font-size:12px; margin-bottom:8px;">お寺・公民館イベント（S2）で一般・子ども・介護者向けに実地検証。</p>
+          <div class="go"><strong>Go（通過基準）：</strong><br>・QR起動→初回石置き完了 ≧ 85%<br>・7日後自発再訪率 ≧ 25%<br>・NPS ≧ +40</div>
+          <div class="nogo"><strong>No-Go（修正）：</strong><br>再訪率15%未満ならAI対話を簡素化し「10秒睡眠・音リセット」へ比重を移す。</div>
+        </div>
+
+        <div class="gate-card g1">
+          <div class="gate-num">GATE 1（Month 4〜9）</div>
+          <h4>企業・復職ROI PoC</h4>
+          <p style="font-size:12px; margin-bottom:8px;">パイロット企業2〜3社・健保1組合で「監視ゼロ設計」の実効性を検証。</p>
+          <div class="go"><strong>Go（通過基準）：</strong><br>・社員MAU ≧ 35%<br>・予行演習後の相談/改善行動率 ≧ 60%<br>・休職/勤怠改善の先行兆候</div>
+          <div class="nogo"><strong>No-Go（修正）：</strong><br>MAU 20%未満なら「人事主導」を捨て「外部EAP・健保＋家族パック」へ完全移行。</div>
+        </div>
+
+        <div class="gate-card g2">
+          <div class="gate-num">GATE 2（Month 10〜18）</div>
+          <h4>グローバル・ゼロCAC PoC</h4>
+          <p style="font-size:12px; margin-bottom:8px;">インバウンド寺院10ヶ所＋英語圏B2Cで言語非依存の課金転換を検証。</p>
+          <div class="go"><strong>Go（通過基準）：</strong><br>・帰国後30日継続率 ≧ 20%<br>・無料→年額有料転換 ≧ 4.5%<br>・LTV / CAC ≧ 4.0</div>
+          <div class="nogo"><strong>No-Go（修正）：</strong><br>転換率2%未満なら睡眠・集中用のサウンド/視覚瞑想コンテンツを補強。</div>
+        </div>
+
+        <div class="gate-card g3">
+          <div class="gate-num">GATE 3（Month 19〜36+）</div>
+          <h4>全社員PEPY・世界拡大</h4>
+          <p style="font-size:12px; margin-bottom:8px;">Gate 1のROI＋Gate 2のZenブランドを統合し、大企業一括導入と海外展開を加速。</p>
+          <div class="go"><strong>Scale目標：</strong><br>・法人NRR（売上維持率）≧ 115%<br>・B2C年次解約率 ≦ 25%<br>・粗利率 ≧ 80%</div>
+          <div class="nogo"><strong>規律：</strong><br>広告CACがLTVの1/3を超えた国は出稿を止め、寺院・提携OEMチャネルへ切替。</div>
+        </div>
+      </div>
     </div>
 
     <!-- Section 4 -->
     <div id="sec4" class="section">
-      <div class="section-title"><span class="pill slate">Evolution</span> ④ 旧モデル（組織気候センサー）からの決定的な進化</div>
+      <div class="section-title"><span class="pill amber">Financial Plan</span> ④ 5カ年スケール収益計画（PoCから150億円規模への積算）</div>
+      <p style="font-size: 13.5px; margin-bottom: 14px;">初期は「お寺リアル研修＋健保・復職支援」でキャッシュと実績を作り、Gate 2・3の通過後に<strong>「全社員PEPY（1人月額400円）」＋「グローバルB2C（年額9,000円）」</strong>の掛け算で売上桁を引き上げます。</p>
+
       <table>
         <thead>
           <tr>
-            <th style="width: 22%;">比較軸</th>
-            <th style="width: 38%;">旧 pmf_new_roadmap（組織気候センサー）</th>
-            <th style="width: 40%;">進化版（個人主権型メンタルケアOS）</th>
+            <th style="width: 14%;">年次 / 通過Gate</th>
+            <th style="width: 28%;">主戦場と顧客獲得チャネル</th>
+            <th style="width: 36%;">売上積算ロジック（単価 × 数量）</th>
+            <th style="width: 22%;">想定年商（ARR/売上）</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><strong>社員の心理的抵抗<br>（本音を書かない壁）</strong></td>
-            <td>会社導入アプリから匿名統計を吸い上げる構造のため、「裏で見られているのでは」と疑われデータが空洞化する。</td>
-            <td><strong>会社には1ビットも心理データを送らない。</strong>本人の同意なしに外部送信しない「ローカル関所」と、健保・お寺経由の配布で猜疑心を断つ。</td>
+            <td><strong>Year 1</strong><br>（Gate 0〜1）</td>
+            <td>お寺・地域リアル研修（CACゼロ）＋ パイロット企業・健保の導入実証。</td>
+            <td>リアル研修・リトリート（30回×30万円＝900万円）＋ パイロットSaaS（3〜5社）＋ 物販・個人課金。</td>
+            <td class="num">約 1,500万〜3,000万円</td>
           </tr>
           <tr>
-            <td><strong>つらい時の使いやすさ</strong></td>
-            <td>対話して言語化することが前提で、本当に消耗している人ほど開けない。</td>
-            <td><strong>1タップで石を置くだけ（Todoku原理）</strong>＋ 無意識の負荷サインから休息へ導く設計。</td>
+            <td><strong>Year 2</strong><br>（Gate 2 検証）</td>
+            <td>国内健保・復職支援SaaS拡大 ＋ 寺院10ヶ所からのインバウンドB2C開始。</td>
+            <td>法人・健保30契約（平均年額300万円＝9,000万円）＋ グローバルB2C（5,000人×年1万円＝5,000万円）＋ 研修3,000万円。</td>
+            <td class="num">約 1.7億〜2.0億円</td>
           </tr>
           <tr>
-            <td><strong>AIの関わり方</strong></td>
-            <td>3AIが翌日の小さな実験を提案する（事後・日常改善中心）。</td>
-            <td>上記に加え、傷つく前に相談や断り方を試せる<strong>「メンタル予行演習（HIRAKU原理）」</strong>と過程の透明化を搭載。</td>
+            <td><strong>Year 3</strong><br>（Gate 3 突入）</td>
+            <td>日本企業への「全社員PEPY（福利厚生＋家族パック）」本格展開 ＋ 英語圏B2C拡大。</td>
+            <td>法人PEPY 5万人（年4,800円＝2.4億円）＋ グローバルB2C 5万人（年9,000円＝4.5億円）＋ 寺社OEM・リトリート1億円。</td>
+            <td class="num">約 8億〜10億円</td>
           </tr>
           <tr>
-            <td><strong>B2BでのROI証明</strong></td>
-            <td>社員が書いた内容に基づく社内スコアに依存。</td>
-            <td><strong>「休職・復職の円滑化」</strong>と<strong>「企業側の勤怠・離職・医療費データの前後比較（Backfull原理）」</strong>で証明。</td>
+            <td><strong>Year 4</strong><br>（グローバル加速）</td>
+            <td>北米・欧州・アジアへのZenブランド展開 ＋ 外資・大手企業のグローバル一括契約。</td>
+            <td>法人PEPY 25万人（年12億円）＋ グローバルB2C 25万人（年22.5億円）＋ 健保・寺院リトリート3億円。</td>
+            <td class="num">約 37億〜40億円</td>
+          </tr>
+          <tr>
+            <td><strong>Year 5</strong><br>（Calm超え体制）</td>
+            <td>世界150ヶ国B2C ＋ 大企業PEPY標準インフラ ＋ 寺院エグゼクティブ体験。</td>
+            <td>法人PEPY 100万人（年48億円）＋ グローバルB2C 100万人（年90億円）＋ 健保・OEM・特別リトリート12億円。</td>
+            <td class="num">約 150億円+（高営業利益率）</td>
           </tr>
         </tbody>
       </table>
+      <div class="note-box">
+        ※上記数値は各PoCゲートを通過した場合の目標積算モデル（未検証の仮説を含む計画値）です。Calm（年商数百億円規模）と比較し、B2C/PEPYのアカウント数が同規模に達する前段階であっても、<strong>「高制作費（有名人音声）と巨額広告費を持たない構造」</strong>により、純利益ベースで極めて高い収益性を実現する設計です。
+      </div>
     </div>
 
     <!-- Section 5 -->
     <div id="sec5" class="section">
-      <div class="section-title"><span class="pill red">Feasibility &amp; Risks</span> ⑤ 実現可能性（既知の原理 vs 未検証の仮説）と最大の弱点</div>
+      <div class="section-title"><span class="pill red">Risks &amp; Moats</span> ⑤ 最大のリスクと防衛線（参入障壁）</div>
       <div class="grid-2">
         <div class="card emerald">
-          <span class="card-tag">既知の科学・技術原理で確立している点</span>
+          <span class="card-tag">模倣困難な3つの参入障壁（Moat）</span>
           <ul>
-            <li><strong>ローカル完結・関所アーキテクチャ</strong>：ブラウザ内完結保存（IndexedDB）と固有名詞マスキング処理は既存技術で確実に実装可能。</li>
-            <li><strong>1タップ儀式UI・音声/QR導線</strong>：認知負荷を極限まで下げるUIとPWAによるQR即時起動は技術的障壁がない。</li>
-            <li><strong>認知行動療法＋リハーサル</strong>：状況の整理と安全な事前シミュレーション対話は現行LLMで安定動作する。</li>
+            <li><strong>本物の寺院・聖地ネットワーク</strong>：シリコンバレー製アプリが絶対に複製できない「歴史ある禅寺でのリアル体験×アプリ」の独占的連携。</li>
+            <li><strong>ゼロCACのインバウンド循環</strong>：観光・参拝というリアル動線から世界のユーザーを直接獲得するため、広告費高騰の影響を受けない。</li>
+            <li><strong>個人主権データ構造（非監視ブランド）</strong>：「会社に本音を渡さない」という明確なアーキテクチャが、従業員・労働組合・産業医からの圧倒的信頼になる。</li>
           </ul>
         </div>
         <div class="card highlight">
-          <span class="card-tag">未検証の仮説（実証が必要な点）</span>
+          <span class="card-tag">主要リスクと事前対策</span>
           <ul>
-            <li><strong>事前シミュレーションの行動変容効果</strong>：心庭内での予行演習が、実際の職場ストレスや相談行動の増加にどれだけ寄与するかは実地検証が必要。</li>
-            <li><strong>健保・企業の導入意欲</strong>：「社員の心理スコアが見えない（完全秘匿）代わりに行動・休職指標で測る」モデルを人事が稟議で通しやすいかは営業検証が必要。</li>
-            <li><strong>1タップ入力のリテンション</strong>：言葉を書かない日の体験が「単なる作業」にならず、継続的な癒やしとして定着するか。</li>
+            <li><strong>グローバル模倣リスク</strong>：非言語の枯山水UIは真似されやすいため、日本の寺院コミュニティと「お寺での実体験（御朱印・特別体験連動）」をブランドの核に据える。</li>
+            <li><strong>AIコストの圧迫</strong>：1タップリセット（通常利用）は端末内処理・軽量モデルで完結させ、深層対話・予行演習のみAPIを呼ぶことで粗利率80%以上を維持する。</li>
           </ul>
         </div>
       </div>
 
       <div class="weakness-box">
-        <h4>⚠️ この進化モデルの「最大の弱点」（成立しない可能性が最も高い点）</h4>
-        <p><strong>「企業・健保が納得する『休職率・離職率・医療費の低下』というハードな実績データが出るまでに、最低でも半年〜2年の先行期間と、導入企業側の人事データ協力が必要になる点」</strong>です。会社から心理データを切り離したことで社員の信頼は守れましたが、その代償として「アプリ単体では企業のROIを即座に計算できない」ため、Layer 1（お寺・地域研修）での先行事例と、協業先（産業医・復職支援機関・理解あるパイロット企業1〜2社）との長期データ突合をやり切る粘り強さが不可欠になります。</p>
-      </div>
-    </div>
-
-    <!-- Section 6 -->
-    <div id="sec6" class="section">
-      <div class="section-title"><span class="pill indigo">Global Scale (Phase 3)</span> ⑥ Calmを超えるグローバル＆全社員PEPYスケール戦略</div>
-      <p style="font-size: 13.5px; margin-bottom: 16px;">Year 1〜2で「お寺リアル研修＋健保・復職支援（年商数千万円〜数億円）」を確立した後、Year 3以降に<strong>Calm（Calm Business / Calm Health）の収益エンジンを取り込みつつCalmの弱点を突く</strong>ことで、売上規模を数十億〜数百億円の桁へ引き上げます。</p>
-
-      <table>
-        <thead>
-          <tr>
-            <th style="width: 22%;">比較軸</th>
-            <th style="width: 34%;">Calmの戦略と構造的限界</th>
-            <th style="width: 44%;">『心庭』がCalmを超えるための最大化戦略</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>1. 入口の広さと<br>体験の本質</strong></td>
-            <td>睡眠・音楽などの<strong>受動的な音声消費</strong>。全社員・全人類に届くが、聴き終わると現実の職場の悩みは残る。</td>
-            <td><strong>「夜・会議前の10秒石置きリセット（睡眠・集中）」を入口に80%の日常層を獲り</strong>、奥の「AI予行演習（HIRAKU原理）」で現実の人間関係・業務負荷まで変える。</td>
-          </tr>
-          <tr>
-            <td><strong>2. 法人課金モデル<br>（単価の桁上げ）</strong></td>
-            <td><strong>Calm Business（PEPY課金）</strong>：1人あたり年額30〜58ドル前後 × 全社員一括導入＋Calm Kidsで家族巻き込み。</td>
-            <td>「1社定額」から<strong>「全社員PEPY課金（月額400〜500円/人）」</strong>へ移行。さらに<strong>「子ども用やさしい質問モード」</strong>で家族丸ごと囲い込み解約率を極小化。</td>
-          </tr>
-          <tr>
-            <td><strong>3. 国際展開と<br>制作コスト</strong></td>
-            <td>英語の有名人朗読に依存し、多言語化のたびに収録コストが膨らむ。精神的ルーツが薄い。</td>
-            <td><strong>「枯山水・石・波紋」の非言語UI＋多言語AI</strong>により限界費用ほぼゼロで世界150ヶ国へ展開。<strong>日本の本物の禅（Zen）・お寺ブランド</strong>を背負う。</td>
-          </tr>
-          <tr>
-            <td><strong>4. 獲得コスト（CAC）<br>の逆転構造</strong></td>
-            <td>巨額のデジタル広告費を払い続けて新規ユーザーを獲得するため利益率が圧迫される。</td>
-            <td>全国のお寺・観光地・インバウンド導線に<strong>QRを置くだけ（qr-yado原理）</strong>。訪日客が体験を持ち帰り、帰国後もサブスク・外資法人導入へ波及する<strong>ゼロCAC拡散</strong>。</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="grid-3">
-        <div class="card emerald">
-          <span class="card-tag">1階：グローバルB2C</span>
-          <h3>非言語Zenサブスク</h3>
-          <p>睡眠・集中10秒リセット＋深層対話。年額7,000〜10,000円。日本の禅ブランド×インバウンドQR導線で広告費を抑え世界展開。</p>
-        </div>
-        <div class="card indigo">
-          <span class="card-tag">2階：全社員PEPY法人</span>
-          <h3>福利厚生＋家族パック</h3>
-          <p>「1人月額400円 × 全社員」の一括導入（1万人の企業1社で年4,800万円）。子ども向けやさしい質問モードも同梱し定着。</p>
-        </div>
-        <div class="card highlight">
-          <span class="card-tag">3階：健保＋聖地リトリート</span>
-          <h3>高単価医療＆寺院体験</h3>
-          <p>Calm Health相当の復職・予防プログラムに加え、Calmには作れない<strong>「本物の寺院での経営者リトリート（1回50万〜数百万円）」</strong>を提供。</p>
-        </div>
+        <h4>⚠️ 事業計画上の「最大のボトルネック」（最初に突破すべき壁）</h4>
+        <p><strong>「Gate 1（企業・健保向けPoC）で『休職率・離職率の低下』というハードなROIデータが出揃うまでに半年〜1年以上かかる点」</strong>です。これを乗り切るため、Year 1はアプリ単体の売上を追うのではなく、<strong>①お寺・地域リアル研修（即金キャッシュとGate 0検証）</strong>と、<strong>②理解あるパイロット企業2〜3社での無償/低額並走（Gate 1データ獲得）</strong>を同時並行で回し、確実な数字を揃えてからGate 3のPEPY大型営業へ踏み切ります。</p>
       </div>
     </div>
 
   </div>
   <footer>
-    『心庭』次世代PMF戦略：Sovereign Mental Care OS（個人主権型メンタルケアOS） — AI開発大会225事例の上位原理統合モデル
+    『心庭（Kokoroniwa）』グローバル事業計画書 — PoC通過ゲート型・Calm超えスケール戦略
   </footer>
 </div>
 
