@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>『心庭』次世代PMF戦略：Zero-Knowledge Resilience OS（自律発明モデル）</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Zen Kaku Gothic New', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #0b1120;
+      color: #e2e8f0;
+      line-height: 1.65;
+      padding: 24px 16px;
+    }
+    .top-bar {
+      max-width: 1120px;
+      margin: 0 auto 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .nav-links { display: flex; gap: 8px; flex-wrap: wrap; }
+    .nav-links a {
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      color: #cbd5e1;
+      background: #1e293b;
+      border: 1px solid #334155;
+      padding: 5px 12px;
+      border-radius: 20px;
+      transition: all 0.2s;
+    }
+    .nav-links a:hover { background: #d97706; color: #ffffff; border-color: #f59e0b; }
+    .print-btn {
+      background: #d97706;
+      color: #ffffff;
+      border: none;
+      padding: 7px 16px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      background: #ffffff;
+      color: #334155;
+      border: 1px solid #334155;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.55);
+    }
+
+    header {
+      background: linear-gradient(135deg, #090d16 0%, #1e1b4b 55%, #064e3b 100%);
+      color: #ffffff;
+      padding: 36px 38px;
+      border-bottom: 4px solid #10b981;
+    }
+    .badge-top {
+      display: inline-block;
+      background: rgba(16, 185, 129, 0.2);
+      border: 1px solid #34d399;
+      color: #a7f3d0;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+      letter-spacing: 0.08em;
+    }
+    h1 {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 26px;
+      color: #ffffff;
+      margin-bottom: 10px;
+    }
+    .header-sub {
+      font-size: 14px;
+      color: #e2e8f0;
+      max-width: 900px;
+    }
+
+    .content { padding: 34px 38px; }
+    .section { margin-bottom: 44px; }
+    .section-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 20px;
+      color: #0f172a;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .pill {
+      font-family: sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 12px;
+      color: #ffffff;
+      background: #059669;
+    }
+    .pill.indigo { background: #4338ca; }
+    .pill.amber { background: #d97706; }
+    .pill.red { background: #dc2626; }
+    .pill.slate { background: #334155; }
+
+    /* 発明結論ボックス */
+    .invention-hero {
+      background: linear-gradient(135deg, #ecfdf5 0%, #eff6ff 100%);
+      border: 2px solid #10b981;
+      border-radius: 14px;
+      padding: 24px 28px;
+      margin-bottom: 22px;
+    }
+    .invention-hero .label {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #047857;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+    .invention-hero h2 {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 21px;
+      color: #0f172a;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+    .invention-hero p { font-size: 13.5px; color: #334155; }
+
+    /* 3原理グリッド */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 18px 20px;
+      background: #f8fafc;
+    }
+    .card.top-indigo { border-top: 5px solid #4338ca; background: #eef2ff; }
+    .card.top-amber { border-top: 5px solid #d97706; background: #fffbeb; }
+    .card.top-emerald { border-top: 5px solid #059669; background: #ecfdf5; }
+    .card-tag { font-size: 11px; font-weight: 800; color: #475569; margin-bottom: 4px; }
+    .card-title { font-size: 15.5px; font-weight: 700; color: #0f172a; margin-bottom: 8px; }
+    .card-text { font-size: 13px; color: #334155; }
+
+    /* アーキテクチャ図 */
+    .arch-box {
+      background: #0f172a;
+      color: #e2e8f0;
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 18px;
+    }
+    .arch-flow {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      gap: 12px;
+      align-items: center;
+    }
+    .arch-node {
+      background: #1e293b;
+      border: 1px solid #475569;
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .arch-node.edge { border-color: #38bdf8; }
+    .arch-node.dp { border-color: #a78bfa; }
+    .arch-node.org { border-color: #34d399; }
+    .arch-node h4 { font-size: 14px; color: #ffffff; margin-bottom: 6px; }
+    .arch-node ul { padding-left: 16px; font-size: 12px; color: #cbd5e1; }
+    .arch-node li { margin-bottom: 4px; }
+    .arch-arrow { font-size: 22px; font-weight: 700; color: #fbbf24; text-align: center; }
+
+    /* テーブル */
+    .table-wrap { overflow-x: auto; margin-bottom: 14px; }
+    table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 11px 13px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th { background: #1e293b; color: #ffffff; font-weight: 700; }
+    .new-col { background: #ecfdf5; font-weight: 600; color: #064e3b; }
+
+    /* 実現可能性＆弱点 */
+    .split-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .box-verified {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-left: 5px solid #059669;
+      border-radius: 10px;
+      padding: 18px 20px;
+      font-size: 13px;
+    }
+    .box-hypothesis {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-left: 5px solid #d97706;
+      border-radius: 10px;
+      padding: 18px 20px;
+      font-size: 13px;
+    }
+    .box-weakness {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-left: 5px solid #dc2626;
+      border-radius: 10px;
+      padding: 18px 22px;
+      font-size: 13px;
+      color: #7f1d1d;
+    }
+    .box-verified h4, .box-hypothesis h4, .box-weakness h4 {
+      font-size: 14.5px;
+      margin-bottom: 8px;
+      color: #0f172a;
+    }
+    .box-weakness h4 { color: #991b1b; }
+    .clean-list { padding-left: 18px; }
+    .clean-list li { margin-bottom: 5px; }
+
+    footer {
+      background: #f8fafc;
+      padding: 18px;
+      text-align: center;
+      font-size: 12px;
+      color: #64748b;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    @media print {
+      body { background: #fff; padding: 0; color: #000; }
+      .top-bar { display: none; }
+      .container { box-shadow: none; border: none; max-width: 100%; }
+      .content { padding: 18px; }
+    }
+    @media (max-width: 820px) {
+      .arch-flow, .split-2 { grid-template-columns: 1fr; }
+      .arch-arrow { transform: rotate(90deg); }
+      .content { padding: 22px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <nav class="nav-links">
+      <a href="#conclusion">① 発明の結論と原理</a>
+      <a href="#architecture">② システム構造とAI活用</a>
+      <a href="#bizmodel">③ 革新されたビジネスモデル</a>
+      <a href="#diff">④ 従来モデルとの比較</a>
+      <a href="#feasibility">⑤ 実現可能性と最大の弱点</a>
+    </nav>
+    <button type="button" class="print-btn" onclick="window.print()">🖨️ 印刷 / PDF保存</button>
+  </div>
+
+  <div class="container">
+    <header>
+      <span class="badge-top">FIRST-PRINCIPLES INVENTION / NEW BUSINESS ARCHITECTURE</span>
+      <h1>『心庭』次世代PMF戦略：Zero-Knowledge Resilience OS</h1>
+      <p class="header-sub">
+        「個人の秘密は1ビットも漏らさず、組織の挑戦熱量とメンタル予兆だけを定量化し、リアル研修をCACゼロの学習エンジンに変える」——第一原理から再設計した革新ビジネスモデルです。
+      </p>
+    </header>
+
+    <div class="content">
+
+      <!-- 1. 発明の結論と核心原理 -->
+      <section class="section" id="conclusion">
+        <h2 class="section-title">
+          <span class="pill">Invention</span>
+          ① 発明の結論と3つの核心原理
+        </h2>
+
+        <div class="invention-hero">
+          <div class="label">INVENTION STATEMENT（発明の結論）</div>
+          <h2>
+            端末内マルチエージェント「行動コンパイラ」と差分プライバシー型「組織気候センサー」を統合し、個人の生データを完全秘匿したまま『組織の挑戦熱量と離職予兆』だけを企業業績価値へ変換する、ゼロ知識・組織レジリエンスOS。
+          </h2>
+          <p>
+            従来の「悩み相談チャット（S1〜S4の個別販売）」という製品分類を解体し、<strong>① 端末内での認知変容（マイクロ実験コンパイル）</strong> と <strong>② 組織への匿名フェロモン信号（気候マップ）</strong> に分離することで、「秘密保持」と「企業ROI証明」の二律背反を情報理論とAI設計で突破します。
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <div class="card top-indigo">
+            <div class="card-tag">原理 1：暗号・情報理論</div>
+            <div class="card-title">差分プライバシー＋ゼロ知識集計</div>
+            <p class="card-text">
+              生テキストは端末外へ一切出さず、端末内で抽出した「迷い減少幅・挑戦意欲・テーマベクトル」に数学的ノイズ（差分プライバシー）と集団閾値（n≧10）を掛けて送信。個人特定を不可能にしつつ組織の異常と活力を定量化。
+            </p>
+          </div>
+
+          <div class="card top-amber">
+            <div class="card-tag">原理 2：複雑系・制御工学</div>
+            <div class="card-title">確率共鳴型「内なる評議会」コンパイラ</div>
+            <p class="card-text">
+              1対1の慰めチャットではなく、端末内で「穏やか（受容）・喝（突破）・論理（構造）」の3AIが短く議論し、ユーザーの迷いを<strong>「明日試せる1つの小さな行動実験（Micro-Experiment）」</strong>へコンパイル。イノベーション創発と継続ループを同時に生む。
+            </p>
+          </div>
+
+          <div class="card top-emerald">
+            <div class="card-tag">原理 3：メカニズムデザイン</div>
+            <div class="card-title">2層非対称・自己増殖モデル</div>
+            <p class="card-text">
+              お寺・教会・公民館のリアル研修を「営業コスト（CAC）ゼロの獲得＆パラメータ学習場」として位置づけ、そこで校正されたアルゴリズムを企業向け「組織気候センサー（月額SaaS＋成果連動）」として販売する。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. 具体的な構造・方法 -->
+      <section class="section" id="architecture">
+        <h2 class="section-title">
+          <span class="pill indigo">Architecture</span>
+          ② 具体的なシステム構造（Edge AI × 組織OS）
+        </h2>
+
+        <div class="arch-box">
+          <div class="arch-flow">
+            <div class="arch-node edge">
+              <h4>1. 個人端末層（Edge / 完全秘匿）</h4>
+              <ul>
+                <li><strong>内なる評議会AI：</strong> 穏やか・喝・論理の3視点が対話し、思考の固着を揺さぶる</li>
+                <li><strong>行動コンパイラ：</strong> 対話の結論を「覚悟の石＝翌日の具体的マイクロ実験」に変換</li>
+                <li><strong>生データ絶対保存：</strong> 会話ログ・悩み本文はブラウザ/端末外へ一切送信しない</li>
+              </ul>
+            </div>
+
+            <div class="arch-arrow">➔</div>
+
+            <div class="arch-node dp">
+              <h4>2. ゼロ知識・変換層（Privacy Gate）</h4>
+              <ul>
+                <li><strong>状態ベクトル化：</strong> 端末内で「ストレス変化Δ」「Ownership度」「挑戦志向」を数値化</li>
+                <li><strong>差分プライバシー処理：</strong> 確率的ノイズ付与＋最小集計単位（10名以上）の強制</li>
+                <li><strong>非特定保証：</strong> 上司・人事による個人の特定を数理的に不可能にする</li>
+              </ul>
+            </div>
+
+            <div class="arch-arrow">➔</div>
+
+            <div class="arch-node org">
+              <h4>3. 企業・組織OS層（B2B Dashboard）</h4>
+              <ul>
+                <li><strong>組織気候マップ：</strong> 部署・世代別の「挑戦エネルギー」と「燃え尽き予兆」を可視化</li>
+                <li><strong>HR指標連動：</strong> 評価階層・提案数・ストレスチェックと掛け合わせ ΔV を自動算出</li>
+                <li><strong>介入トリガー：</strong> 特定部署の負荷上昇時にリアル研修・1on1強化を自動提案</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. 革新されたビジネスモデル -->
+      <section class="section" id="bizmodel">
+        <h2 class="section-title">
+          <span class="pill amber">New Business Model</span>
+          ③ 革新された収益モデルと成長エンジン
+        </h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 20%;">レイヤー</th>
+                <th style="width: 28%;">対象と提供価値</th>
+                <th style="width: 26%;">課金・マネタイズ設計</th>
+                <th style="width: 26%;">事業上の役割（フライホイール）</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Layer 1：<br>聖地・地域リアル研修</strong><br>(Track A / Track B)</td>
+                <td>お寺・教会・公民館でのリーダーシップ／ストレス低減研修、介護者・一般体験。</td>
+                <td>参加費・講師料（1,500〜5,000円/人）＋ 限定QR石・木札物販。</td>
+                <td><strong>CACゼロの獲得チャネル＆パラメータ学習場。</strong>ここで「前後スコア改善」の相関パラメータを高速で磨く。</td>
+              </tr>
+              <tr>
+                <td><strong>Layer 2：<br>企業向け『組織気候OS』</strong><br>(B2B SaaS)</td>
+                <td>人事・経営層に対し、個人を晒さずに「ハイパフォーマーの定着予兆」と「挑戦行動率」を可視化。</td>
+                <td><strong>基本月額（10万〜20万円/社）＋ リトリート研修パッケージ（30万〜50万円）</strong>。</td>
+                <td><strong>高粗利・ストック収益の核。</strong>単発の研修販売から、継続的な「組織の心の計器盤」へ進化。</td>
+              </tr>
+              <tr>
+                <td><strong>Layer 3：<br>外部連携・エコシステム</strong><br>(B2B2C / OEM)</td>
+                <td>健康保険組合、研修会社、自治体、他寺院・観光施設へのホワイトラベル供給。</td>
+                <td>OEMライセンス料・API利用料・成果連動インセンティブ。</td>
+                <td><strong>スケールエンジン。</strong>自社で営業人員を抱えず、既存HR/健保チャネルに乗せて全国展開。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 4. 従来方式との比較 -->
+      <section class="section" id="diff">
+        <h2 class="section-title">
+          <span class="pill slate">Comparison</span>
+          ④ 従来モデル（pmf_roadmap.html）との根本的な違い
+        </h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 22%;">比較軸</th>
+                <th style="width: 39%;">従来モデル（旧 pmf_roadmap.html）</th>
+                <th style="width: 39%;">今回の発明（Zero-Knowledge Resilience OS）</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>AIの役割</strong></td>
+                <td>1対1のチャットで悩みを聞き、覚悟の石を置く（対話で完結）。</td>
+                <td class="new-col">3人格の「内なる評議会」が議論し、翌日の「行動実験（マイクロ課題）」へコンパイルする。</td>
+              </tr>
+              <tr>
+                <td><strong>プライバシーと効果証明の矛盾</strong></td>
+                <td>「端末内秘匿」か「任意アンケート」の妥協に留まり、組織全体のリアルタイム把握が困難。</td>
+                <td class="new-col">差分プライバシー＋集団閾値により「個人特定ゼロ」と「組織気候のリアルタイム定量化」を数理的に両立。</td>
+              </tr>
+              <tr>
+                <td><strong>企業への販売価値</strong></td>
+                <td>「新卒研修＋3ヶ月内省ツール」（単発色が強く、離職率相関の説明が重い）。</td>
+                <td class="new-col">「組織の挑戦熱量＆燃え尽き予兆を測る計器盤（OS）」として継続課金（MRR）が可能に。</td>
+              </tr>
+              <tr>
+                <td><strong>継続の仕組み</strong></td>
+                <td>石を作った後のワンショット離脱リスクが残る。</td>
+                <td class="new-col">コンパイルされた「翌日の実験結果」を振り返る制御ループにより、自然な再訪理由が生じる。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 5. 実現可能性と最大の弱点 -->
+      <section class="section" id="feasibility">
+        <h2 class="section-title">
+          <span class="pill red">Feasibility &amp; Risks</span>
+          ⑤ 実現可能性（既知の原理 vs 未検証の仮説）と最大の弱点
+        </h2>
+
+        <div class="split-2" style="margin-bottom: 16px;">
+          <div class="box-verified">
+            <h4>✅ 既知の科学・技術原理で確立している点</h4>
+            <ul class="clean-list">
+              <li><strong>マルチエージェント構造化：</strong> 複数ペルソナによる多角的検討と行動タスク抽出（JSON出力）は現在のLLM技術で安定稼働可能。</li>
+              <li><strong>差分プライバシーとk-匿名性：</strong> 小規模数値へのノイズ付加と最小集団閾値（n≧10）による非特定統計集計は確立された暗号・統計手法。</li>
+              <li><strong>PWAローカル永続化：</strong> IndexedDB / LocalStorage による端末内完結データ保持は実装済み。</li>
+            </ul>
+          </div>
+
+          <div class="box-hypothesis">
+            <h4>🧪 未検証の仮説（実証が必要な点）</h4>
+            <ul class="clean-list">
+              <li><strong>行動コンパイラの継続率：</strong> 「翌日の小さな実験」の提示によって1週間後・1ヶ月後の再訪率が本当に跳ね上がるかは未検証。</li>
+              <li><strong>状態ベクトルと業績の相関：</strong> アプリ内の「迷い減少・Ownershipスコア」が、実際のプレゼンティーズム改善や提案数増加と有意に相関するかは長期データが必要。</li>
+              <li><strong>小規模組織での閾値問題：</strong> n≧10のプライバシー保護を厳守すると、10名未満の部署やスタートアップでは統計が出せない。</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="box-weakness">
+          <h4>⚠️ この発明の「最大の弱点」（成立しない可能性が最も高い点）</h4>
+          <p>
+            <strong>「社員の『監視されているのではないか』という心理的猜疑心の壁」</strong>です。どれほど数学的に「差分プライバシーで個人は特定されません」と説明しても、<strong>会社が導入したシステムである限り、社員は「裏で人事に見られているのでは」と疑い、本音を入力しなくなるリスク</strong>が最大の急所です。これが起きると入力データが空洞化し、組織気候センサーも機能停止します。<br>
+            → <strong>対策：</strong> 企業契約前にお寺や公民館などの「中立な第三者の場（S2）」で信頼とブランドを確立し、<strong>「会社ではなく円覚寺／独立研究機関が預かる安全な器」</strong>として運用ガバナンスを切り離すことが不可欠です。
+          </p>
+        </div>
+      </section>
+
+    </div>
+
+    <footer>
+      <strong>『心庭』次世代PMF戦略：Zero-Knowledge Resilience OS（自律発明モデル）</strong><br>
+      旧モデル（pmf_roadmap.html）の課題を第一原理から再設計
+    </footer>
+  </div>
+
+</body>
+</html>
