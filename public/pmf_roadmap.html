@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>『心庭』PMF戦略：セグメント別 機能・課金・POC・年間売上試算</title>
+  <title>『心庭』PMF戦略：リアル研修×評価最適化ループによるB2B到達モデル</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
@@ -83,7 +83,7 @@
       color: #ffffff;
       margin-bottom: 8px;
     }
-    .header-sub { font-size: 13.5px; color: #cbd5e1; max-width: 880px; }
+    .header-sub { font-size: 13.5px; color: #cbd5e1; max-width: 900px; }
 
     .content { padding: 32px 34px; }
     .section { margin-bottom: 44px; }
@@ -112,6 +112,48 @@
     .pill.purple { background: #7c3aed; }
     .pill.red { background: #dc2626; }
 
+    /* 1. エビデンス形成ループ（フライホイール） */
+    .loop-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+    .loop-card {
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 18px 20px;
+      background: #f8fafc;
+      position: relative;
+    }
+    .loop-card.step1 { border-top: 5px solid #d97706; background: #fffbeb; }
+    .loop-card.step2 { border-top: 5px solid #2563eb; background: #eff6ff; }
+    .loop-card.step3 { border-top: 5px solid #059669; background: #ecfdf5; }
+    .loop-step {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 10px;
+      border-radius: 12px;
+      background: #0f172a;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+    .loop-card.step1 .loop-step { background: #b45309; }
+    .loop-card.step2 .loop-step { background: #1d4ed8; }
+    .loop-card.step3 .loop-step { background: #047857; }
+    .loop-title { font-size: 15px; font-weight: 700; color: #0f172a; margin-bottom: 6px; }
+    .loop-desc { font-size: 12.5px; color: #334155; }
+    .loop-note {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-left: 4px solid #7c3aed;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      color: #1e293b;
+    }
+
     /* テーブル共通 */
     .table-wrap { overflow-x: auto; margin-bottom: 14px; }
     table { width: 100%; border-collapse: collapse; font-size: 12px; }
@@ -121,20 +163,16 @@
       text-align: left;
       vertical-align: top;
     }
-    th {
-      background: #0f172a;
-      color: #ffffff;
-      font-weight: 700;
-    }
+    th { background: #0f172a; color: #ffffff; font-weight: 700; }
 
-    /* 1. 改善イデア採否マトリックス */
+    /* 2. 改善イデア採否マトリックス */
     .idea-table th.center, .idea-table td.center { text-align: center; vertical-align: middle; }
     .mark-must { display: inline-block; background: #dcfce7; color: #166534; font-weight: 700; padding: 2px 8px; border-radius: 6px; }
     .mark-good { display: inline-block; background: #dbeafe; color: #1e40af; font-weight: 700; padding: 2px 8px; border-radius: 6px; }
     .mark-no { display: inline-block; background: #fee2e2; color: #991b1b; font-weight: 700; padding: 2px 8px; border-radius: 6px; }
     .mark-na { display: inline-block; background: #f1f5f9; color: #64748b; font-weight: 600; padding: 2px 8px; border-radius: 6px; }
 
-    /* 2. セグメント別 統合PMF・POC・売上マトリックス */
+    /* 3. セグメント別 統合PMF・POC・売上マトリックス */
     .master-matrix th { white-space: nowrap; }
     .master-matrix th.c-seg { background: #1e293b; width: 15%; }
     .master-matrix th.c-ux { background: #334155; width: 21%; }
@@ -183,7 +221,6 @@
       font-size: 11.5px;
       color: #065f46;
     }
-
     .rev-num {
       font-family: 'Shippori Mincho', serif;
       font-size: 16px;
@@ -193,7 +230,7 @@
       margin-bottom: 4px;
     }
 
-    /* 3. ビジネス全体売上試算サマリー */
+    /* 4. 年間売上サマリー */
     .summary-cards {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -231,16 +268,6 @@
       color: #475569;
     }
 
-    /* 4. ポジショニング */
-    .map-container {
-      background: #f8fafc;
-      border: 1px solid #cbd5e1;
-      border-radius: 14px;
-      padding: 18px;
-      text-align: center;
-    }
-    .map-svg { width: 100%; max-width: 820px; height: auto; display: block; margin: 0 auto; }
-
     footer {
       background: #f8fafc;
       padding: 18px;
@@ -256,7 +283,8 @@
       .container { box-shadow: none; border: none; max-width: 100%; }
       .content { padding: 16px; }
     }
-    @media (max-width: 720px) {
+    @media (max-width: 820px) {
+      .loop-grid { grid-template-columns: 1fr; }
       .content { padding: 20px 14px; }
     }
   </style>
@@ -265,89 +293,127 @@
 
   <div class="top-bar">
     <nav class="nav-links">
-      <a href="#ideas">① セグメント別 改善イデア採否</a>
-      <a href="#master">② PMF・課金・POC・売上統合表</a>
-      <a href="#pl">③ 年間売上＆粗利積み上げ試算</a>
-      <a href="#positioning">④ 競合ポジショニング図</a>
+      <a href="#flywheel">① 研修×数値最適化ループ</a>
+      <a href="#ideas">② セグメント別 改善採否</a>
+      <a href="#master">③ PMF・POC・売上統合表</a>
+      <a href="#pl">④ 年間売上＆粗利試算</a>
     </nav>
     <button type="button" class="print-btn" onclick="window.print()">🖨️ 印刷 / PDF保存</button>
   </div>
 
   <div class="container">
     <header>
-      <span class="badge-top">SEGMENT-DRIVEN PMF &amp; REVENUE MODEL</span>
-      <h1>『心庭』PMF戦略：セグメント別 機能採否 × 課金 × POC × 年間売上試算</h1>
+      <span class="badge-top">EVIDENCE-FIRST PMF STRATEGY</span>
+      <h1>『心庭』PMF戦略：リアル研修×評価最適化ループによるB2B到達モデル</h1>
       <p class="header-sub">
-        共通コア（端末内完結プライバシー＋Ownershipの石＋Track A円覚寺／Track B一般化の差し替え基盤）の上に、各セグメントで「どの改善案を採用・不採用にするか」「どう課金しPOCできるか」「その結果ビジネス全体で年間いくらの売上になるか」を重複なく1本のロジックで整理しました。
+        「導入実績の数値がない段階では企業は買わない」という現実を踏まえ、まずお寺・教会・公民館等のリアル研修（リーダーシップ／ストレス低減）で場と実績を作り、効果測定パラメータを最適化した完成品を企業へ販売する戦略モデルです。
       </p>
     </header>
 
     <div class="content">
 
-      <!-- 1. 改善イデア採否マトリックス -->
+      <!-- 1. リアル研修×パラメータ最適化ループ -->
+      <section class="section" id="flywheel">
+        <h2 class="section-title">
+          <span class="pill">Flywheel</span>
+          ① 勝利の方程式：「リアル研修 × 評価パラメータ最適化」3ステップループ
+        </h2>
+
+        <div class="loop-grid">
+          <div class="loop-card step1">
+            <span class="loop-step">STEP 1：現場開催（Year 1〜）</span>
+            <h3 class="loop-title">お寺・教会・公民館での研修実施</h3>
+            <p class="loop-desc">
+              最初は「アプリ単体」を企業に売らず、<strong>リーダーシップ研修・ストレス低減研修</strong>としてリアルな場（円覚寺 Track A、または教会・公民館 Track B）で開催。参加費・講師料で収益を立てながら実践の場を確保する。
+            </p>
+          </div>
+
+          <div class="loop-card step2">
+            <span class="loop-step">STEP 2：数値検証と改良（Year 1〜2）</span>
+            <h3 class="loop-title">評価パラメータ最適化ループ</h3>
+            <p class="loop-desc">
+              対話の本文はスマホ内に完全秘匿したまま、<strong>研修前後の匿名スコア（ストレス度・自己決定感・継続率）</strong>だけを計測。「どの問い・揺らぎ設定・モードが一番数値を改善するか」をイベントごとに回してアプリを磨く。
+            </p>
+          </div>
+
+          <div class="loop-card step3">
+            <span class="loop-step">STEP 3：エビデンス販売（Year 2後半〜3）</span>
+            <h3 class="loop-title">数値実績を武器に企業へ本格販売</h3>
+            <p class="loop-desc">
+              「延べ◯回の研修でストレス指標が平均△%低下・自己効力感が□%向上」という<strong>実測データと最適化済みパラメータ</strong>が完成した段階で、企業人事（新卒・管理職・ストレス対策）へ自信を持って有償導入を提案する。
+            </p>
+          </div>
+        </div>
+
+        <div class="loop-note">
+          <strong>🔑 この構造における Track A / Track B の役割：</strong> 共通コア（端末内完結プライバシー＋Ownershipの石）から宗教色・知識グラフを差し替え可能にしておくことで、お寺（Track A）だけでなく、<strong>教会・公民館・一般企業（Track B）</strong> でも同じ最適化ループを回せます。
+        </div>
+      </section>
+
+      <!-- 2. 改善イデア採否マトリックス -->
       <section class="section" id="ideas">
         <h2 class="section-title">
           <span class="pill blue">UX / Features</span>
-          ① ユーザー改善イデアの「セグメント別 採否マトリックス」（取り入れる／改良する／外す）
+          ② ユーザー改善イデアの「セグメント別 採否マトリックス」
         </h2>
         <div class="table-wrap">
           <table class="idea-table">
             <thead>
               <tr>
-                <th style="width: 28%;">『アプリ改善イデア集』等の提案機能</th>
-                <th class="center" style="width: 18%;">S1. 企業・新卒<br><span style="font-weight:400;font-size:10.5px;">(Track B / 研修A)</span></th>
-                <th class="center" style="width: 18%;">S2. 寺院・観光<br><span style="font-weight:400;font-size:10.5px;">(Track A 円覚寺)</span></th>
-                <th class="center" style="width: 18%;">S3. 孫ケアラー<br><span style="font-weight:400;font-size:10.5px;">(Track B ケア)</span></th>
-                <th class="center" style="width: 18%;">S4. 子ども・いじめ<br><span style="font-weight:400;font-size:10.5px;">(Track B 教育)</span></th>
+                <th style="width: 30%;">『アプリ改善イデア集』の提案</th>
+                <th class="center" style="width: 17.5%;">S2. リアル研修・寺院<br><span style="font-weight:400;font-size:10.5px;">(Year 1 起点：A/B)</span></th>
+                <th class="center" style="width: 17.5%;">S1. 企業人事・新卒<br><span style="font-weight:400;font-size:10.5px;">(Year 2〜3 本命：B)</span></th>
+                <th class="center" style="width: 17.5%;">S3. 孫ケアラー<br><span style="font-weight:400;font-size:10.5px;">(Year 2〜 健保：B)</span></th>
+                <th class="center" style="width: 17.5%;">S4. 子ども・いじめ<br><span style="font-weight:400;font-size:10.5px;">(Year 3〜 教育：B)</span></th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td><strong>1. 文字サイズ拡大（標準／大トグル）</strong><br><span class="seg-sub">和室・屋外や年配層の視認性改善</span></td>
-                <td class="center"><span class="mark-good">○ 任意対応</span></td>
+                <td><strong>1. 文字サイズ拡大（標準／大トグル）</strong></td>
                 <td class="center"><span class="mark-must">◎ 必須採用</span></td>
+                <td class="center"><span class="mark-good">○ 任意対応</span></td>
                 <td class="center"><span class="mark-must">◎ 必須採用</span></td>
                 <td class="center"><span class="mark-good">○ 任意対応</span></td>
               </tr>
               <tr>
-                <td><strong>2. プロフィール前の「導入1問」</strong><br><span class="seg-sub">属性入力の前に「今引っかかること」を聞く</span></td>
+                <td><strong>2. プロフィール前の「導入1問」</strong></td>
+                <td class="center"><span class="mark-must">◎ 研修テーマで調整</span></td>
                 <td class="center"><span class="mark-must">◎ 配属/業務で調整</span></td>
-                <td class="center"><span class="mark-must">◎ 拝観動機で調整</span></td>
                 <td class="center"><span class="mark-must">◎ 介護負担で調整</span></td>
                 <td class="center"><span class="mark-must">◎ 学校の悩みで調整</span></td>
               </tr>
               <tr>
-                <td><strong>3. 言葉の品質・繊細な語調（女性視点）</strong><br><span class="seg-sub">傷つけない余白と温かみのある文章表現</span></td>
+                <td><strong>3. 言葉の品質・繊細な語調（女性視点）</strong></td>
                 <td class="center"><span class="mark-must">◎ 必須採用</span></td>
                 <td class="center"><span class="mark-must">◎ 必須採用</span></td>
                 <td class="center"><span class="mark-must">◎ 必須採用</span></td>
                 <td class="center"><span class="mark-must">◎ 必須採用</span></td>
               </tr>
               <tr>
-                <td><strong>4. 松岡修造的「喝（背中を押す）」モード</strong><br><span class="seg-sub">穏やか傾聴と切替できる熱量ある対話</span></td>
+                <td><strong>4. 松岡修造的「喝（背中を押す）」モード</strong></td>
+                <td class="center"><span class="mark-good">○ 選択可（研修演出）</span></td>
                 <td class="center"><span class="mark-good">○ 任意選択制</span></td>
-                <td class="center"><span class="mark-good">○ 体験エンタメ可</span></td>
-                <td class="center"><span class="mark-no">× 不採用</span><br><span class="seg-sub">疲弊層に逆効果</span></td>
-                <td class="center"><span class="mark-no">× 強制無効</span><br><span class="seg-sub">二次被害防止</span></td>
+                <td class="center"><span class="mark-no">× 不採用</span></td>
+                <td class="center"><span class="mark-no">× 強制無効</span></td>
               </tr>
               <tr>
-                <td><strong>5. 質問の簡単化・難易度調整 ＆ 危機検知誘導</strong><br><span class="seg-sub">「今の質問は難しすぎる」対策：抽象的な問いを噛み砕き、子ども向けは具体的で簡単な質問＋公的窓口誘導へ</span></td>
-                <td class="center"><span class="mark-good">○ 専門用語を平易化</span></td>
+                <td><strong>5. 質問の簡単化・難易度調整 ＆ 危機検知</strong><br><span class="seg-sub">「質問が難しすぎる」対策＋子ども向け簡易質問＆窓口誘導</span></td>
                 <td class="center"><span class="mark-good">○ 初心者向け平易化</span></td>
+                <td class="center"><span class="mark-good">○ 専門用語を平易化</span></td>
                 <td class="center"><span class="mark-good">○ 負担の少ない問い</span></td>
-                <td class="center"><span class="mark-must">◎ 簡単な質問へ全面刷新</span><br><span class="seg-sub">ひらがな＋窓口誘導</span></td>
+                <td class="center"><span class="mark-must">◎ 簡単な質問へ刷新</span></td>
               </tr>
               <tr>
-                <td><strong>6. 30秒「今日の小石」＋匿名スコア集計</strong><br><span class="seg-sub">継続チェックイン＆人事向け効果証明数値</span></td>
-                <td class="center"><span class="mark-must">◎ 必須採用</span></td>
-                <td class="center"><span class="mark-na">― 単発完結可</span></td>
-                <td class="center"><span class="mark-must">◎ 必須採用</span></td>
+                <td><strong>6. 匿名「前後評価パラメータ」計測機能</strong><br><span class="seg-sub">本文非送信のままストレス/自己効力感スコア変化を取得</span></td>
+                <td class="center"><span class="mark-must">◎ 必須（ループ核）</span></td>
+                <td class="center"><span class="mark-must">◎ 必須（ROI証明）</span></td>
+                <td class="center"><span class="mark-must">◎ 必須（効果測定）</span></td>
                 <td class="center"><span class="mark-na">― 集計しない</span></td>
               </tr>
               <tr>
-                <td><strong>7. 会場限定QR「特別の石」＆木札/お布施</strong><br><span class="seg-sub">リアル体験の記念アンロックと喜捨導線</span></td>
-                <td class="center"><span class="mark-good">○ 研修記念のみ</span></td>
+                <td><strong>7. 会場限定QR「特別の石」＆木札/お布施</strong></td>
                 <td class="center"><span class="mark-must">◎ 必須採用</span></td>
+                <td class="center"><span class="mark-good">○ 研修記念のみ</span></td>
                 <td class="center"><span class="mark-na">― 不要</span></td>
                 <td class="center"><span class="mark-na">― 不要</span></td>
               </tr>
@@ -356,136 +422,134 @@
         </div>
       </section>
 
-      <!-- 2. セグメント別 PMF・課金・POC・売上統合マトリックス -->
+      <!-- 3. セグメント別 PMF・POC・売上統合マトリックス -->
       <section class="section" id="master">
         <h2 class="section-title">
           <span class="pill">Master Matrix</span>
-          ② セグメント別 PMF・課金モデル・POC可否（レッドチーム検証）・年間売上
+          ③ セグメント別 課金モデル・POC可否（レッドチーム検証）・年間売上（優先順）
         </h2>
         <div class="table-wrap">
           <table class="master-matrix">
             <thead>
               <tr>
-                <th class="c-seg">セグメント / SAM</th>
-                <th class="c-ux">ニーズと必要UI/機能</th>
+                <th class="c-seg">優先順位 / SAM</th>
+                <th class="c-ux">役割と必要機能</th>
                 <th class="c-biz">課金方法・単価</th>
                 <th class="c-poc">POC可否・レッドチーム検証・撤退基準</th>
                 <th class="c-rev">Year 3 売上<br>（算出根拠）</th>
               </tr>
             </thead>
             <tbody>
-              <!-- S1 -->
+              <!-- S2 (Year 1 最優先) -->
               <tr>
                 <td>
-                  <span class="seg-name">S1. 企業人事・新卒／若手</span>
-                  <span class="seg-sub">Track B（無宗教）<br>※幹部研修は Track A</span>
-                  <span class="sam-chip">SAM: 15〜30億円/年</span>
-                  <span class="seg-sub" style="margin-top:4px;">外部新卒研修予算企業 約15,000社 × 10〜20万円</span>
-                </td>
-                <td>
-                  <strong>【ニーズ】</strong>配属不安・早期離職の防止。人事に見られるツールでは本音を書かない。<br>
-                  <strong>【必要機能】</strong>端末内保存＋<u>匿名前後スコアのみオプトイン集計</u>、30秒「今日の小石」、法人専用コード。
-                </td>
-                <td>
-                  <strong>支払者：</strong>企業人事部<br>
-                  <strong>課金方法：</strong>事前研修＋専用ワーク＋限定コード3ヶ月利用パッケージ<br>
-                  <strong>単価：</strong><strong>30〜50万円/社</strong><br>
-                  （粗利率：約80%）
-                </td>
-                <td>
-                  <span class="poc-status poc-ok">✅ POC実施可能（2〜3ヶ月）</span>
-                  <div class="rt-mini"><strong>レッドチーム批判：</strong>「無料PWAになぜ50万払うか」「年1回予算（9〜12月確定）でリードタイムが長い」。</div>
-                  <div class="gate-mini"><strong>Go/Kill：</strong>協力1〜2社で月2回利用45%以上＆有償合意でGo。全社予算NGなら研修会社OEMへ転換。</div>
-                </td>
-                <td>
-                  <span class="rev-num">900万円 / 年</span>
-                  <span class="seg-sub"><strong>計算式：</strong><br>50万円 × 18社<br>（専任0〜1名体制で現実的に開拓可能な社数）</span>
-                </td>
-              </tr>
-
-              <!-- S2 -->
-              <tr>
-                <td>
-                  <span class="seg-name">S2. 寺院イベント・観光</span>
-                  <span class="seg-sub">Track A（円覚寺・聖地モデル）</span>
+                  <span class="poc-status poc-ok">★ 最優先（Year 1〜）</span>
+                  <span class="seg-name">S2. リアル研修・寺院/地域イベント</span>
+                  <span class="seg-sub">Track A（円覚寺）<br>Track B（教会/公民館）</span>
                   <span class="sam-chip">SAM: 5〜15億円/年</span>
-                  <span class="seg-sub" style="margin-top:4px;">鎌倉有料内省層 10〜20万人×1,500円（全国禅寺拡張）</span>
                 </td>
                 <td>
-                  <strong>【ニーズ】</strong>坐禅や法話の感動を日常に持ち帰りたい。<br>
-                  <strong>【必要機能】</strong>文字大トグル、会場限定QR「特別の石」、境内連動ガイド、木札/お布施リンク。
+                  <strong>【役割】</strong>実績数値と収益を同時に生む起点。<br>
+                  <strong>【機能】</strong>リーダーシップ/ストレス低減研修用ワーク、<u>匿名前後スコア計測</u>、会場限定QR石。
                 </td>
                 <td>
-                  <strong>支払者：</strong>参加者・観光客<br>
-                  <strong>課金方法：</strong>①参加費事前包含（+500〜1,500円）または ②任意お布施・銘入り木札物販（1,500〜3,000円）<br>
-                  <strong>純増単価：</strong><strong>1,000円/人</strong><br>
-                  （寺院シェア後粗利：約60%）
+                  <strong>支払者：</strong>参加者・主催団体<br>
+                  <strong>課金方法：</strong>リアル研修参加費（アプリ利用包含）＋ 木札/任意お布施<br>
+                  <strong>単価：</strong><strong>1,500〜5,000円/人</strong><br>
+                  （会場費・講師シェア後粗利：約60%）
                 </td>
                 <td>
                   <span class="poc-status poc-ok">✅ 即POC可能（1ヶ月〜）</span>
-                  <div class="rt-mini"><strong>レッドチーム批判：</strong>任意お布施・物販だけでは転換率が低く原価割れリスク。これ単体では開発費回収が困難。</div>
-                  <div class="gate-mini"><strong>Go/Kill：</strong>QR読込70%＆転換15%以上でGo。5%未満なら個別課金を廃止し「参加費事前包含」に統一。</div>
+                  <div class="rt-mini"><strong>レッドチーム批判：</strong>「離職率との相関は短期では出ない」「物販・お布施単体では大きく稼げない」。</div>
+                  <div class="gate-mini"><strong>Go/Kill：</strong>まず「ストレス・自己決定感の前後スコア改善率」を評価軸に最適化ループを回す。転換率5%未満なら参加費事前包含へ統一。</div>
                 </td>
                 <td>
                   <span class="rev-num">350万円 / 年</span>
-                  <span class="seg-sub"><strong>計算式：</strong><br>純増1,000円 × 3,500名<br>（円覚寺イベント＋観光拝観連動）</span>
+                  <span class="seg-sub"><strong>計算式：</strong><br>純増1,000円 × 3,500名<br>（研修・観光・地域会場の合算）</span>
+                </td>
+              </tr>
+
+              <!-- S1 (Year 2後半〜3 本命) -->
+              <tr>
+                <td>
+                  <span class="poc-status poc-cond">◎ Year 2後半〜有償化</span>
+                  <span class="seg-name">S1. 企業人事・新卒／若手・管理職</span>
+                  <span class="seg-sub">Track B（無宗教版）<br>※リトリートは A</span>
+                  <span class="sam-chip">SAM: 15〜30億円/年</span>
+                </td>
+                <td>
+                  <strong>【役割】</strong>S2で貯めた数値実績を元にスケールするB2B柱。<br>
+                  <strong>【機能】</strong>最適化済み質問パラメータ、30秒「今日の小石」、匿名スコアレポート。
+                </td>
+                <td>
+                  <strong>支払者：</strong>企業人事部<br>
+                  <strong>課金方法：</strong>Year 1は<strong>無償試験導入</strong>（またはリアル研修付帯）。実績確立後「研修＋3ヶ月利用」で有償化。<br>
+                  <strong>単価：</strong><strong>40万円/社</strong>（粗利率80%）
+                </td>
+                <td>
+                  <span class="poc-status poc-cond">⚠️ 単独直販は実績待ち（1〜2年）</span>
+                  <div class="rt-mini"><strong>レッドチーム批判：</strong>「数字がないまま企業は買わない」「離職率との相関が出るまで1年以上かかる」。</div>
+                  <div class="gate-mini"><strong>Go/Kill：</strong>Year 1〜2はS2の場と無料モニター1〜2社で数値エビデンス（ストレス低減率等）を作る。実績提示後も予算NGなら研修会社OEMへ転換。</div>
+                </td>
+                <td>
+                  <span class="rev-num">200万〜400万円</span>
+                  <span class="seg-sub"><strong>計算式：</strong><br>40万円 × 5〜10社<br>（エビデンス完成後の初動現実値）</span>
                 </td>
               </tr>
 
               <!-- S3 -->
               <tr>
                 <td>
+                  <span class="poc-status poc-cond">○ Year 2〜 健保連携</span>
                   <span class="seg-name">S3. 孫世代ケアラー</span>
                   <span class="seg-sub">Track B（汎用ケア版）</span>
                   <span class="sam-chip">SAM: 約5億円/年</span>
-                  <span class="seg-sub" style="margin-top:4px;">企業健保・自治体の介護離職予防予算</span>
                 </td>
                 <td>
-                  <strong>【ニーズ】</strong>20〜30代で介護を担い孤立。深夜に罪悪感を吐き出したい。<br>
-                  <strong>【必要機能】</strong>文字大、24時間「穏やか」特化語調、介護知識グラフ、地域包括支援窓口誘導（喝モードは×）。
+                  <strong>【役割】</strong>社会課題特化。<br>
+                  <strong>【機能】</strong>文字大、24時間「穏やか」傾聴、介護知識グラフ、地域包括窓口誘導（喝×）。
                 </td>
                 <td>
                   <strong>支払者：</strong>企業健保・自治体<br>
-                  <strong>課金方法：</strong>介護離職防止プログラムとしての年間契約（B2B2C）<br>
-                  <strong>単価：</strong><strong>150万円/団体</strong><br>
-                  （粗利率：約75%）
+                  <strong>課金方法：</strong>介護離職予防プログラム年間契約（B2B2C）<br>
+                  <strong>単価：</strong><strong>150万円/団体</strong>（粗利率75%）
                 </td>
                 <td>
-                  <span class="poc-status poc-cond">⚠️ 単体POC困難（Year 2〜）</span>
-                  <div class="rt-mini"><strong>レッドチーム批判：</strong>疲弊した個人からは課金不可。Web広告で対象者を集めるCPAが高騰し赤字になる。</div>
-                  <div class="gate-mini"><strong>Go/Kill：</strong>個人集客は行わず、S1導入企業の健保や自治体経由でのみテスト。団体合意が取れなければ凍結。</div>
+                  <span class="poc-status poc-cond">⚠️ 単体POC困難（S1/S2経由）</span>
+                  <div class="rt-mini"><strong>レッドチーム批判：</strong>個人課金不可。広告集客はCPA高騰で赤字。</div>
+                  <div class="gate-mini"><strong>Go/Kill：</strong>公民館での介護者向け研修等（S2）で実績を作り、健保・自治体へ持ち込む。</div>
                 </td>
                 <td>
-                  <span class="rev-num">200万円 / 年</span>
-                  <span class="seg-sub"><strong>計算式：</strong><br>150万〜200万円 × 1〜2団体<br>（S1法人からの横展開）</span>
+                  <span class="rev-num">150万円 / 年</span>
+                  <span class="seg-sub"><strong>計算式：</strong><br>150万円 × 1団体<br>（Year 3時点の現実的1件獲得）</span>
                 </td>
               </tr>
 
               <!-- S4 -->
               <tr>
                 <td>
+                  <span class="poc-status poc-ng">△ Year 3〜 CSR/公費</span>
                   <span class="seg-name">S4. 子ども・いじめ相談</span>
                   <span class="seg-sub">Track B（やさしい版）</span>
                   <span class="sam-chip">SAM: 公費/CSR枠</span>
-                  <span class="seg-sub" style="margin-top:4px;">自治体・教育委員会のいじめ対策予算</span>
                 </td>
                 <td>
-                  <strong>【ニーズ】</strong>親・先生に知られず気持ちを整理したい。<u>現状の哲学的な質問は難しすぎて答えられない。</u><br>
-                  <strong>【必要機能】</strong><strong>子ども用の簡単な質問設計</strong>（「今日いちばんイヤだったことは？」等、抽象質問を排したやさしいことば）、危機検知時の「喝」強制停止＆チャイルドライン等即誘導。
+                  <strong>【役割】</strong>教育・いじめ対策。<br>
+                  <strong>【機能】</strong><strong>子ども用の簡単な質問設計</strong>、危機検知時の「喝」強制停止＆チャイルドライン誘導。
                 </td>
                 <td>
                   <strong>支払者：</strong>自治体・CSR協賛<br>
-                  <strong>課金方法：</strong>本人完全無料。自治体委託または企業CSR協賛。<br>
+                  <strong>課金方法：</strong>本人完全無料。自治体委託・CSR。<br>
                   <strong>単価：</strong>Year 3までは収益外
                 </td>
                 <td>
-                  <span class="poc-status poc-ng">❌ 現時点POC不可（Year 3〜）</span>
-                  <div class="rt-mini"><strong>レッドチーム批判：</strong>AIの誤応答による二次被害の法的・倫理的リスクが極めて高く、教育委員会の審査も長期化する。</div>
-                  <div class="gate-mini"><strong>Go/Kill：</strong>専門家監修の安全ガードレール完成までは実験投入禁止。S1〜S3で黒字基盤を作ってから着手。</div>
+                  <span class="poc-status poc-ng">❌ 現時点POC不可</span>
+                  <div class="rt-mini"><strong>レッドチーム批判：</strong>誤応答による二次被害リスクと教育委員会審査の壁。</div>
+                  <div class="gate-mini"><strong>Go/Kill：</strong>専門家監修の安全設計完了まで実験停止。</div>
                 </td>
                 <td>
                   <span class="rev-num">0円（対象外）</span>
-                  <span class="seg-sub"><strong>位置づけ：</strong><br>Year 3以降のCSR・自治体連携枠（売上計画には算入しない）</span>
+                  <span class="seg-sub">Year 3以降のCSR・自治体連携枠</span>
                 </td>
               </tr>
             </tbody>
@@ -493,28 +557,28 @@
         </div>
       </section>
 
-      <!-- 3. ビジネス全体の年間売上高・営業利益シミュレーション -->
+      <!-- 4. ビジネス全体の年間売上高・営業利益シミュレーション -->
       <section class="section" id="pl">
         <h2 class="section-title">
           <span class="pill green">Business Total</span>
-          ③ ビジネス全体の年間売上高・営業利益シミュレーション（S1〜S4 積み上げ合計）
+          ④ 現実修正後の年間売上高・営業利益シミュレーション（S2起点→S1開花モデル）
         </h2>
 
         <div class="summary-cards">
           <div class="sum-card">
             <div class="sum-label">TAM（周辺市場全体）</div>
             <div class="sum-val">約 2.0兆円</div>
-            <div class="sum-desc">健康経営市場 1兆4,712億円（シード・プランニング 2025年予測）＋ 企業研修市場 約6,000億円（矢野経済研究所）。</div>
+            <div class="sum-desc">健康経営市場 1兆4,712億円（シード・プランニング）＋ 企業研修市場 約6,000億円（矢野経済研究所）。</div>
           </div>
           <div class="sum-card">
-            <div class="sum-label">有効SAM合計（S1＋S2＋S3）</div>
+            <div class="sum-label">有効SAM合計（S2＋S1＋S3）</div>
             <div class="sum-val">約 25億〜50億円 / 年</div>
             <div class="sum-desc">S1（15〜30億円）＋ S2（5〜15億円）＋ S3（約5億円）のボトムアップ合算。</div>
           </div>
           <div class="sum-card highlight">
-            <div class="sum-label">Year 3 到達目標（SOM・全セグメント計）</div>
-            <div class="sum-val">年商 1,450万円 / 利益 約980万円</div>
-            <div class="sum-desc">現実的な専任0〜1名体制での積み上げ。S1（B2B）が収益柱、S2（寺院O2O）がブランド起点。</div>
+            <div class="sum-label">Year 3 現実的SOM（エビデンス獲得後）</div>
+            <div class="sum-val">年商 700万〜900万円</div>
+            <div class="sum-desc">Year 1〜2はS2リアル研修で実績数値を蓄積し、Year 3からS1法人有償化が立ち上がる堅実カーブ。</div>
           </div>
         </div>
 
@@ -523,45 +587,41 @@
             <thead>
               <tr>
                 <th>年次</th>
-                <th>S1（企業・新卒）</th>
-                <th>S2（寺院O2O）</th>
+                <th>S2（リアル研修・寺院/地域）</th>
+                <th>S1（企業人事・B2B）</th>
                 <th>S3（孫ケアラー）</th>
-                <th>S4（子ども）</th>
                 <th>年間売上合計</th>
                 <th>共通API・保守費</th>
-                <th>想定営業利益（粗利−共通費）</th>
+                <th>想定営業利益</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td><strong>Year 1</strong><br><span class="seg-sub">POC検証期</span></td>
-                <td>60万円<br><span class="seg-sub">(30万×2社)</span></td>
-                <td>36万円<br><span class="seg-sub">(イベント4回+物販)</span></td>
-                <td>0円<br><span class="seg-sub">(POC準備)</span></td>
+                <td><strong>Year 1</strong><br><span class="seg-sub">研修開催＆数値最適化期</span></td>
+                <td><strong>60万〜100万円</strong><br><span class="seg-sub">(お寺/公民館等 研修×年10回)</span></td>
+                <td><strong>0円（無償POC）</strong><br><span class="seg-sub">(協力1〜2社で実績数値収集)</span></td>
                 <td>0円</td>
-                <td><strong>96万〜150万円</strong></td>
+                <td><strong>60万〜100万円</strong></td>
                 <td>▲20万円</td>
-                <td><strong style="color:#059669;">約 50万〜100万円</strong></td>
+                <td><strong style="color:#059669;">約 20万〜40万円</strong></td>
               </tr>
               <tr>
-                <td><strong>Year 2</strong><br><span class="seg-sub">PMF確立期</span></td>
-                <td>315万円<br><span class="seg-sub">(45万×7社)</span></td>
-                <td>150万円<br><span class="seg-sub">(1,000円×1,500名)</span></td>
-                <td>0〜100万円<br><span class="seg-sub">(S1経由パイロット)</span></td>
-                <td>0円</td>
-                <td><strong>465万〜565万円</strong></td>
+                <td><strong>Year 2</strong><br><span class="seg-sub">エビデンス確立期</span></td>
+                <td><strong>180万〜250万円</strong><br><span class="seg-sub">(研修拡大＋観光O2O)</span></td>
+                <td><strong>40万〜80万円</strong><br><span class="seg-sub">(リアル研修付帯で1〜2社)</span></td>
+                <td>0円<br><span class="seg-sub">(地域研修で検証)</span></td>
+                <td><strong>220万〜330万円</strong></td>
                 <td>▲40万円</td>
-                <td><strong style="color:#059669;">約 280万〜360万円</strong></td>
+                <td><strong style="color:#059669;">約 100万〜175万円</strong></td>
               </tr>
               <tr class="total-row">
-                <td><strong>Year 3</strong><br><span class="seg-sub">SOM到達期</span></td>
-                <td>900万円<br><span class="seg-sub">(50万×18社)</span></td>
-                <td>350万円<br><span class="seg-sub">(1,000円×3,500名)</span></td>
-                <td>200万円<br><span class="seg-sub">(1〜2団体)</span></td>
-                <td>0円</td>
-                <td style="color:#b45309; font-size:14px;"><strong>1,450万円</strong><br><span class="seg-sub">(1,300〜1,550万)</span></td>
-                <td>▲100万円</td>
-                <td style="color:#059669; font-size:14px;"><strong>約 980万円</strong></td>
+                <td><strong>Year 3</strong><br><span class="seg-sub">B2B有償展開期</span></td>
+                <td><strong>350万円</strong><br><span class="seg-sub">(1,000円×3,500名)</span></td>
+                <td><strong>200万〜400万円</strong><br><span class="seg-sub">(実績提示し40万×5〜10社)</span></td>
+                <td><strong>150万円</strong><br><span class="seg-sub">(1団体契約)</span></td>
+                <td style="color:#b45309; font-size:14px;"><strong>700万〜900万円</strong></td>
+                <td>▲80万円</td>
+                <td style="color:#059669; font-size:14px;"><strong>約 400万〜560万円</strong></td>
               </tr>
             </tbody>
           </table>
@@ -569,57 +629,14 @@
 
         <div class="source-box">
           <strong>📚 数値・計算根拠：</strong>
-          シード・プランニング（国内健康経営市場 1兆4,712億円）／ 矢野経済研究所（企業研修市場 約6,000〜6,100億円）／ 産労総合研究所（1人あたり年間研修費平均 36,036〜39,753円）／ 鎌倉市観光統計（年間延べ約2,000万人）。S1粗利80%・S2粗利60%（寺院レベニューシェア・製作原価控除後）・S3粗利75%で算出し、共通LLM API・サーバー保守費を差し引いて営業利益を計上しています。
-        </div>
-      </section>
-
-      <!-- 4. 競合ポジショニング図 -->
-      <section class="section" id="positioning">
-        <h2 class="section-title">
-          <span class="pill purple">Positioning</span>
-          ④ 競合ポジショニング（なぜ一般B2C月額課金を捨て、S1×S2に集中するのか）
-        </h2>
-        <div class="map-container">
-          <svg class="map-svg" viewBox="0 0 800 370" xmlns="http://www.w3.org/2000/svg">
-            <rect x="60" y="26" width="340" height="152" fill="#f1f5f9" rx="8"/>
-            <rect x="400" y="26" width="340" height="152" fill="#fffbeb" rx="8"/>
-            <rect x="60" y="178" width="340" height="152" fill="#f8fafc" rx="8"/>
-            <rect x="400" y="178" width="340" height="152" fill="#f0fdf4" rx="8"/>
-            <line x1="400" y1="18" x2="400" y2="345" stroke="#64748b" stroke-width="2"/>
-            <line x1="50" y1="178" x2="750" y2="178" stroke="#64748b" stroke-width="2"/>
-            <text x="400" y="13" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0f172a">▲ 法人・組織・リアル体験連動（B2B / O2O）</text>
-            <text x="400" y="362" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0f172a">▼ 個人利用中心（B2C サブスク / 単発利用）</text>
-            <text x="55" y="170" text-anchor="start" font-size="11.5" font-weight="700" fill="#475569">◀ 科学的ケア・汎用SaaS</text>
-            <text x="745" y="170" text-anchor="end" font-size="11.5" font-weight="700" fill="#92400e">東洋的内省・Ownershipアート ▶</text>
-
-            <circle cx="170" cy="255" r="22" fill="#cbd5e1" stroke="#64748b" stroke-width="1.5"/>
-            <text x="170" y="259" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1e293b">Calm等</text>
-            <text x="170" y="290" text-anchor="middle" font-size="10" fill="#64748b">B2Cレッドオーシャン</text>
-
-            <circle cx="245" cy="112" r="22" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
-            <text x="245" y="116" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1e40af">Upmind</text>
-            <text x="245" y="146" text-anchor="middle" font-size="9.5" fill="#1e40af">健康経営・自律神経</text>
-
-            <circle cx="145" cy="82" r="22" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
-            <text x="145" y="86" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1e40af">Awarefy</text>
-            <text x="145" y="116" text-anchor="middle" font-size="9.5" fill="#1e40af">CBT×福祉施設</text>
-
-            <circle cx="530" cy="255" r="22" fill="#e2e8f0" stroke="#475569" stroke-width="1.5"/>
-            <text x="530" y="259" text-anchor="middle" font-size="10" font-weight="700" fill="#334155">仏教AI系</text>
-            <text x="530" y="290" text-anchor="middle" font-size="9.5" fill="#64748b">単発Q&amp;A中心</text>
-
-            <rect x="465" y="48" width="245" height="82" rx="14" fill="#fef3c7" stroke="#d97706" stroke-width="3" stroke-dasharray="6 3"/>
-            <text x="587" y="74" text-anchor="middle" font-size="13.5" font-weight="800" fill="#92400e">★ 『心庭』の勝ち筋</text>
-            <text x="587" y="94" text-anchor="middle" font-size="11" font-weight="700" fill="#78350f">S1（法人Track B）× S2（聖地Track A）</text>
-            <text x="587" y="113" text-anchor="middle" font-size="10.5" fill="#78350f">端末内完結 × Ownership（覚悟の石）</text>
-          </svg>
+          シード・プランニング（健康経営市場 1兆4,712億円）／ 矢野経済研究所（企業研修市場 約6,000億円）／ 産労総合研究所（1人年研修費 3.6〜4.0万円）／ 鎌倉市統計（年間延べ2,000万人）。S2粗利60%・S1粗利80%・S3粗利75%から共通API・保守費を控除して営業利益を算出。「実績数値なしでは企業は買わない」前提を織り込み、Year 1のS1直販を0円としてリアリティを高めています。
         </div>
       </section>
 
     </div>
 
     <footer>
-      <strong>臨済宗大本山 円覚寺『心庭』PMF戦略（セグメント別 機能・課金・POC・売上統合モデル）</strong><br>
+      <strong>臨済宗大本山 円覚寺『心庭』PMF戦略（リアル研修×評価パラメータ最適化モデル）</strong><br>
       参考：facilitator_guide.html × アプリ改善イデア集.txt × 国内公的・調査機関統計
     </footer>
   </div>
