@@ -345,6 +345,57 @@
 
     .source-list li { margin-bottom: 4px; }
 
+    .toc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 18px;
+      margin-top: 8px;
+    }
+
+    .toc-box {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 18px 20px;
+      background: #fcfdff;
+    }
+
+    .toc-box h3 {
+      margin: 0 0 12px;
+      font-size: 15px;
+      font-weight: 800;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--surface-alt);
+    }
+
+    .toc-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .toc-list li {
+      margin-bottom: 8px;
+      font-size: 13.5px;
+      line-height: 1.5;
+    }
+
+    .toc-list a {
+      text-decoration: none;
+      color: var(--calm-blue);
+      font-weight: 700;
+    }
+
+    .toc-list a:hover {
+      text-decoration: underline;
+    }
+
+    .toc-desc {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
     footer {
       text-align: center;
       font-size: 12.5px;
@@ -375,6 +426,7 @@
       <strong>Part I（Section 1–7）</strong>でCalmの売上到達メカニズム・競合比較・3C/5Forces・市場トレンド乖離の5原因を徹底解剖し、<strong>Part II（Section 8–13）</strong>でその解析結果と不変憲法（STRATEGY_CONSTITUTION.md）に基づく『心庭（Kokoroniwa）』のテーマ選定・5原理・競合4群Moat・Stage-Gate PoC・ボトムアップ5か年計画＆感度分析を一気通貫で提示する統合レポート。
     </p>
     <nav class="nav-pills">
+      <a href="#toc">目次</a>
       <a href="#s1">1. Calmサマリー</a>
       <a href="#s2">2. 推移＆推計差</a>
       <a href="#s3">3. 売上積算式</a>
@@ -382,17 +434,53 @@
       <a href="#s5">5. 競合比較</a>
       <a href="#s6">6. 3C・5Forces</a>
       <a href="#s7">7. トレンド乖離</a>
-      <a href="#p2-s1" style="background:rgba(16,185,129,0.28); border-color:#6ee7b7;">8. テーマ分岐(1%vs100%)</a>
-      <a href="#p2-s2" style="background:rgba(16,185,129,0.28); border-color:#6ee7b7;">9. コア体験×5原理</a>
-      <a href="#p2-s2b" style="background:rgba(16,185,129,0.28); border-color:#6ee7b7;">10. 競合4群Moat</a>
-      <a href="#p2-s3" style="background:rgba(16,185,129,0.28); border-color:#6ee7b7;">11. Stage-Gate PoC</a>
-      <a href="#p2-s4" style="background:rgba(16,185,129,0.28); border-color:#6ee7b7;">12. 5か年＆感度分析</a>
-      <a href="#p2-s5" style="background:rgba(16,185,129,0.28); border-color:#6ee7b7;">13. Calm超え条件</a>
+      <a href="#s8" style="background:rgba(16,185,129,0.28); border-color:#6ee7b7;">8. テーマ分岐(1%vs100%)</a>
+      <a href="#s9" style="background:rgba(16,185,129,0.28); border-color:#6ee7b7;">9. コア体験×5原理</a>
+      <a href="#s10" style="background:rgba(16,185,129,0.28); border-color:#6ee7b7;">10. 競合4群Moat</a>
+      <a href="#s11" style="background:rgba(16,185,129,0.28); border-color:#6ee7b7;">11. Stage-Gate PoC</a>
+      <a href="#s12" style="background:rgba(16,185,129,0.28); border-color:#6ee7b7;">12. 5か年＆感度分析</a>
+      <a href="#s13" style="background:rgba(16,185,129,0.28); border-color:#6ee7b7;">13. Calm超え条件</a>
     </nav>
   </div>
 </header>
 
 <main class="container">
+
+  <!-- TABLE OF CONTENTS -->
+  <section id="toc">
+    <div class="sec-head">
+      <h2>目次（Table of Contents）</h2>
+      <span class="sec-tag">REPORT STRUCTURE</span>
+    </div>
+    <p style="font-size:13.5px; color:var(--muted); margin-bottom:14px;">
+      本レポートは <strong>Part I（Calm.com の現状と限界の客観分析）</strong> と <strong>Part II（それを踏まえた『心庭』の事業計画・数値設計）</strong> の2部構成です（※円換算の目安はすべて $1＝150円 基準）。
+    </p>
+    <div class="toc-grid">
+      <div class="toc-box" style="border-top: 4px solid var(--calm-blue);">
+        <h3 style="color:var(--calm-blue);">Part I：Calm.com 詳細事業分析（Section 1–7）</h3>
+        <ul class="toc-list">
+          <li><a href="#s1">1. エグゼクティブ・サマリー：現在の立ち位置とトレンド判定</a><span class="toc-desc">市場全体（成長中）とCalm B2C（下降局面）の対比および主要KPI</span></li>
+          <li><a href="#s2">2. 年次ダウンロード数・売上推移と「推計値の差」の解剖</a><span class="toc-desc">ECharts 2軸チャート＋2018〜2025年推移＋$596Mと$210Mの違い</span></li>
+          <li><a href="#s3">3. 現在の売上高に到達している「論理的積み上げ方程式」</a><span class="toc-desc">350万人×$60＝$210M（B2C）＋ 3,000〜5,000社（B2B）の積算検証</span></li>
+          <li><a href="#s4">4. 顧客層（セグメント）・利用理由・ユニットエコノミクス</a><span class="toc-desc">米国iOS中心・女性6〜7割・Sleep Storiesの本質・LTV/CACと年次解約率60-65%</span></li>
+          <li><a href="#s5">5. 競合比較分析（Calm vs 主要4プレイヤー群）</a><span class="toc-desc">Headspace / Insight Timer / Big Tech無料勢 / AIセラピー勢との比較</span></li>
+          <li><a href="#s6">6. ビジネス環境分析：3C分析 ＆ ファイブフォース（5 Forces）</a><span class="toc-desc">EChartsレーダーチャートで構造的収益性（代替品5.0・買い手4.5）を評価</span></li>
+          <li><a href="#s7">7. トレンド乖離の深層分析：なぜCalmのB2Cは落ちているのか？</a><span class="toc-desc">5つの構造的原因とCalm自身のB2B/Calm Healthへの転換</span></li>
+        </ul>
+      </div>
+      <div class="toc-box" style="border-top: 4px solid var(--teal);">
+        <h3 style="color:var(--teal);">Part II：『心庭』次世代PMF事業計画書（Section 8–13）</h3>
+        <ul class="toc-list">
+          <li><a href="#s8">8. テーマ括りの決定分岐：1%「禅」ニッチ vs 100%「心の箱庭」</a><span class="toc-desc">お寺（検証の聖地）と一般市場向け表看板の厳格な切り分け</span></li>
+          <li><a href="#s9">9. コア体験と統合アーキテクチャ（5原理 × 子どもモード）</a><span class="toc-desc">心のクローゼット・Todoku・3AI/HIRAKU・黒子筆ローカル関所・Backfull ROI</span></li>
+          <li><a href="#s10">10. 競合4群別の対抗策と『心庭』の非対称な優位性（Moat）</a><span class="toc-desc">Section 5の競合群（YouTube/ChatGPT/Headspace等）に対する構造的防衛壁</span></li>
+          <li><a href="#s11">11. Stage-Gate PoC（4段階の通過ゲートと撤退基準）</a><span class="toc-desc">Gate 0（LP検証）〜 Gate 3（スケール分岐）のGo/No-Go数値基準</span></li>
+          <li><a href="#s12">12. ボトムアップ5か年計画 ＆ 下方ストレステスト（感度分析）</a><span class="toc-desc">自己資金上限3.35億円モデル＋継続率40%・CPA6,000円時のECharts検証</span></li>
+          <li><a href="#s13">13. 自己資金の限界と「Calmを超える」ための3条件</a><span class="toc-desc">Gate 2後のエクイティ調達（10〜30億円）と英語圏展開の条件</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
   <!-- SECTION 1 -->
   <section id="s1">
@@ -576,12 +664,12 @@
           <div class="kpi-card">
             <div class="kpi-label">Gross LTV / Net LTV</div>
             <div class="kpi-val">$200 / $120</div>
-            <div class="kpi-sub">制作・セレブ印税等~$80控除後</div>
+            <div class="kpi-sub">約3万円 / 約1.8万円（制作・印税等~$80控除後）</div>
           </div>
           <div class="kpi-card">
             <div class="kpi-label">CAC / LTV:CAC</div>
             <div class="kpi-val">$40 / 3:1</div>
-            <div class="kpi-sub">年額前払いで約1年以内に回収</div>
+            <div class="kpi-sub">約6,000円（年額前払いで約1年以内に回収）</div>
           </div>
         </div>
         <div class="callout danger" style="margin-top:12px;">
@@ -753,9 +841,9 @@
     </div>
 
     <div class="callout success" style="margin-top:20px;">
-      <strong>原因⑤と今後の帰結（Calmの生き残り戦略）：</strong><br>
-      競合Headspaceが2021年にGingerと$3Bで合併し「臨床メンタル医療」へ先行シフトしたのに対し、Calmは2022年にRipple Healthを買収して <strong>Calm Health</strong> を立ち上げ、現在まさに<strong>「消費者向け睡眠アプリ会社」から「法人福利厚生・保険連携の予防メンタルヘルス基盤」へ脱皮している過渡期</strong>にある。<br>
-      したがって、これから新しく市場に参入する事業者が Calm の過去の成功（B2C瞑想・睡眠音声ライブラリ）をそのまま真似るのは<strong>既にピークを過ぎた下降トレンドに乗る危険な戦略</strong>であり、最初から<strong>「AIによる文脈理解・パーソナライズ」「医療/復職/企業健康経営との接続」「高い継続率を生む実務的価値」</strong>を核に据えることが必須となる。
+      <strong>原因⑤とPart Iのまとめ（Calm自身の構造転換）：</strong><br>
+      競合Headspaceが2021年にGingerと$3Bで合併し「臨床メンタル医療」へ先行シフトしたのに対し、Calmも2022年にRipple Healthを買収して <strong>Calm Health</strong> を立ち上げ、20%の人員削減を経て、現在まさに<strong>「消費者向け睡眠アプリ会社」から「法人福利厚生・保険連携の予防メンタルヘルス基盤」へ脱皮している過渡期</strong>にあります。<br>
+      この現実を踏まえ、続く <strong>Part II（Section 8〜13）</strong> では、Calmの過去の成功を安易に模倣せず、最初から成長の本流（AI×Zero-Knowledge×B2B実務課題）を取りに行く『心庭』の事業計画を構築します。
     </div>
 
     <h3>参照ソース（Sources）</h3>
@@ -777,8 +865,8 @@
     </p>
   </div>
 
-  <!-- SECTION 8 (p2-s1) -->
-  <section id="p2-s1">
+  <!-- SECTION 8 -->
+  <section id="s8">
     <div class="sec-head">
       <h2>8. テーマ括りの決定分岐：1%の「禅」ニッチ vs 100%の「心の箱庭」一般市場</h2>
       <span class="sec-tag">CONSTITUTION ART.1-2</span>
@@ -808,8 +896,8 @@
     </div>
   </section>
 
-  <!-- SECTION 9 (p2-s2) -->
-  <section id="p2-s2">
+  <!-- SECTION 9 -->
+  <section id="s9">
     <div class="sec-head">
       <h2>9. コア体験と統合アーキテクチャ（メンタルケアの本質 × 5つの原理 × 子どもモード）</h2>
       <span class="sec-tag">PRODUCT ARCHITECTURE</span>
@@ -847,15 +935,15 @@
     </div>
   </section>
 
-  <!-- SECTION 10 (p2-s2b) -->
-  <section id="p2-s2b">
+  <!-- SECTION 10 -->
+  <section id="s10">
     <div class="sec-head">
       <h2>10. 競合4群別の対抗策と『心庭』の非対称な優位性（Moat）</h2>
       <span class="sec-tag">COMPETITIVE MOAT</span>
     </div>
 
     <p>
-      Part I（ファイブフォース）で明らかになった「Calmを包囲している競合群」は、そのまま『心庭』の競合でもある。無料のYouTubeやChatGPTが存在する中で、なぜユーザーと法人が『心庭』を選び、お金を払うのかを競合4群ごとに定義する。
+      Part I（<a href="#s5">Section 5 競合比較</a>・<a href="#s6">Section 6 ファイブフォース</a>）で整理した「Calmを包囲している競合4群」は、そのまま『心庭』自身の競合でもある。無料のYouTubeやChatGPTが存在する中で、なぜユーザーと法人が『心庭』を選び、対価を払うのかを競合群ごとに定義する。
     </p>
 
     <table>
@@ -891,8 +979,8 @@
     </table>
   </section>
 
-  <!-- SECTION 11 (p2-s3) -->
-  <section id="p2-s3">
+  <!-- SECTION 11 -->
+  <section id="s11">
     <div class="sec-head">
       <h2>11. Stage-Gate PoC（不確実性を潰す4段階の通過ゲートと撤退基準）</h2>
       <span class="sec-tag">STAGE-GATE POC</span>
@@ -936,8 +1024,8 @@
     </table>
   </section>
 
-  <!-- SECTION 12 (p2-s4) -->
-  <section id="p2-s4">
+  <!-- SECTION 12 -->
+  <section id="s12">
     <div class="sec-head">
       <h2>12. ボトムアップ5か年計画 ＆ Calm分析を踏まえた感度分析（ECharts可視化）</h2>
       <span class="sec-tag">BOTTOM-UP FINANCIALS</span>
@@ -1005,17 +1093,17 @@
           <td class="num">10,818人</td>
           <td class="num">7,789万円</td>
           <td class="num">2,800万円</td>
-          <td class="num"><strong>1.80億円</strong></td>
+          <td class="num"><strong>18,014万円</strong><br><small>(約1.80億円)</small></td>
           <td class="num" style="color:var(--emerald);">+3,200万円</td>
         </tr>
         <tr>
           <td><strong>5年目</strong></td>
-          <td class="num">1.26億円</td>
+          <td class="num">12,600万円<br><small>(1.26億円)</small></td>
           <td class="num">7,650万円</td>
           <td class="num">22,950人</td>
-          <td class="num">1.65億円</td>
+          <td class="num">16,524万円<br><small>(1.65億円)</small></td>
           <td class="num">4,400万円</td>
-          <td class="num"><strong>3.35億円</strong></td>
+          <td class="num"><strong>33,524万円</strong><br><small>(約3.35億円)</small></td>
           <td class="num" style="color:var(--emerald);">+7,500万円</td>
         </tr>
       </tbody>
@@ -1037,8 +1125,8 @@
     </div>
   </section>
 
-  <!-- SECTION 13 (p2-s5) -->
-  <section id="p2-s5">
+  <!-- SECTION 13 -->
+  <section id="s13">
     <div class="sec-head">
       <h2>13. 自己資金の限界と「Calmを超える（グローバル・スケール）」ための条件</h2>
       <span class="sec-tag">SCALE &amp; FUNDING</span>
