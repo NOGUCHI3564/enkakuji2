@@ -50,6 +50,7 @@ export default defineConfig({
         skipWaiting: true,
         clientsClaim: true,
         cleanupOutdatedCaches: true,
+        navigateFallbackDenylist: [/\.html$/],
         globPatterns: ['**/*.{js,css,html,svg,png,json,mp3}'],
       },
     }),
