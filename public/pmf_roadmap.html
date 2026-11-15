@@ -268,6 +268,58 @@
       color: #475569;
     }
 
+    /* 5. 統合人的資本モデル */
+    .formula-box {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #ffffff;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 16px;
+      text-align: center;
+      border-bottom: 4px solid #d97706;
+    }
+    .formula-label {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #fde68a;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+    .formula-eq {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(15px, 1.8vw, 20px);
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.7;
+    }
+    .formula-eq span.term {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(253, 230, 138, 0.35);
+      padding: 4px 10px;
+      border-radius: 8px;
+      margin: 3px 4px;
+    }
+    .param-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .param-card {
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 16px 18px;
+      background: #ffffff;
+    }
+    .param-card.p-app { border-top: 5px solid #2563eb; background: #eff6ff; }
+    .param-card.p-med { border-top: 5px solid #7c3aed; background: #faf5ff; }
+    .param-card.p-hr { border-top: 5px solid #059669; background: #ecfdf5; }
+    .param-tag { font-size: 11px; font-weight: 800; color: #475569; margin-bottom: 4px; }
+    .param-title { font-size: 14.5px; font-weight: 700; color: #0f172a; margin-bottom: 8px; }
+    .param-list { padding-left: 16px; font-size: 12.5px; color: #334155; }
+    .param-list li { margin-bottom: 5px; }
+
     footer {
       background: #f8fafc;
       padding: 18px;
@@ -284,7 +336,7 @@
       .content { padding: 16px; }
     }
     @media (max-width: 820px) {
-      .loop-grid { grid-template-columns: 1fr; }
+      .loop-grid, .param-grid { grid-template-columns: 1fr; }
       .content { padding: 20px 14px; }
     }
   </style>
@@ -297,6 +349,7 @@
       <a href="#ideas">② セグメント別 改善採否</a>
       <a href="#master">③ PMF・POC・売上統合表</a>
       <a href="#pl">④ 年間売上＆粗利試算</a>
+      <a href="#enterprise-roi">⑤ 企業業績統合モデル</a>
     </nav>
     <button type="button" class="print-btn" onclick="window.print()">🖨️ 印刷 / PDF保存</button>
   </div>
@@ -630,6 +683,62 @@
         <div class="source-box">
           <strong>📚 数値・計算根拠：</strong>
           シード・プランニング（健康経営市場 1兆4,712億円）／ 矢野経済研究所（企業研修市場 約6,000億円）／ 産労総合研究所（1人年研修費 3.6〜4.0万円）／ 鎌倉市統計（年間延べ2,000万人）。S2粗利60%・S1粗利80%・S3粗利75%から共通API・保守費を控除して営業利益を算出。「実績数値なしでは企業は買わない」前提を織り込み、Year 1のS1直販を0円としてリアリティを高めています。
+        </div>
+      </section>
+
+      <!-- 5. 統合人的資本モデル -->
+      <section class="section" id="enterprise-roi">
+        <h2 class="section-title">
+          <span class="pill purple">Enterprise System</span>
+          ⑤ 企業業績へ結びつける「統合人的資本モデル」（計算式と3層パラメータ）
+        </h2>
+
+        <div class="formula-box">
+          <div class="formula-label">企業業績貢献インパクト（ΔV）の理論的計算式</div>
+          <div class="formula-eq">
+            Δ企業業績貢献 (ΔV) ＝
+            <span class="term">① 優秀人材の離職回避 (ΔR<sub>top</sub> × 代替コスト300〜500万)</span>
+            ＋
+            <span class="term">② 生産性回復 (ΔP<sub>work</sub> × 人件費)</span>
+            ＋
+            <span class="term">③ イノベーション創発 (ΔI<sub>act</sub> × 提案期待価値)</span>
+          </div>
+        </div>
+
+        <div class="param-grid">
+          <div class="param-card p-app">
+            <div class="param-tag">LAYER A：『心庭』アプリ側（匿名内面）</div>
+            <div class="param-title">心の整理・自己決定パラメータ</div>
+            <ul class="param-list">
+              <li><strong>迷い・負荷スコア変化：</strong> 対話前後の心理的負荷（1〜5）の改善量</li>
+              <li><strong>自己決定感（Ownership）：</strong> 「自分で覚悟を決めた」感覚の強さ</li>
+              <li><strong>テーマ分布タグ：</strong> キャリア葛藤／挑戦への恐れ等の組織傾向比率</li>
+            </ul>
+          </div>
+
+          <div class="param-card p-med">
+            <div class="param-tag">LAYER C：両者を繋ぐ媒介変数</div>
+            <div class="param-title">心理学・組織行動学的指標</div>
+            <ul class="param-list">
+              <li><strong>ワーク・エンゲイジメント：</strong> 熱意・没頭・活力（UWES等）</li>
+              <li><strong>心理的安全性スコア：</strong> 「挑戦しても大丈夫」と思える度合い</li>
+              <li>※S2リアル研修の場で <strong>A → C</strong> の相関式を先に最適化する</li>
+            </ul>
+          </div>
+
+          <div class="param-card p-hr">
+            <div class="param-tag">LAYER B：企業HR・業務データ側</div>
+            <div class="param-title">業績直結アウトカム</div>
+            <ul class="param-list">
+              <li><strong>評価階層ラベル：</strong> ハイパフォーマー上位層 vs 要ケア層</li>
+              <li><strong>挑戦・イノベーション行動：</strong> 新規起案数・社内公募手挙げ率</li>
+              <li><strong>定着・生産性：</strong> 優秀層離職率、ストレスチェック、WHO-HPQ</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="loop-note">
+          <strong>🔒 プライバシーとの両立ルール：</strong> 社員の対話ログを会社に開示すると優秀層ほど警戒して使わなくなります。したがって統合システムでは、<strong>対話本文はスマホ内に絶対秘匿</strong>し、<strong>10名以上の部署・評価階層単位で匿名合算したスコアだけ</strong>を企業側のHR指標（B）と掛け合わせて因果パス（<strong>A → C → B → ΔV</strong>）を検証します。
         </div>
       </section>
 
