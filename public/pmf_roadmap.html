@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>『心庭』PMFに向けた開発指針・セグメント＆マトリックス戦略</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Zen Kaku Gothic New', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #f1f5f9;
+      color: #334155;
+      line-height: 1.65;
+      padding: 24px 16px;
+    }
+    .top-bar {
+      max-width: 1040px;
+      margin: 0 auto 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      color: #334155;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      padding: 5px 12px;
+      border-radius: 20px;
+      transition: all 0.2s;
+    }
+    .nav-links a:hover { background: #1e293b; color: #ffffff; }
+    .print-btn {
+      background: #0f172a;
+      color: #ffffff;
+      border: none;
+      padding: 7px 16px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+    }
+
+    header {
+      background: linear-gradient(135deg, #090d16 0%, #1e293b 60%, #1e3a5f 100%);
+      color: #ffffff;
+      padding: 36px 34px;
+      border-bottom: 4px solid #d97706;
+    }
+    .badge-top {
+      display: inline-block;
+      background: rgba(217, 119, 6, 0.25);
+      border: 1px solid #f59e0b;
+      color: #fde68a;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+      letter-spacing: 0.08em;
+    }
+    h1 {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 26px;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+    .header-sub {
+      font-size: 13.5px;
+      color: #cbd5e1;
+      max-width: 820px;
+    }
+
+    .content { padding: 34px 36px; }
+    .section { margin-bottom: 46px; }
+    .section-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 20px;
+      color: #0f172a;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .pill {
+      font-family: sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 12px;
+      color: #ffffff;
+      background: #d97706;
+    }
+    .pill.blue { background: #2563eb; }
+    .pill.green { background: #059669; }
+    .pill.purple { background: #7c3aed; }
+    .pill.crimson { background: #be123c; }
+
+    /* コアコンセプト統合ボックス */
+    .synthesis-box {
+      background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+      border: 1px solid #fcd34d;
+      border-left: 5px solid #d97706;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 18px;
+    }
+    .synthesis-box h3 {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 17px;
+      color: #78350f;
+      margin-bottom: 8px;
+    }
+    .synthesis-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+      margin-top: 12px;
+    }
+    .syn-card {
+      background: #ffffff;
+      border: 1px solid #fde68a;
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 13px;
+    }
+    .syn-card strong { color: #92400e; display: block; margin-bottom: 4px; }
+
+    /* セグメントテーブル */
+    .table-wrap { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 12px 13px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: #1e293b;
+      color: #ffffff;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .seg-name { font-weight: 700; color: #0f172a; font-size: 13.5px; display: block; }
+    .seg-sub { font-size: 11px; color: #64748b; }
+    .star-hi { color: #d97706; font-weight: 700; }
+    .tag-pri {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .pri-1 { background: #dcfce7; color: #166534; }
+    .pri-2 { background: #fef3c7; color: #92400e; }
+    .pri-3 { background: #dbeafe; color: #1e40af; }
+    .pri-4 { background: #f3e8ff; color: #6b21a8; }
+
+    /* ポジショニングマップ */
+    .map-container {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+    }
+    .map-svg {
+      width: 100%;
+      max-width: 820px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* 2x2 優先順位マトリックス */
+    .matrix-2x2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .q-card {
+      border-radius: 12px;
+      padding: 18px 20px;
+      border: 1px solid #cbd5e1;
+    }
+    .q-1 { background: #f0fdf4; border-top: 5px solid #059669; }
+    .q-2 { background: #eff6ff; border-top: 5px solid #2563eb; }
+    .q-3 { background: #faf5ff; border-top: 5px solid #7c3aed; }
+    .q-4 { background: #f8fafc; border-top: 5px solid #64748b; }
+    .q-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-bottom: 6px;
+      background: rgba(15, 23, 42, 0.08);
+      color: #0f172a;
+    }
+    .q-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+    .q-list {
+      padding-left: 18px;
+      font-size: 13px;
+      color: #334155;
+    }
+    .q-list li { margin-bottom: 6px; }
+
+    /* 3フェーズロードマップ */
+    .roadmap-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .phase-card {
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 20px;
+      background: #ffffff;
+      position: relative;
+    }
+    .phase-num {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #ffffff;
+      background: #0f172a;
+      padding: 3px 10px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+    .phase-card.p1 .phase-num { background: #059669; }
+    .phase-card.p2 .phase-num { background: #d97706; }
+    .phase-card.p3 .phase-num { background: #2563eb; }
+    .phase-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 16.5px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+    .phase-kpi {
+      margin-top: 10px;
+      padding: 8px 12px;
+      background: #f1f5f9;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    footer {
+      background: #f8fafc;
+      padding: 20px;
+      text-align: center;
+      font-size: 12px;
+      color: #64748b;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    @media print {
+      body { background: #fff; padding: 0; }
+      .top-bar { display: none; }
+      .container { box-shadow: none; border: none; max-width: 100%; }
+      .content { padding: 20px; }
+    }
+    @media (max-width: 720px) {
+      .content { padding: 22px 16px; }
+      .matrix-2x2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <nav class="nav-links">
+      <a href="#core">① PMFの核（市場×現場）</a>
+      <a href="#segments">② ターゲットセグメント評価</a>
+      <a href="#positioning">③ 競合ポジショニング図</a>
+      <a href="#features">④ 機能開発マトリックス</a>
+      <a href="#roadmap">⑤ 3段階ロードマップ</a>
+    </nav>
+    <button type="button" class="print-btn" onclick="window.print()">🖨️ 印刷 / PDF保存</button>
+  </div>
+
+  <div class="container">
+    <header>
+      <span class="badge-top">PMF STRATEGY &amp; DEVELOPMENT MATRIX</span>
+      <h1>『心庭』PMFに向けた開発指針・セグメント＆マトリックス</h1>
+      <p class="header-sub">
+        市場調査（Calm / Awarefy / Upmind / 寺院AI）の知見と、佛日庵ワークショップで得られた『アプリ改善イデア集』を統合し、どこで誰に選ばれ収益化するか（Product-Market Fit）の勝ち筋を整理しました。
+      </p>
+    </header>
+
+    <div class="content">
+
+      <!-- 1. PMFの核 -->
+      <section class="section" id="core">
+        <h2 class="section-title">
+          <span class="pill">Core</span>
+          市場調査 × 現場イデアから見えた『心庭』PMFの勝ち筋
+        </h2>
+        <div class="synthesis-box">
+          <h3>結論：目指すべきポジショニングは「当事者意識（Ownership）を取り戻す、聖地発・内省アート×B2B/O2O」</h3>
+          <p style="font-size: 13.5px; color: #451a03;">
+            世界の瞑想アプリ市場は「一般ユーザー（B2C）に月額課金するモデル」が頭打ちになり、<strong>法人福利厚生（B2B）</strong>と<strong>リアル拠点・イベント融合（O2O）</strong>へ移行しています。そこに今回の参加者イデア「<em>Overwhelming sense of ownership（圧倒的な自分事感）というアート</em>」が重なると、他社が真似できない明確な勝ち筋が見えます。
+          </p>
+          <div class="synthesis-grid">
+            <div class="syn-card">
+              <strong>1. 競合との決定的な違い</strong>
+              AIが「正解」を教えて慰めるのではなく、問答と『覚悟の石』を通じて<strong>自分の人生の手綱を握り直す体験</strong>を提供する。
+            </div>
+            <div class="syn-card">
+              <strong>2. プライバシー安心設計の武器化</strong>
+              「端末内保存のみ・クラウド非保存」は、<strong>企業の新卒社員・介護者・いじめに悩む子ども</strong>が本音を吐き出せる最大の安心材料になる。
+            </div>
+            <div class="syn-card">
+              <strong>3. 円覚寺という本物の聖地</strong>
+              Awarefyが福祉施設を持ち、Upmindが空間連携するように、『心庭』には<strong>円覚寺・佛日庵というリアル拠点とイベント接点</strong>がある。
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. セグメント評価マトリックス -->
+      <section class="section" id="segments">
+        <h2 class="section-title">
+          <span class="pill blue">Segments</span>
+          ターゲット・セグメント評価マトリックス（誰に届けるか）
+        </h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 22%;">セグメント</th>
+                <th style="width: 22%;">抱えている痛み（Pain）</th>
+                <th style="width: 22%;">『心庭』ならではの提供価値</th>
+                <th style="width: 18%;">マネタイズ・課金モデル</th>
+                <th style="width: 16%;">PMF優先度</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <span class="seg-name">S1. 企業人事・新卒／若手</span>
+                  <span class="seg-sub">（B2B オンボーディング・1on1支援）</span>
+                </td>
+                <td>配属不安・リアリティショック。上司や人事にはログが残るため本音を相談できない。</td>
+                <td>会社サーバーに残らない完全プライベートな内省空間＋「自分の覚悟」の言語化。</td>
+                <td><strong>法人研修・福利厚生パッケージ</strong><br>（リトリート＋アプリ3ヶ月利用）</td>
+                <td><span class="tag-pri pri-1">◎ 最優先</span><br><span class="star-hi">収益性・再現性 高</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="seg-name">S2. 寺院イベント・リトリート参加者</span>
+                  <span class="seg-sub">（O2O 佛日庵モデル・観光・坐禅会）</span>
+                </td>
+                <td>お寺で良い話を聞いても、日常に戻ると数日で忘れてしまう（体験の風化）。</td>
+                <td>体験の余韻を「イベント限定石」として持ち帰り、日常でも禅問答で振り返れる。</td>
+                <td><strong>イベント参加費包含＋お守り物販・任意のお布施</strong></td>
+                <td><span class="tag-pri pri-2">◎ 最優先</span><br><span class="star-hi">熱量・聖地優位 高</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="seg-name">S3. 孫世代ケアラー・ビジネスケアラー</span>
+                  <span class="seg-sub">（20〜30代の介護休職・離職予備軍）</span>
+                </td>
+                <td>同世代に同じ境遇がおらず孤立。深夜に誰にも言えない罪悪感や迷いを抱える。</td>
+                <td>24時間寄り添う対話パートナー＋「自分はどう向き合うか」の覚悟整理。</td>
+                <td><strong>企業健保・自治体連携 / 介護離職防止プログラム</strong></td>
+                <td><span class="tag-pri pri-3">○ 次期主力</span><br>社会的インパクト大</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="seg-name">S4. 子ども・学生（いじめ対策）</span>
+                  <span class="seg-sub">（教育現場・放課後ケア）</span>
+                </td>
+                <td>親にも先生にも知られずに気持ちを整理したい。既存の相談窓口はハードルが高い。</td>
+                <td>「やさしい言葉モード」での安全な吐き出し口＋必要時の公的相談窓口案内。</td>
+                <td><strong>教育委員会・自治体・CSR協賛（ユーザー無料）</strong></td>
+                <td><span class="tag-pri pri-4">△ 中長期</span><br>安全設計が前提</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 3. ポジショニングマップ -->
+      <section class="section" id="positioning">
+        <h2 class="section-title">
+          <span class="pill purple">Positioning</span>
+          競合ポジショニング・マトリックス（『心庭』が取るべき空白地帯）
+        </h2>
+        <div class="map-container">
+          <svg class="map-svg" viewBox="0 0 800 440" xmlns="http://www.w3.org/2000/svg">
+            <!-- 背景四象限 -->
+            <rect x="60" y="30" width="340" height="185" fill="#f1f5f9" rx="8"/>
+            <rect x="400" y="30" width="340" height="185" fill="#fffbeb" rx="8"/>
+            <rect x="60" y="215" width="340" height="185" fill="#f8fafc" rx="8"/>
+            <rect x="400" y="215" width="340" height="185" fill="#f0fdf4" rx="8"/>
+
+            <!-- 軸線 -->
+            <line x1="400" y1="20" x2="400" y2="410" stroke="#64748b" stroke-width="2"/>
+            <line x1="50" y1="215" x2="750" y2="215" stroke="#64748b" stroke-width="2"/>
+
+            <!-- 軸ラベル -->
+            <text x="400" y="16" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">▲ 法人・組織・イベント連動（B2B / O2O）</text>
+            <text x="400" y="428" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">▼ 個人利用中心（B2C サブスク / 無料）</text>
+            <text x="55" y="205" text-anchor="start" font-size="12" font-weight="700" fill="#475569">◀ 科学的ケア・効率化</text>
+            <text x="745" y="205" text-anchor="end" font-size="12" font-weight="700" fill="#92400e">聖地体験・禅・アート ▶</text>
+
+            <!-- 競合プロット -->
+            <circle cx="170" cy="310" r="24" fill="#cbd5e1" stroke="#64748b" stroke-width="1.5"/>
+            <text x="170" y="314" text-anchor="middle" font-size="11" font-weight="700" fill="#1e293b">Calm等</text>
+            <text x="170" y="346" text-anchor="middle" font-size="10" fill="#64748b">（レッドオーシャン）</text>
+
+            <circle cx="240" cy="145" r="26" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+            <text x="240" y="149" text-anchor="middle" font-size="11" font-weight="700" fill="#1e40af">Upmind</text>
+            <text x="240" y="182" text-anchor="middle" font-size="10" fill="#1e40af">健康経営・自律神経</text>
+
+            <circle cx="155" cy="105" r="26" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+            <text x="155" y="109" text-anchor="middle" font-size="11" font-weight="700" fill="#1e40af">Awarefy</text>
+            <text x="155" y="142" text-anchor="middle" font-size="10" fill="#1e40af">CBT×福祉施設</text>
+
+            <circle cx="530" cy="300" r="24" fill="#e2e8f0" stroke="#475569" stroke-width="1.5"/>
+            <text x="530" y="304" text-anchor="middle" font-size="10.5" font-weight="700" fill="#334155">仏教AI系</text>
+            <text x="530" y="336" text-anchor="middle" font-size="10" fill="#64748b">単発Q&amp;A中心</text>
+
+            <!-- 心庭の狙うべきポジション -->
+            <rect x="470" y="65" width="230" height="92" rx="14" fill="#fef3c7" stroke="#d97706" stroke-width="3" stroke-dasharray="6 3"/>
+            <text x="585" y="95" text-anchor="middle" font-size="15" font-weight="800" fill="#92400e">★ 『心庭』の勝ち筋</text>
+            <text x="585" y="117" text-anchor="middle" font-size="11.5" font-weight="700" fill="#78350f">円覚寺（聖地）× 当事者意識アート</text>
+            <text x="585" y="137" text-anchor="middle" font-size="11" fill="#78350f">新卒研修 / イベントO2O / ケアラー</text>
+          </svg>
+        </div>
+      </section>
+
+      <!-- 4. 機能開発優先順位マトリックス -->
+      <section class="section" id="features">
+        <h2 class="section-title">
+          <span class="pill green">Features</span>
+          『アプリ改善イデア集』に基づく機能開発 2×2マトリックス
+        </h2>
+        <div class="matrix-2x2">
+          <div class="q-card q-1">
+            <span class="q-badge">第1象限：効果 大 × コスト 小</span>
+            <h3 class="q-title">① 今すぐ実装すべき改良（Quick Wins）</h3>
+            <ul class="q-list">
+              <li><strong>文字サイズの拡大＆切替トグル：</strong>「標準／大きめ」を用意し、年配層・屋外・和室でも読みやすくする。</li>
+              <li><strong>プロフィール前の「導入1問」：</strong>いきなり属性入力させず、「今いちばん心に引っかかっていることは？」から入り、AIの初期文脈を豊かにする。</li>
+              <li><strong>言葉の品質・語調の洗練：</strong>女性や繊細なユーザー向けに、押し付けず余韻の残る丁寧な表現へプロンプトを磨く。</li>
+            </ul>
+          </div>
+
+          <div class="q-card q-2">
+            <span class="q-badge">第2象限：効果 大 × コスト 中</span>
+            <h3 class="q-title">② 差別化とリピートを生む核（Core Differentiators）</h3>
+            <ul class="q-list">
+              <li><strong>「穏やか（寄り添い）vs 喝（松岡修造的熱量）」モード：</strong>禅の『喝』を取り入れ、気分に応じて背中を強く押す対話を選べるようにする。</li>
+              <li><strong>イベント限定QR「特別の石」授与：</strong>坐禅会や講演会の参加者がQRを読み込むと記念の石が庭に加わるO2O機能。</li>
+              <li><strong>Ownershipアート演出強化：</strong>「自分で石を据える」体験を参加型アートとして表現・共有しやすくする。</li>
+            </ul>
+          </div>
+
+          <div class="q-card q-3">
+            <span class="q-badge">第3象限：効果 大 × コスト 大</span>
+            <h3 class="q-title">③ 新市場向け拡張（Next Bets）</h3>
+            <ul class="q-list">
+              <li><strong>「やさしいことば（子ども・学生）」モード：</strong>難解な問いを噛み砕き、いじめ等の悩みの一次受け皿にする。</li>
+              <li><strong>危機検知＆公的窓口セーフティネット：</strong>深刻ないじめ・自傷兆候を検知した際、チャイルドライン等の専門窓口を即案内する安全設計。</li>
+              <li><strong>法人・ケアラー向け継続プログラム：</strong>7日間・30日間の内省テーマや振り返りレポート出力。</li>
+            </ul>
+          </div>
+
+          <div class="q-card q-4">
+            <span class="q-badge">第4象限：今はやらない（Avoid）</span>
+            <h3 class="q-title">④ 避けるべき施策</h3>
+            <ul class="q-list">
+              <li><strong>個人向けの強制的な月額課金壁：</strong>「お寺×内省」の世界観と相性が悪く、競合（Calm等）と同じ消耗戦になる。</li>
+              <li><strong>SNS風の他者比較・ランキング：</strong>プライバシー安心設計（端末内完結）の価値を損なうため導入しない。</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. 3段階ロードマップ -->
+      <section class="section" id="roadmap">
+        <h2 class="section-title">
+          <span class="pill crimson">Roadmap</span>
+          PMF達成に向けた3段階アクションプラン
+        </h2>
+        <div class="roadmap-grid">
+          <div class="phase-card p1">
+            <span class="phase-num">Phase 1（〜1ヶ月）</span>
+            <h3 class="phase-title">体験の磨き上げ（UXベースライン）</h3>
+            <p style="font-size: 13px; color: #475569;">
+              文字サイズ拡大、プロフィール前の導入1問、文章品質チューニング、「穏やか／喝」モードを実装。体験者がストレスなく最後まで「覚悟の石」に辿り着ける状態を作る。
+            </p>
+            <div class="phase-kpi">検証指標：完了率 80%以上 / 「また使いたい」率</div>
+          </div>
+
+          <div class="phase-card p2">
+            <span class="phase-num">Phase 2（1〜3ヶ月）</span>
+            <h3 class="phase-title">イベントO2O ＆ 法人パイロット</h3>
+            <p style="font-size: 13px; color: #475569;">
+              円覚寺・佛日庵イベントで「限定石QR＋任意お布施/記念品」をテスト。同時に企業人事1〜2社と「新卒内省パイロット」を実施し、導入の決め手を検証する。
+            </p>
+            <div class="phase-kpi">検証指標：イベント参加者課金転換 / 法人継続意向</div>
+          </div>
+
+          <div class="phase-card p3">
+            <span class="phase-num">Phase 3（3〜6ヶ月）</span>
+            <h3 class="phase-title">PMF確立・社会課題への横展開</h3>
+            <p style="font-size: 13px; color: #475569;">
+              収益柱（B2B研修パッケージ＋お寺イベント）を確立しつつ、安全設計を整えた上で「孫世代介護者」「子ども・教育現場」への展開パッケージを自治体・企業健保と組む。
+            </p>
+            <div class="phase-kpi">検証指標：リピート受注 / LTV・社会的導入数</div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <footer>
+      <strong>臨済宗大本山 円覚寺『心庭』PMF戦略＆開発指針マトリックス</strong><br>
+      参考資料：司会者用アンチョコ市場調査（facilitator_guide.html）× ワークショップ参加者『アプリ改善イデア集.txt』
+    </footer>
+  </div>
+
+</body>
+</html>
