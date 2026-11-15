@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calm.com 詳細事業分析｜売上到達メカニズムと全セグメント積み上げ検証</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --surface: #ffffff;
+      --surface-alt: #f0f4fa;
+      --ink: #132238;
+      --muted: #52637a;
+      --line: #dbe3ef;
+      --calm-blue: #1e5bb8;
+      --calm-sky: #3b82f6;
+      --calm-indigo: #312e81;
+      --teal: #0f766e;
+      --amber: #b45309;
+      --rose: #be123c;
+      --emerald: #047857;
+      --shadow: 0 10px 30px rgba(19, 34, 56, 0.06);
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic UI", Meiryo, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .topbar {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #0f766e 100%);
+      color: #ffffff;
+      padding: 48px 24px 40px;
+      border-bottom: 4px solid #38bdf8;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      background: rgba(255, 255, 255, 0.16);
+      color: #e0f2fe;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(26px, 4vw, 38px);
+      line-height: 1.25;
+      font-weight: 800;
+    }
+
+    .subtitle {
+      margin: 0;
+      max-width: 860px;
+      font-size: 15px;
+      color: #cbd5e1;
+    }
+
+    .nav-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 24px;
+    }
+
+    .nav-pills a {
+      text-decoration: none;
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.12);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      transition: background 0.15s;
+    }
+
+    .nav-pills a:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    main {
+      padding: 32px 24px 72px;
+    }
+
+    section {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px 30px;
+      margin-bottom: 28px;
+    }
+
+    .sec-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      border-bottom: 2px solid var(--surface-alt);
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .sec-tag {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--calm-blue);
+      background: #e0edff;
+      padding: 3px 10px;
+      border-radius: 6px;
+    }
+
+    h3 {
+      margin: 22px 0 10px;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--calm-indigo);
+    }
+
+    p { margin: 0 0 12px; }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+      margin: 18px 0 6px;
+    }
+
+    .kpi-card {
+      background: var(--surface-alt);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px 18px;
+    }
+
+    .kpi-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .kpi-val {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--calm-blue);
+      margin: 4px 0;
+      line-height: 1.2;
+    }
+
+    .kpi-sub {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .callout {
+      border-left: 4px solid var(--calm-blue);
+      background: #f0f6ff;
+      padding: 14px 18px;
+      border-radius: 0 10px 10px 0;
+      margin: 16px 0;
+      font-size: 14px;
+    }
+
+    .callout.warn {
+      border-left-color: var(--amber);
+      background: #fffbeb;
+    }
+
+    .callout.danger {
+      border-left-color: var(--rose);
+      background: #fff1f2;
+    }
+
+    .callout.success {
+      border-left-color: var(--emerald);
+      background: #ecfdf5;
+    }
+
+    .formula-box {
+      background: #0f172a;
+      color: #f8fafc;
+      border-radius: 12px;
+      padding: 18px 22px;
+      margin: 18px 0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 13.5px;
+      line-height: 1.8;
+      overflow-x: auto;
+    }
+
+    .formula-box .hl { color: #38bdf8; font-weight: 700; }
+    .formula-box .ok { color: #34d399; font-weight: 700; }
+    .formula-box .warn { color: #fbbf24; font-weight: 700; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      font-size: 13.5px;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--surface-alt);
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    td.num, th.num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    tr:nth-child(even) td {
+      background: #fafcff;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 18px;
+      margin-top: 12px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 18px;
+      background: #fcfdff;
+    }
+
+    .card h4 {
+      margin: 0 0 8px;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--calm-blue);
+    }
+
+    .bar-chart {
+      margin: 16px 0;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 72px 1fr 110px;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+
+    .bar-track {
+      background: #e2e8f0;
+      border-radius: 999px;
+      height: 18px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #2563eb, #0ea5e9);
+    }
+
+    .bar-fill.peak {
+      background: linear-gradient(90deg, #059669, #10b981);
+    }
+
+    .bar-fill.down {
+      background: linear-gradient(90deg, #d97706, #f59e0b);
+    }
+
+    .pill-fact {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: #dbeafe;
+      color: #1e40af;
+      margin-right: 4px;
+    }
+
+    .pill-logic {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: #fef3c7;
+      color: #92400e;
+      margin-right: 4px;
+    }
+
+    .source-list {
+      font-size: 12.5px;
+      color: var(--muted);
+      padding-left: 18px;
+    }
+
+    .source-list li { margin-bottom: 4px; }
+
+    footer {
+      text-align: center;
+      font-size: 12.5px;
+      color: var(--muted);
+      padding: 24px;
+      border-top: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    @media print {
+      body { background: #fff; }
+      section { box-shadow: none; break-inside: avoid; }
+      .nav-pills { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container">
+    <div class="badge-row">
+      <span class="badge">企業調査・事業構造解剖レポート</span>
+      <span class="badge">作成日: 2026-11-15</span>
+      <span class="badge">公開データ＋ボトムアップ検算</span>
+    </div>
+    <h1>Calm.com 詳細事業分析<br>― 売上到達メカニズムと全セグメント積み上げ検証 ―</h1>
+    <p class="subtitle">
+      「なぜ瞑想アプリがピーク時 $355M〜$596M（約530億〜890億円）、正常化後も $210M〜$300M（約315億〜450億円）の売上に到達できたのか？」<br>
+      公開されている資金調達、年間ダウンロード数、有料会員数、価格体系、ユニットエコノミクス（LTV/CAC）、顧客層、B2B・医療転換（Calm Business / Calm Health）の全情報を収集し、<strong>事実（Fact）と積み上げ計算（Logic）を分離して</strong>構造を完全に解剖する。
+    </p>
+    <nav class="nav-pills">
+      <a href="#s1">1. 全体サマリー（KPI）</a>
+      <a href="#s2">2. 売上・DL推移と推計差の正体</a>
+      <a href="#s3">3. 売上の積み上げ方程式</a>
+      <a href="#s4">4. 顧客層と利用理由の正体</a>
+      <a href="#s5">5. ユニットエコノミクスと解約の現実</a>
+      <a href="#s6">6. B2B・Calm Health転換</a>
+      <a href="#s7">7. 資金調達・コスト・総合結論</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- SECTION 1 -->
+  <section id="s1">
+    <div class="sec-head">
+      <h2>1. エグゼクティブ・サマリー：Calmの現在地（主要KPI一覧）</h2>
+      <span class="sec-tag">FACT SHEET</span>
+    </div>
+    <p>
+      Calm（Calm.com, Inc. / 2012年創業）は非上場企業であるため有価証券報告書は公開されていないが、複数のアプリ市場調査機関（Business of Apps / AppMagic / Sensor Tower）および未上場企業調査機関（Sacra / GetLatka / Contrary）、本人事・報道発表から全体像が高精度に把握できる。
+    </p>
+
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">累計ダウンロード数</div>
+        <div class="kpi-val">1.4億〜1.8億+</div>
+        <div class="kpi-sub">2020年ピーク単年 3,230万DL → 2025年 730万DL</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">有料課金ユーザー数</div>
+        <div class="kpi-val">約350万〜400万人</div>
+        <div class="kpi-sub">2024年 約400万人 → 2025年 約350万人へ調整</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">年間売上高（推計レンジ）</div>
+        <div class="kpi-val">$210M〜$300M</div>
+        <div class="kpi-sub">IAP単体 $210M（2025） / B2B含むARR $200M-$300M帯</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">累計資金調達・評価額</div>
+        <div class="kpi-val">$218M / $2.0B</div>
+        <div class="kpi-sub">2019年 $1Bユニコーン達成 / 2020年 ピーク$2B評価</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">B2B導入企業・対象人数</div>
+        <div class="kpi-val">3,000〜5,000社+</div>
+        <div class="kpi-sub">保険・法人経由のカバー対象 2,000万〜5,000万人規模</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">従業員規模（リストラ後）</div>
+        <div class="kpi-val">約310名</div>
+        <div class="kpi-sub">2022年8月に約400名から20%（約90名）削減</div>
+      </div>
+    </div>
+
+    <div class="callout success">
+      <strong>結論の先取り（なぜこの売上に到達できたのか）：</strong><br>
+      Calmの売上は「東洋の瞑想が世界中で流行した」からではない。<strong>①「瞑想」から「毎晩の睡眠導入（Sleep Stories）」へ主戦場を変えたこと、②「年額一括前払い（$69.99〜$79.99）」で初日に獲得コスト（CAC約$40）を回収するキャッシュマシンを作ったこと、③2017年のApple App of the Yearと2020年のコロナ禍＋CNN大統領選広告で累計1.8億DLの巨大母数を作ったこと、④B2Cの成長鈍化後に「Calm Business / Calm Health（法人・医療保険）」へピボットしたこと</strong>の4点によって積み上がっている。
+    </div>
+  </section>
+
+  <!-- SECTION 2 -->
+  <section id="s2">
+    <div class="sec-head">
+      <h2>2. 年次ダウンロード数・売上推移と「推計値の差」の解剖</h2>
+      <span class="sec-tag">TIME-SERIES DATA</span>
+    </div>
+
+    <p>
+      市場レポートを読む際、<strong>Business of Apps（主にアプリストア課金＝IAP中心の推計）</strong>と<strong>Sacra / GetLatka（Web直課金・法人B2B含む全社ARR推計）</strong>で数字が大きく異なる点に注意が必要である。両者を並べて比較することで、Calmの「B2Cの減速」と「B2Bによる下支え」という二面性が明確に見える。
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>年次</th>
+          <th class="num">年間DL数<br>(Business of Apps)</th>
+          <th class="num">売上推計<br>(Business of Apps / IAP中心)</th>
+          <th class="num">全社ARR・評価額マイルストーン<br>(報道・Sacra・GetLatka等)</th>
+          <th>主な事業イベント・成長要因</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>2018年</strong></td>
+          <td class="num">1,930万</td>
+          <td class="num">$80M</td>
+          <td class="num">評価額 ~$250M</td>
+          <td>Series A ($27M)。2017年12月「Apple App of the Year」受賞の余波で急成長。</td>
+        </tr>
+        <tr>
+          <td><strong>2019年</strong></td>
+          <td class="num">2,450万</td>
+          <td class="num">$150M</td>
+          <td class="num">評価額 $1.0B</td>
+          <td>Series B ($88M)。メンタルヘルス領域初のユニコーン企業に。Sleep Stories拡大。</td>
+        </tr>
+        <tr>
+          <td><strong>2020年</strong></td>
+          <td class="num"><strong>3,230万（ピーク）</strong></td>
+          <td class="num">$200M〜$300M</td>
+          <td class="num">評価額 $2.0B〜$2.2B</td>
+          <td>コロナ禍の巣ごもり需要＋上半期広告費+220%($12.6M)＋CNN大統領選スポンサー特需。Series C ($75M)。</td>
+        </tr>
+        <tr>
+          <td><strong>2021年</strong></td>
+          <td class="num">2,060万</td>
+          <td class="num">$330M</td>
+          <td class="num">ランレート $500M+推計帯</td>
+          <td>2020年の年額会員の更新売上＋新規流入が重なり売上が急伸。</td>
+        </tr>
+        <tr>
+          <td><strong>2022年</strong></td>
+          <td class="num">1,370万</td>
+          <td class="num"><strong>$355M（IAPピーク）</strong></td>
+          <td class="num">ピーク推計 ~$596M</td>
+          <td>2月 Ripple Health買収（David Ko氏が共同CEOへ）。8月 成長鈍化を受け従業員20%（約90名）削減。</td>
+        </tr>
+        <tr>
+          <td><strong>2023年</strong></td>
+          <td class="num">950万</td>
+          <td class="num">$300M</td>
+          <td class="num">Calm Health展開開始</td>
+          <td>ポストコロナで新規DLが1,000万割れ。B2C偏重から法人・医療保険チャネルへ構造転換。</td>
+        </tr>
+        <tr>
+          <td><strong>2024年</strong></td>
+          <td class="num">790万</td>
+          <td class="num">$277M</td>
+          <td class="num">有料会員 約400万人</td>
+          <td>B2C単体の減速が続く一方、企業・保険ネットワーク経由のB2B2C契約が収益を補完。</td>
+        </tr>
+        <tr>
+          <td><strong>2025年</strong></td>
+          <td class="num">730万</td>
+          <td class="num">$210M（Est.）</td>
+          <td class="num">有料会員 約350万人<br>正規化ARR $200M-$300M</td>
+          <td>新規DLがピーク比77%減（3,230万→730万）。既存有料会員の減少を値上げ・Calm Sleep等で防衛。</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>年間ダウンロード数の推移（3,230万DLピークからの正常化）</h3>
+    <div class="bar-chart">
+      <div class="bar-row"><span>2018年</span><div class="bar-track"><div class="bar-fill" style="width: 59.8%"></div></div><span>1,930万 DL</span></div>
+      <div class="bar-row"><span>2019年</span><div class="bar-track"><div class="bar-fill" style="width: 75.8%"></div></div><span>2,450万 DL</span></div>
+      <div class="bar-row"><span>2020年</span><div class="bar-track"><div class="bar-fill peak" style="width: 100%"></div></div><span><strong>3,230万 DL</strong></span></div>
+      <div class="bar-row"><span>2021年</span><div class="bar-track"><div class="bar-fill" style="width: 63.8%"></div></div><span>2,060万 DL</span></div>
+      <div class="bar-row"><span>2022年</span><div class="bar-track"><div class="bar-fill down" style="width: 42.4%"></div></div><span>1,370万 DL</span></div>
+      <div class="bar-row"><span>2023年</span><div class="bar-track"><div class="bar-fill down" style="width: 29.4%"></div></div><span>950万 DL</span></div>
+      <div class="bar-row"><span>2024年</span><div class="bar-track"><div class="bar-fill down" style="width: 24.5%"></div></div><span>790万 DL</span></div>
+      <div class="bar-row"><span>2025年</span><div class="bar-track"><div class="bar-fill down" style="width: 22.6%"></div></div><span>730万 DL</span></div>
+    </div>
+
+    <div class="callout warn">
+      <strong>なぜ「$596M」と「$210M〜$277M」の2つの数字が世の中に存在するのか？</strong><br>
+      ① <strong>集計チャネルの差：</strong> Business of Appsは主にiOS/Androidのアプリストア課金（IAP）をトラックする。一方、CalmはWeb経由の直接決済（クレカ課金でAppleの30%手数料を回避）や、B2B法人一括契約（請求書払い）を多く抱えるため、全社ARRはIAPより大きくなる。<br>
+      ② <strong>時期と基準の差：</strong> $500M〜$596Mは2021〜2022年頃の最高潮時ランレート（または総取扱高グロス）に基づく推計であり、コロナ特需剥落・2022年リストラ後の2024〜2025年時点における現実的な売上規模は<strong>アプリ課金約$210M〜$277M、全社正規化ARRで$200M〜$300M帯</strong>と見るのが最も整合的である。
+    </div>
+  </section>
+
+  <!-- SECTION 3 -->
+  <section id="s3">
+    <div class="sec-head">
+      <h2>3. 現在の売上に到達している論理的メカニズム（積み上げ検算）</h2>
+      <span class="sec-tag">BOTTOM-UP MATH</span>
+    </div>
+
+    <p>
+      公開されている「有料会員数」「単価」「ダウンロード数」「法人導入数」を使って、実際に現在の売上高（$210M〜$300M）にどう到達しているのかをボトムアップで検算する。
+    </p>
+
+    <div class="formula-box">
+<span class="hl">【全体売上の方程式】 総売上 ＝ ① B2C個人サブスク売上 ＋ ② B2B・ヘルスケア法人売上</span>
+
+<span class="hl">① B2C個人サブスクの積み上げ（2025年時点の検算）</span>
+  ・累計ダウンロード母数 ： 約 1億8,000万 DL（2018-2025年だけでも約 1億3,580万 DL）
+  ・現在アクティブ有料会員： <span class="ok">約 350万人</span>（2024年 約400万人 → 2025年 約350万人）
+    （※累計DLの約2%が現在も有料残存／アクティブ無料層からの課金率は約7%とSacraが推計）
+  ・標準定価             ： 年額プラン $69.99〜$79.99/年（主力） ／ 月額 $14.99〜$16.99/月
+  ・実効年間単価（ARPU） ： <span class="ok">約 $60/年</span>（初年度割引・家族プラン・新興国価格・ストア手数料控除後ネット換算）
+  ⇒ <span class="ok">350万人 × $60 ＝ $210,000,000（$210M ＝ 約315億円）</span>
+  ※ Business of Apps 2025年売上推計 $210M とピタリと一致。
+  ※ 2024年（400万人 × ~$69）＝ $276M ≒ 推計値 $277M と一致。
+
+<span class="hl">② B2B（Calm Business / Calm Health）の積み上げ構造</span>
+  ・契約企業数           ： <span class="ok">3,000〜5,000社以上</span>
+  ・カバー対象従業員・保険者： 2,000万〜5,000万人（UnitedHealthcare / Solera Network等含む）
+  ・モデル別単価の仕組み ：
+    A) 直接法人契約（中小〜大企業）： PEPY（従業員1人あたり年額課金、数ドル〜数十ドル/年 × 利用規模）
+    B) 保険・Payer連携（B2B2C）： 巨大母数に対する卸売・成果連動/リスクシェア契約
+  ⇒ 仮に 4,000社 × 平均年額契約 $15,000〜$22,500（またはカバー2,500万人 × 実質卸単価$2.5〜$3.5）
+  ⇒ <span class="ok">B2B・医療セグメント売上 推計 $60M〜$90M帯（全社売上の約25〜30%前後を下支え）</span>
+    </div>
+
+    <h3>売上の「バケツの構造」：なぜ新規DLが激減しても売上が残るのか？</h3>
+    <p>
+      新規ダウンロード数は2020年の <strong>3,230万件</strong> から2025年の <strong>730万件</strong> へと約4分の1に縮小した。それでも年商2億ドル超を維持できている理由は、以下の3つの構造にある。
+    </p>
+    <div class="two-col">
+      <div class="card">
+        <h4>1. 年額一括課金（Annual Lock-in）</h4>
+        <p>オンボーディング時に「7日〜30日無料トライアル後の年額自動更新（$69.99〜$79.99）」をデフォルト提示する。月額課金に比べて初期キャッシュが大きく、解約の心理的ハードル（年1回の更新忘れ含む）が高いため、売上が翌年に繰り越される。</p>
+      </div>
+      <div class="card">
+        <h4>2. 単価引き上げと派生プラン</h4>
+        <p>2026年初頭にかけて年額料金の引き上げ（$69.99→$79.99帯）を実施し、さらに <em>Calm Sleep Premium</em>（約$69.99/年）などの単体スピンオフ課金を導入。新規DL減少を「既存顧客のARPU向上」で相殺している。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4 -->
+  <section id="s4">
+    <div class="sec-head">
+      <h2>4. 顧客層（セグメント）・顧客人数・売れている本当の理由</h2>
+      <span class="sec-tag">CUSTOMER &amp; DEMAND</span>
+    </div>
+
+    <p>
+      日本のスタートアップが最も誤解しやすいのが「誰が、なぜお金を払っているのか」である。公開調査（有料会員を対象とした査読付き横断研究やSensor Tower / Ivey Business Review等の分析）から、顧客の正体は明確に判明している。
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>切り口</th>
+          <th>実態データ（Fact）</th>
+          <th>売上に直結している論理（Why it drives revenue）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>主要地域・言語</strong></td>
+          <td><span class="pill-fact">FACT</span> <strong>米国が圧倒的1位</strong>。次いで英国、カナダ、オーストラリアの英語圏が主力。</td>
+          <td>英語圏は「メンタルヘルス＝自己投資・医療費削減」という認識が定着しており、年額$70〜$80の支払い抵抗が低い。また著名ハリウッド俳優の音声がそのままグローバルに通用する。</td>
+        </tr>
+        <tr>
+          <td><strong>OSプラットフォーム</strong></td>
+          <td><span class="pill-fact">FACT</span> ダウンロード数ではAndroidも大きいが、<strong>課金売上はiOSが圧倒的シェア</strong>。</td>
+          <td>iPhoneユーザーは可処分所得・サブスク課金率が高く、2017年Apple App of the Year受賞によるApp Store内での特等席露出が長期的に効いた。</td>
+        </tr>
+        <tr>
+          <td><strong>性別比率</strong></td>
+          <td><span class="pill-fact">FACT</span> <strong>女性 60〜70% ／ 男性 30〜40%</strong>。</td>
+          <td>ウェルネス・セルフケア市場の購買主体は女性。一方でマシュー・マコノヒー、レブロン・ジェームズ、ジェローム・フリン等の起用により男性層の取り込みに成功し、一般大衆化した。</td>
+        </tr>
+        <tr>
+          <td><strong>年齢層・職業</strong></td>
+          <td><span class="pill-fact">FACT</span> <strong>25〜45歳の働く現役世代（ミレニアル〜Z世代）</strong>が中核。</td>
+          <td>「キャリアのストレス」「育児」「不眠」が最も深刻化する世代であり、クレジットカード決済と年額サブスクに慣れている層。B2B福利厚生とも完全に重なる。</td>
+        </tr>
+        <tr>
+          <td><strong>最大の利用理由</strong></td>
+          <td><span class="pill-fact">FACT</span> 瞑想アプリとして始まったが、最大のリテンション源は<strong>「Sleep Stories（寝かしつけ朗読）」</strong>。</td>
+          <td>「瞑想を学ぶ」は意識高い層（数%）に限られ飽きやすい。しかし「今夜すぐ眠りたい」は全人類の毎晩の悩み（100%市場）であり、就寝前のルーティン化が継続課金を生む。</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <strong>「禅・瞑想」を外したことが勝因：</strong><br>
+      CalmのロゴやUIは青い空と湖、自然音であり、仏教・禅・宗教色は徹底的に排除されている。だからこそ「宗教やスピリチュアルに抵抗がある一般のビジネスパーソン」や「米国の大手企業・保険会社」が違和感なく導入できた。
+    </div>
+  </section>
+
+  <!-- SECTION 5 -->
+  <section id="s5">
+    <div class="sec-head">
+      <h2>5. ユニットエコノミクス（LTV/CAC）と「高い解約率」の構造的弱点</h2>
+      <span class="sec-tag">UNIT ECONOMICS</span>
+    </div>
+
+    <p>
+      Calmがなぜ赤字で潰れずに$2Bユニコーンまで拡大できたのか、そして<strong>なぜ2022年以降に急ブレーキがかかったのか</strong>は、ユニットエコノミクス（顧客1人あたりの採算性）を見れば一瞬で理解できる。
+    </p>
+
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Gross LTV（顧客生涯売上）</div>
+        <div class="kpi-val">約 $200</div>
+        <div class="kpi-sub">平均約2.5〜3年の継続期間に相当</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Net LTV（粗利ベース）</div>
+        <div class="kpi-val">約 $120</div>
+        <div class="kpi-sub">制作費・セレブ印税・配信コスト約$80控除後</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">CAC（顧客獲得単価）</div>
+        <div class="kpi-val">約 $40</div>
+        <div class="kpi-sub">SNS広告・Podcast・PR等で獲得</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">LTV : CAC 比率 / 回収期間</div>
+        <div class="kpi-val">3 : 1 / 約1年</div>
+        <div class="kpi-sub">年額一括前払いのため初年度でほぼ回収完了</div>
+      </div>
+    </div>
+
+    <div class="callout danger">
+      <strong>構造的弱点：「年次解約率 60〜65%」というウェルネスアプリの宿命（Habit Paradox）</strong><br>
+      メンタルケア・瞑想系アプリの業界平均では、<strong>年間チャーン（解約率）が60〜65%</strong>に達する（2年目に残るのは35〜40%）。<br>
+      ・ストレスが軽減すると「もう大丈夫」と思って解約する。<br>
+      ・逆にストレスが限界の人はアプリを開く習慣自体が続かず解約する。<br>
+      この「バケツの穴」が大きいため、2020年の特需（新規DL 3,230万）が終わって新規流入が730万まで落ちると、広告を回し続けない限り<strong>有料会員数が400万人→350万人へ自然減してしまう</strong>。これが2022年8月の20%リストラ（約90名削減）とB2Bシフトの直接の原因である。
+    </div>
+  </section>
+
+  <!-- SECTION 6 -->
+  <section id="s6">
+    <div class="sec-head">
+      <h2>6. 第2の柱：B2B（Calm Business）と医療連携（Calm Health）への転換</h2>
+      <span class="sec-tag">B2B &amp; HEALTHCARE PIVOT</span>
+    </div>
+
+    <p>
+      個人向けアプリ（B2C）の獲得単価高騰とアプリ疲れ（App Fatigue）を乗り越えるため、Calmは2022年2月に医療ケア連携スタートアップの <strong>Ripple Health Group</strong> を買収し、共同CEO体制（David Ko氏就任）のもとでB2Bとヘルスケア領域へ大きく舵を切った。
+    </p>
+
+    <div class="two-col">
+      <div class="card">
+        <h4>Calm Business（企業向け福利厚生）</h4>
+        <ul>
+          <li><strong>導入実績：</strong> 3,000〜5,000社以上の法人顧客。</li>
+          <li><strong>課金モデル：</strong> 従業員数に応じた年間一括契約（PEPY: Per-Employee-Per-Year）。</li>
+          <li><strong>メリット：</strong> B2Cのような「1人ずつ$40で獲得して翌年60%解約される」非効率を回避し、HR予算から数千人単位で一括導入・低解約率で長期契約化できる。</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Calm Health（臨床・保険者連携）</h4>
+        <ul>
+          <li><strong>特徴：</strong> 単なるリラクゼーションではなく、GAD-7（不安・うつスクリーニング）等の臨床評価を搭載し、医療機関・保険プランと接続。</li>
+          <li><strong>配布網：</strong> UnitedHealthcareやSolera Network等の保険者・プラットフォームと提携し、2,000万〜5,000万人規模の「被保険者（Covered Lives）」へリーチ。</li>
+          <li><strong>目的：</strong> 企業の「医療費・休業損失の削減」という明確なROI予算を取りに行く。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 7 -->
+  <section id="s7">
+    <div class="sec-head">
+      <h2>7. 資金調達・マーケティング投資・コスト構造と総合結論</h2>
+      <span class="sec-tag">CAPITAL &amp; CONCLUSION</span>
+    </div>
+
+    <h3>資金調達のタイムライン（累計約 $218M ＝ 約327億円）</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>時期・ラウンド</th>
+          <th class="num">調達額</th>
+          <th class="num">評価額</th>
+          <th>リード投資家・戦略的意味</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2013〜2017年（Angel / Seed）</td>
+          <td class="num">~$1.5M</td>
+          <td class="num">-</td>
+          <td>創業期。最初はWebサイト「何もしない2分間」や純粋な瞑想アプリとして静かにスタート。</td>
+        </tr>
+        <tr>
+          <td>2018年2月（Series A）</td>
+          <td class="num">$27M</td>
+          <td class="num">~$250M</td>
+          <td>Insight Partners。App of the Year受賞直後の成長資金として広告・コンテンツ投資を開始。</td>
+        </tr>
+        <tr>
+          <td>2019年2月（Series B）</td>
+          <td class="num">$88M</td>
+          <td class="num"><strong>$1.0B</strong></td>
+          <td>TPG Growth。ユニコーン達成。Sleep Storiesの著名人起用とグローバル広告を加速。</td>
+        </tr>
+        <tr>
+          <td>2020年12月（Series C）</td>
+          <td class="num">$75M</td>
+          <td class="num"><strong>$2.0B</strong></td>
+          <td>Lightspeed Venture Partners。コロナ禍特需の頂点で調達（累計調達約$218M）。</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>コスト構造の特徴（なぜ大型資本が必要だったのか）</h3>
+    <ul>
+      <li><strong>① パフォーマンス広告費と大型PR投資：</strong> 2020年上半期だけでSNSを除く広告費を前年比+220%（約$12.6M）に急増させた。同年11月の米国大統領選ではCNNの開票速報「Key Race Alert」のスポンサーを買い取り、Twitterでの言及数を通常の12倍に跳ね上げ、莫大なアーンドメディア効果（バイラル）を獲得した。</li>
+      <li><strong>② コンテンツ制作・セレブ出演ロイヤリティ：</strong> マシュー・マコノヒー、ハリー・スタイルズ、レブロン・ジェームズ、スティーヴン・フライらトップスターへのギャラ／印税、および音楽ライセンス料（Net LTV計算上、ユーザーあたり約$80相当の原価・配信コストの一部を構成）。</li>
+      <li><strong>③ プラットフォーム手数料：</strong> App Store / Google Playの決済手数料（15〜30%）。これを抑えるためWeb決済や法人直接契約の比率を高める動きが続いている。</li>
+    </ul>
+
+    <div class="callout success">
+      <strong>総合結論：Calmのビジネスモデルの正体と「次」への示唆</strong><br>
+      1. <strong>売上の本質は「睡眠×年額前払い×英語圏iOSマス市場」：</strong> 瞑想というニッチを入口にしながら、実際の収益源は「毎晩の睡眠導入（Sleep Stories）」で掴んだ米国中心の働く世代（特に女性6〜7割）からの年額$70〜$80の一括課金である。<br>
+      2. <strong>350万人×$60＝$210Mの算数は完全に成立：</strong> 累計1.8億DLの巨大な漏斗（ファネル）と、LTV:CAC＝3:1の資本効率（1年で広告費回収）が噛み合ったことで、年商2億〜3億ドル規模に到達した。<br>
+      3. <strong>しかしB2C単体は既に成熟・縮小局面：</strong> 年間DLが3,230万→730万へ減少する中、年次解約率60〜65%の壁により、Calm自身も「個人向けアプリの広告獲得モデル」の限界を認め、<strong>B2B（福利厚生）・Calm Health（保険・医療）</strong>へ主軸を移している。<br>
+      4. <strong>後発がCalmを超えるための鉄則：</strong> 同じ土俵（セレブ音声ライブラリ＋B2C年額課金＋高額広告）で戦えば資金力（$218M調達済み）で勝てない。解約率60%を生む「受動的な音声視聴」ではなく、<strong>AI・個人の文脈記憶・医療/復職などの実務課題解決（高継続・高ARPU）</strong>で戦うことが不可欠となる。
+    </div>
+
+    <h3>主要情報ソース（References）</h3>
+    <ul class="source-list">
+      <li>Business of Apps / AppMagic — Calm Revenue, Downloads (2018–2025) and Subscriber Estimates</li>
+      <li>Sacra / GetLatka / Contrary Research — Calm ARR, B2C Conversion (~7%), Calm Business &amp; Calm Health Analysis</li>
+      <li>Sensor Tower — Regional Market Share (US/UK), iOS Monetization Skew, Ad Spend Trends</li>
+      <li>Adapty / RetentionCheck / Amplitude — Consumer Subscription Unit Economics (LTV ~$200 gross / $120 net, CAC ~$40) &amp; Wellness Churn Benchmarks (60–65%)</li>
+      <li>Adweek / Fortune / Fast Company / The Guardian / SFGATE — 2020 CNN Election Sponsorship, Funding Rounds ($218M Total, $2B Valuation), August 2022 Layoffs (20% / ~90 staff), Ripple Health Acquisition</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  Calm.com 詳細事業分析レポート ｜ 公開データ・市場調査に基づく積み上げ検証資料
+</footer>
+
+</body>
+</html>
