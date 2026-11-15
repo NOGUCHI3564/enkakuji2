@@ -281,6 +281,82 @@
       color: #1e293b;
     }
 
+    /* TAM / SAM / SOM カード */
+    .tam-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .tam-card {
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+    }
+    .tam-card.tam { border-top: 5px solid #1e293b; background: #f8fafc; }
+    .tam-card.sam { border-top: 5px solid #2563eb; background: #eff6ff; }
+    .tam-card.som { border-top: 5px solid #d97706; background: #fffbeb; }
+    .tam-label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: #475569;
+      margin-bottom: 4px;
+    }
+    .tam-value {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 24px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+    .tam-card.som .tam-value { color: #b45309; }
+    .tam-desc { font-size: 12.5px; color: #334155; }
+
+    /* POC カード */
+    .poc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 16px;
+    }
+    .poc-card {
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 20px;
+      background: #ffffff;
+    }
+    .poc-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 12px;
+      background: #0f172a;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+    .poc-title {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+    .poc-meta {
+      font-size: 12.5px;
+      color: #475569;
+      margin-bottom: 10px;
+    }
+    .poc-gate {
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 12.5px;
+      color: #065f46;
+    }
+    .poc-gate strong { display: block; margin-bottom: 2px; }
+
     footer {
       background: #f8fafc;
       padding: 20px;
@@ -306,11 +382,13 @@
 
   <div class="top-bar">
     <nav class="nav-links">
-      <a href="#core">① PMFの核（市場×現場）</a>
-      <a href="#segments">② ターゲットセグメント評価</a>
-      <a href="#positioning">③ 競合ポジショニング図</a>
-      <a href="#features">④ 機能開発マトリックス</a>
-      <a href="#roadmap">⑤ 3段階ロードマップ</a>
+      <a href="#core">① PMFの核</a>
+      <a href="#market-tam">② TAM/SAM/SOM・売上試算</a>
+      <a href="#segments">③ セグメント評価</a>
+      <a href="#positioning">④ ポジショニング図</a>
+      <a href="#features">⑤ 機能マトリックス</a>
+      <a href="#roadmap">⑥ ロードマップ</a>
+      <a href="#poc">⑦ POC設計</a>
     </nav>
     <button type="button" class="print-btn" onclick="window.print()">🖨️ 印刷 / PDF保存</button>
   </div>
@@ -354,7 +432,90 @@
         </div>
       </section>
 
-      <!-- 2. セグメント評価マトリックス -->
+      <!-- 2. TAM / SAM / SOM ＆ 売上高シミュレーション -->
+      <section class="section" id="market-tam">
+        <h2 class="section-title">
+          <span class="pill blue">Market Size</span>
+          市場規模（TAM / SAM / SOM）と売上高シミュレーション
+        </h2>
+
+        <div class="tam-grid">
+          <div class="tam-card tam">
+            <div class="tam-label">TAM（獲得可能な最大市場規模）</div>
+            <div class="tam-value">約 2.0兆円規模</div>
+            <div class="tam-desc">
+              ・<strong>国内健康経営関連市場：</strong> 1兆4,712億円（2025年予測 / シード・プランニング）<br>
+              ・<strong>国内企業向け研修サービス市場：</strong> 約6,000〜6,100億円（矢野経済研究所）<br>
+              ・※背景課題：国内メンタルヘルス起因の経済損失 約7.6兆円（経産省資料）
+            </div>
+          </div>
+
+          <div class="tam-card sam">
+            <div class="tam-label">SAM（アプローチ可能な有効市場）</div>
+            <div class="tam-value">約 450億〜850億円</div>
+            <div class="tam-desc">
+              ・<strong>B2B 新卒・若手内省研修デジタル領域：</strong> 約300億〜500億円/年（1人あたり研修費平均 約3.6〜4.0万円・eラーニング相場 5,000〜1万円/人）<br>
+              ・<strong>O2O 寺院リトリート・鎌倉等高付加価値体験：</strong> 約50億〜150億円/年（鎌倉年間延べ観光客 約2,000万人）<br>
+              ・<strong>ケアラー・離職防止支援DX：</strong> 約100億〜200億円/年
+            </div>
+          </div>
+
+          <div class="tam-card som">
+            <div class="tam-label">SOM（3年以内に獲得を狙う市場）</div>
+            <div class="tam-value">年商 3,000万〜5,000万円</div>
+            <div class="tam-desc">
+              ・<strong>初年度（POC〜パイロット）：</strong> 年商 300万〜600万円（法人4〜6社＋寺院イベント10回）<br>
+              ・<strong>3年目（拡大期）：</strong> 法人40社×60万円（2,400万円）＋寺院O2O 1万人×1,200円（1,200万円）＋ケアラー/健保連携（600万〜1,000万円）
+            </div>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>フェーズ / 年次</th>
+                <th>収益柱の内訳（単価 × 件数モデル）</th>
+                <th>想定売上高</th>
+                <th>参考：競合ベンチマーク</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Year 1</strong><br><span class="seg-sub">POC・初期検証期</span></td>
+                <td>
+                  ・B2B 新卒/若手リトリート＋アプリ3ヶ月：<strong>50万円 × 4社</strong> ＝ 200万円<br>
+                  ・お寺イベント連動（参加費付加＋木札/お布施）：<strong>1,500円 × 1,000名</strong> ＝ 150万円
+                </td>
+                <td><strong style="color:#b45309; font-size:14px;">350万〜600万円</strong></td>
+                <td>外部講師派遣型研修相場（1回5万〜60万円）に準拠</td>
+              </tr>
+              <tr>
+                <td><strong>Year 2</strong><br><span class="seg-sub">PMF確立・横展開</span></td>
+                <td>
+                  ・B2B 法人契約（年額/研修セット）：<strong>60万円 × 15社</strong> ＝ 900万円<br>
+                  ・寺院・観光O2O（多言語拝観＋特別石＋物販）：<strong>1,200円 × 4,000名</strong> ＝ 480万円<br>
+                  ・孫ケアラー/健保パイロット：<strong>150万円 × 2団体</strong> ＝ 300万円
+                </td>
+                <td><strong style="color:#b45309; font-size:14px;">1,680万〜2,200万円</strong></td>
+                <td>AI副住職くん等の寺院SaaS・お布施DXモデルを参考に高単価B2Bを統合</td>
+              </tr>
+              <tr>
+                <td><strong>Year 3</strong><br><span class="seg-sub">SOM到達・収益化</span></td>
+                <td>
+                  ・B2B 法人契約（新卒＋管理職リトリート）：<strong>60万円 × 40社</strong> ＝ 2,400万円<br>
+                  ・複数寺院・鎌倉観光O2Oパス＋物販/お布施：<strong>1,200円 × 10,000名</strong> ＝ 1,200万円<br>
+                  ・ケアラー・自治体/健保導入：<strong>180万円 × 4団体</strong> ＝ 720万円
+                </td>
+                <td><strong style="color:#b45309; font-size:14px;">4,320万円</strong><br><span class="seg-sub">（レンジ：3,000万〜5,000万円）</span></td>
+                <td>Upmind/Awarefyの「法人＋リアル拠点融合」モデルのミニマムPMF達成水準</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 3. セグメント評価マトリックス -->
       <section class="section" id="segments">
         <h2 class="section-title">
           <span class="pill blue">Segments</span>
@@ -547,6 +708,60 @@
               収益柱（B2B研修パッケージ＋お寺イベント）を確立しつつ、安全設計を整えた上で「孫世代介護者」「子ども・教育現場」への展開パッケージを自治体・企業健保と組む。
             </p>
             <div class="phase-kpi">検証指標：リピート受注 / LTV・社会的導入数</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. POC（概念実証）設計 -->
+      <section class="section" id="poc">
+        <h2 class="section-title">
+          <span class="pill crimson">POC Plan</span>
+          POC（概念実証）3ステップ計画 ＆ Go/No-Go 合格基準
+        </h2>
+        <div class="poc-grid">
+          <div class="poc-card">
+            <span class="poc-tag">POC-1：UX・継続性検証（1ヶ月）</span>
+            <h3 class="poc-title">佛日庵モニター体験テスト</h3>
+            <div class="poc-meta">
+              <strong>対象：</strong> ワークショップ参加者・協力モニター 30〜50名<br>
+              <strong>検証内容：</strong> 文字サイズ拡大、プロフィール前の導入1問、「穏やか／喝」モード実装後の体験変化を測定。
+            </div>
+            <div class="poc-gate">
+              <strong>合格基準（Go/No-Go）</strong>
+              ・対話〜覚悟の石 完了率：<strong>80%以上</strong><br>
+              ・1週間後の再訪率：<strong>35%以上</strong><br>
+              ・「人にも勧めたい」回答：<strong>70%以上</strong>
+            </div>
+          </div>
+
+          <div class="poc-card">
+            <span class="poc-tag">POC-2：O2O課金・お布施検証（1〜2ヶ月）</span>
+            <h3 class="poc-title">坐禅会・法話イベント連動テスト</h3>
+            <div class="poc-meta">
+              <strong>対象：</strong> 円覚寺・佛日庵等のリアルイベント参加者 50〜100名<br>
+              <strong>検証内容：</strong> 会場限定QRで「特別の石」を授与し、任意デジタルお布施または銘入り木札（1,500〜3,000円）への転換率を検証。
+            </div>
+            <div class="poc-gate">
+              <strong>合格基準（Go/No-Go）</strong>
+              ・限定QR読み込み率：<strong>75%以上</strong><br>
+              ・お布施/物販 転換率：<strong>15〜20%以上</strong><br>
+              ・参加者あたり平均課金額：<strong>1,500円以上</strong>
+            </div>
+          </div>
+
+          <div class="poc-card">
+            <span class="poc-tag">POC-3：B2B導入検証（2〜3ヶ月）</span>
+            <h3 class="poc-title">企業人事・新卒オンボーディング実証</h3>
+            <div class="poc-meta">
+              <strong>対象：</strong> 協力企業 1〜2社（新卒・若手社員 20〜50名）<br>
+              <strong>検証内容：</strong> 「端末内完結の安心感」を訴求して30日間利用してもらい、人事側の有償導入意向（単価30〜50万円）を確認。
+            </div>
+            <div class="poc-gate">
+              <strong>合格基準（Go/No-Go）</strong>
+              ・週1回以上の継続利用率：<strong>50%以上</strong><br>
+              ・従業員の心理的安全性スコア改善<br>
+              ・人事の<strong>次期有償契約（30〜50万円）合意</strong>
+            </div>
           </div>
         </div>
       </section>
