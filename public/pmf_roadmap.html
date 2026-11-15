@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>『心庭』PMF戦略（レッドチーム検証済）：市場規模・根拠・売上試算＆POC計画</title>
+  <title>『心庭』PMF戦略（統合マトリックス・市場根拠・POC計画）</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
@@ -17,7 +17,7 @@
       padding: 24px 16px;
     }
     .top-bar {
-      max-width: 1060px;
+      max-width: 1120px;
       margin: 0 auto 12px;
       display: flex;
       justify-content: space-between;
@@ -54,7 +54,7 @@
     }
 
     .container {
-      max-width: 1060px;
+      max-width: 1120px;
       margin: 0 auto;
       background: #ffffff;
       border: 1px solid #cbd5e1;
@@ -64,16 +64,16 @@
     }
 
     header {
-      background: linear-gradient(135deg, #090d16 0%, #1e293b 58%, #450a0a 100%);
+      background: linear-gradient(135deg, #090d16 0%, #1e293b 62%, #312e81 100%);
       color: #ffffff;
-      padding: 36px 34px;
-      border-bottom: 4px solid #dc2626;
+      padding: 34px 36px;
+      border-bottom: 4px solid #d97706;
     }
     .badge-top {
       display: inline-block;
-      background: rgba(220, 38, 38, 0.25);
-      border: 1px solid #f87171;
-      color: #fecaca;
+      background: rgba(217, 119, 6, 0.25);
+      border: 1px solid #f59e0b;
+      color: #fde68a;
       font-size: 11.5px;
       font-weight: 700;
       padding: 3px 12px;
@@ -90,7 +90,7 @@
     .header-sub {
       font-size: 13.5px;
       color: #cbd5e1;
-      max-width: 840px;
+      max-width: 860px;
     }
 
     .content { padding: 34px 36px; }
@@ -115,122 +115,57 @@
       color: #ffffff;
       background: #d97706;
     }
-    .pill.red { background: #dc2626; }
     .pill.blue { background: #2563eb; }
-    .pill.green { background: #059669; }
     .pill.purple { background: #7c3aed; }
+    .pill.green { background: #059669; }
+    .pill.red { background: #dc2626; }
 
-    /* レッドチーム警告・検証ボックス */
-    .redteam-alert {
-      background: #fef2f2;
-      border: 1px solid #fecaca;
-      border-left: 5px solid #dc2626;
-      border-radius: 12px;
-      padding: 18px 22px;
-      margin-bottom: 20px;
-      font-size: 13px;
-      color: #7f1d1d;
-    }
-    .redteam-alert strong.rt-head {
-      display: block;
-      font-size: 14.5px;
-      color: #991b1b;
-      margin-bottom: 6px;
-    }
-
-    .rt-grid {
+    /* 1. アーキテクチャ切り分け（共通コア vs 差し替え層） */
+    .arch-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 16px;
+      grid-template-columns: 1fr 1.25fr;
+      gap: 18px;
     }
-    .rt-card {
-      border: 1px solid #e2e8f0;
-      border-top: 4px solid #dc2626;
-      border-radius: 12px;
-      padding: 18px;
-      background: #ffffff;
-    }
-    .rt-num {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 700;
-      color: #991b1b;
-      background: #fee2e2;
-      padding: 2px 8px;
-      border-radius: 6px;
-      margin-bottom: 6px;
-    }
-    .rt-title {
-      font-size: 14.5px;
-      font-weight: 700;
-      color: #0f172a;
-      margin-bottom: 8px;
-    }
-    .rt-critique {
-      font-size: 12.5px;
-      color: #7f1d1d;
-      background: #fef2f2;
-      padding: 9px 11px;
-      border-radius: 6px;
-      margin-bottom: 8px;
-    }
-    .rt-counter {
-      font-size: 12.5px;
-      color: #064e3b;
-      background: #ecfdf5;
-      padding: 9px 11px;
-      border-radius: 6px;
-    }
-
-    /* TAM / SAM / SOM カード */
-    .tam-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-      gap: 16px;
-      margin-bottom: 20px;
-    }
-    .tam-card {
+    .arch-card {
+      border: 1px solid #cbd5e1;
       border-radius: 12px;
       padding: 20px;
-      border: 1px solid #cbd5e1;
-      background: #ffffff;
+      background: #f8fafc;
     }
-    .tam-card.tam { border-top: 5px solid #1e293b; background: #f8fafc; }
-    .tam-card.sam { border-top: 5px solid #2563eb; background: #eff6ff; }
-    .tam-card.som { border-top: 5px solid #d97706; background: #fffbeb; }
-    .tam-label {
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.06em;
-      color: #475569;
-      margin-bottom: 4px;
-    }
-    .tam-value {
-      font-family: 'Shippori Mincho', serif;
-      font-size: 22px;
-      font-weight: 800;
+    .arch-card.track { background: #fffbeb; border-color: #fcd34d; }
+    .arch-title {
+      font-size: 15px;
+      font-weight: 700;
       color: #0f172a;
-      margin-bottom: 4px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
-    .tam-old {
-      font-size: 11.5px;
-      color: #dc2626;
-      text-decoration: line-through;
-      margin-bottom: 8px;
-      display: block;
-    }
-    .tam-formula {
-      font-size: 12px;
-      background: rgba(255, 255, 255, 0.85);
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      padding: 10px 12px;
+    .arch-list {
+      padding-left: 18px;
+      font-size: 13px;
       color: #334155;
     }
-    .tam-formula strong { color: #0f172a; }
+    .arch-list li { margin-bottom: 6px; }
 
-    /* テーブル */
-    .table-wrap { overflow-x: auto; margin-bottom: 16px; }
+    .track-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .track-box {
+      background: #ffffff;
+      border: 1px solid #fde68a;
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 12.5px;
+    }
+    .track-box strong { display: block; color: #92400e; margin-bottom: 4px; font-size: 13px; }
+
+    /* 2. 統合PMFマトリックス（主役） */
+    .table-wrap { overflow-x: auto; margin-bottom: 14px; }
     table {
       width: 100%;
       border-collapse: collapse;
@@ -238,89 +173,107 @@
     }
     th, td {
       border: 1px solid #cbd5e1;
-      padding: 11px 12px;
+      padding: 12px 13px;
       text-align: left;
       vertical-align: top;
     }
     th {
-      background: #1e293b;
+      background: #0f172a;
       color: #ffffff;
       font-weight: 700;
       white-space: nowrap;
     }
-    .seg-name { font-weight: 700; color: #0f172a; font-size: 13.5px; display: block; }
-    .seg-sub { font-size: 11px; color: #64748b; }
-    .tag-pri {
+    .pmf-matrix th.col-user { background: #1e293b; width: 17%; }
+    .pmf-matrix th.col-need { background: #334155; width: 24%; }
+    .pmf-matrix th.col-func { background: #1e3a8a; width: 31%; }
+    .pmf-matrix th.col-biz { background: #065f46; width: 28%; }
+
+    .seg-badge {
       display: inline-block;
+      font-size: 10.5px;
+      font-weight: 700;
       padding: 2px 8px;
       border-radius: 6px;
-      font-size: 11px;
-      font-weight: 700;
+      margin-bottom: 5px;
     }
-    .pri-1 { background: #dcfce7; color: #166534; }
-    .pri-2 { background: #fef3c7; color: #92400e; }
-    .pri-3 { background: #dbeafe; color: #1e40af; }
-    .pri-4 { background: #f3e8ff; color: #6b21a8; }
+    .b-pri1 { background: #dcfce7; color: #166534; }
+    .b-pri2 { background: #fef3c7; color: #92400e; }
+    .b-pri3 { background: #dbeafe; color: #1e40af; }
+    .b-pri4 { background: #f3e8ff; color: #6b21a8; }
 
-    /* ポジショニングマップ */
+    .seg-name { font-weight: 700; color: #0f172a; font-size: 13.5px; display: block; margin-bottom: 3px; }
+    .track-tag { font-size: 11px; color: #64748b; font-weight: 600; display: block; }
+
+    .cell-list { padding-left: 16px; margin: 0; }
+    .cell-list li { margin-bottom: 5px; }
+    .cell-list li:last-child { margin-bottom: 0; }
+
+    .payer-box {
+      background: #ecfdf5;
+      border-left: 3px solid #059669;
+      padding: 6px 9px;
+      border-radius: 4px;
+      margin-bottom: 6px;
+      font-size: 12px;
+    }
+    .payer-box strong { color: #065f46; }
+
+    .safety-note {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 12.5px;
+      color: #7f1d1d;
+    }
+
+    /* 3. ポジショニング */
     .map-container {
       background: #f8fafc;
       border: 1px solid #cbd5e1;
       border-radius: 14px;
-      padding: 20px;
+      padding: 18px;
       text-align: center;
     }
-    .map-svg {
-      width: 100%;
-      max-width: 820px;
-      height: auto;
-      display: block;
-      margin: 0 auto;
-    }
+    .map-svg { width: 100%; max-width: 820px; height: auto; display: block; margin: 0 auto; }
 
-    /* 2x2 優先順位マトリックス */
-    .matrix-2x2 {
+    /* 4. 市場規模・売上 */
+    .tam-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
       gap: 16px;
+      margin-bottom: 18px;
     }
-    .q-card {
+    .tam-card {
       border-radius: 12px;
       padding: 18px 20px;
       border: 1px solid #cbd5e1;
+      background: #ffffff;
     }
-    .q-1 { background: #f0fdf4; border-top: 5px solid #059669; }
-    .q-2 { background: #eff6ff; border-top: 5px solid #2563eb; }
-    .q-3 { background: #faf5ff; border-top: 5px solid #7c3aed; }
-    .q-4 { background: #f8fafc; border-top: 5px solid #64748b; }
-    .q-badge {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 6px;
-      margin-bottom: 6px;
-      background: rgba(15, 23, 42, 0.08);
-      color: #0f172a;
-    }
-    .q-title { font-size: 15px; font-weight: 700; color: #0f172a; margin-bottom: 8px; }
-    .q-list { padding-left: 18px; font-size: 13px; color: #334155; }
-    .q-list li { margin-bottom: 6px; }
+    .tam-card.tam { border-top: 5px solid #1e293b; background: #f8fafc; }
+    .tam-card.sam { border-top: 5px solid #2563eb; background: #eff6ff; }
+    .tam-card.som { border-top: 5px solid #d97706; background: #fffbeb; }
+    .tam-label { font-size: 11px; font-weight: 800; color: #475569; margin-bottom: 4px; }
+    .tam-value { font-family: 'Shippori Mincho', serif; font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 6px; }
+    .tam-formula { font-size: 12px; color: #334155; }
+    .source-note { font-size: 11.5px; color: #64748b; margin-top: 6px; }
 
-    /* POC カード */
-    .poc-grid {
+    /* 5. レッドチーム & POC */
+    .rt-poc-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 16px;
     }
     .poc-card {
       border: 1px solid #cbd5e1;
+      border-top: 4px solid #dc2626;
       border-radius: 12px;
-      padding: 20px;
+      padding: 18px 20px;
       background: #ffffff;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      gap: 10px;
     }
     .poc-tag {
       display: inline-block;
@@ -330,39 +283,33 @@
       border-radius: 12px;
       background: #0f172a;
       color: #ffffff;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
-    .poc-title { font-size: 15.5px; font-weight: 700; color: #0f172a; margin-bottom: 8px; }
-    .poc-meta { font-size: 12.5px; color: #475569; margin-bottom: 10px; }
+    .poc-title { font-size: 15px; font-weight: 700; color: #0f172a; margin-bottom: 6px; }
+    .rt-warn {
+      background: #fff7ed;
+      border-left: 3px solid #ea580c;
+      padding: 8px 10px;
+      font-size: 12px;
+      color: #7c2d12;
+      border-radius: 4px;
+    }
     .poc-gate {
       background: #ecfdf5;
       border: 1px solid #a7f3d0;
       border-radius: 8px;
-      padding: 10px 12px;
+      padding: 9px 11px;
       font-size: 12px;
       color: #065f46;
-      margin-bottom: 8px;
     }
     .poc-kill {
       background: #fef2f2;
       border: 1px solid #fecaca;
       border-radius: 8px;
-      padding: 10px 12px;
+      padding: 9px 11px;
       font-size: 12px;
       color: #991b1b;
     }
-    .poc-gate strong, .poc-kill strong { display: block; margin-bottom: 2px; }
-
-    .source-box {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
-      padding: 14px 18px;
-      font-size: 12px;
-      color: #475569;
-    }
-    .source-box ul { padding-left: 18px; margin-top: 6px; }
-    .source-box li { margin-bottom: 3px; }
 
     footer {
       background: #f8fafc;
@@ -377,11 +324,11 @@
       body { background: #fff; padding: 0; }
       .top-bar { display: none; }
       .container { box-shadow: none; border: none; max-width: 100%; }
-      .content { padding: 20px; }
+      .content { padding: 18px; }
     }
-    @media (max-width: 720px) {
+    @media (max-width: 820px) {
+      .arch-grid, .track-split { grid-template-columns: 1fr; }
       .content { padding: 22px 16px; }
-      .matrix-2x2 { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -389,500 +336,356 @@
 
   <div class="top-bar">
     <nav class="nav-links">
-      <a href="#redteam">① レッドチーム厳格検証</a>
-      <a href="#market-tam">② ボトムアップTAM/SAM/SOM</a>
-      <a href="#revenue">③ 現実的売上＆コスト構造</a>
-      <a href="#segments">④ セグメント・ポジショニング</a>
-      <a href="#features">⑤ 機能優先順位</a>
-      <a href="#poc">⑥ POC＆撤退基準</a>
-      <a href="#dualtrack">⑦ 円覚寺版 vs 一般化版</a>
+      <a href="#arch">① 共通基盤と2トラック</a>
+      <a href="#matrix">② 統合PMFマトリックス</a>
+      <a href="#positioning">③ 競合ポジショニング</a>
+      <a href="#market">④ 市場規模・売上根拠</a>
+      <a href="#poc">⑤ リスク検証・POC計画</a>
     </nav>
     <button type="button" class="print-btn" onclick="window.print()">🖨️ 印刷 / PDF保存</button>
   </div>
 
   <div class="container">
     <header>
-      <span class="badge-top">RED-TEAMED PMF STRATEGY &amp; UNIT ECONOMICS</span>
-      <h1>『心庭』PMF戦略（レッドチーム検証済）：市場規模・根拠・POC計画</h1>
+      <span class="badge-top">CLEAN MECE PMF STRATEGY</span>
+      <h1>『心庭』PMF戦略：ユーザーニーズ × アプリ機能 × マネタイズ統合指針</h1>
       <p class="header-sub">
-        楽観的なトップダウン試算（希望的観測）を排除し、仮想レッドチームによる「5つの致命的仮定の検証」と「ボトムアップ算出根拠」に基づいて、現実的に到達可能な売上・リスク対策・POC撤退基準までを定義し直した改訂版です。
+        「誰のどんな悩みに対し、アプリのどの仕組みが効き、誰がいくら払うのか」をセグメントごとに重複なく（MECEに）整理し、市場根拠・レッドチーム検証・POC撤退基準までを一貫したロジックでまとめた戦略指針です。
       </p>
     </header>
 
     <div class="content">
 
-      <!-- 1. レッドチーム検証 -->
-      <section class="section" id="redteam">
+      <!-- 1. アーキテクチャの切り分け（共通基盤 vs 2トラック） -->
+      <section class="section" id="arch">
         <h2 class="section-title">
-          <span class="pill red">Red Team</span>
-          仮想レッドチームによる「5つの甘い仮定」へのシビアな検証と対策
+          <span class="pill">Architecture</span>
+          ① 共通コア基盤と「円覚寺版 / 一般化版」の切り分け
         </h2>
-
-        <div class="redteam-alert">
-          <strong class="rt-head">⚠️ レッドチーム総評（旧計画のどこが甘かったか）</strong>
-          旧計画では「健康経営市場1.4兆円」「3年目年商4,320万円」とトップダウンで大きく見積もっていましたが、<strong>①法人予算の年間サイクル（翌年4月導入まで売上が立たない）</strong>、<strong>②営業リソース不足</strong>、<strong>③端末内完結ゆえの効果測定困難</strong>、<strong>④1回体験して満足し離脱するリスク</strong> を過小評価していました。以下5点を前提に計画を現実化します。
-        </div>
-
-        <div class="rt-grid">
-          <div class="rt-card">
-            <span class="rt-num">論点 1：データとB2B導入の矛盾</span>
-            <h3 class="rt-title">「端末内保存のみ」だと、人事は効果測定できず予算を更新しない</h3>
-            <div class="rt-critique">
-              <strong>【批判】</strong> 人事は「利用率・ストレス改善効果」のレポートがないと翌年50万円の稟議を通せない。ログが一切取れないと導入効果の証明が不可能。
-            </div>
-            <div class="rt-counter">
-              <strong>【修正設計】</strong> 対話本文は端末内保存を絶対維持しつつ、法人版では本人同意の上で<strong>「利用回数・気分の前後スコア（匿名集計値のみ）」</strong>を任意送信、または事前事後アンケートで効果証明する。
-            </div>
+        <div class="arch-grid">
+          <div class="arch-card">
+            <div class="arch-title">🧱 全セグメント共通の基盤（最初に1回だけ整備）</div>
+            <ul class="arch-list">
+              <li><strong>端末内完結プライバシー：</strong> 対話ログをクラウドに残さず、本音を吐き出せる絶対的安心感。</li>
+              <li><strong>Ownershipアート体験：</strong> AIが正解を与えず、対話の末に自分で「覚悟の石」を据える体験。</li>
+              <li><strong>基本UXの改善（全対象共通）：</strong> 文字サイズ拡大（標準／大トグル）、プロフィール前の「導入1問」、女性にも響く丁寧な語調チューニング。</li>
+            </ul>
           </div>
 
-          <div class="rt-card">
-            <span class="rt-num">論点 2：継続率（ワンショット問題）</span>
-            <h3 class="rt-title">「覚悟の石」が1個できたら満足して、翌日から開かなくなる</h3>
-            <div class="rt-critique">
-              <strong>【批判】</strong> 深い内省はエネルギーを使うため、毎日開く動機が弱い。今のままではPOC-3の「週1回以上利用50%」はまず未達になる。
-            </div>
-            <div class="rt-counter">
-              <strong>【修正設計】</strong> 「3日後・7日後の石への振り返り通知」や「30秒で済む今日の小石（一言チェックイン）」を導入し、重い問答と軽い日常利用を分離する。
-            </div>
-          </div>
-
-          <div class="rt-card">
-            <span class="rt-num">論点 3：B2B課金の納得感</span>
-            <h3 class="rt-title">無料で公開中のPWAを、なぜ企業が年間50万円で買うのか？</h3>
-            <div class="rt-critique">
-              <strong>【批判】</strong> URLを知っていれば誰でも無料で使える状態では、「それ無料ですよね？」と突っ込まれて法人営業が成立しない。
-            </div>
-            <div class="rt-counter">
-              <strong>【修正設計】</strong> アプリ単体ではなく<strong>「円覚寺でのリアル坐禅・リトリート研修（体験費）＋ 新卒向け専用ワーク設計 ＋ 法人限定コード（限定石・限定法話）」</strong>のパッケージ対価として販売する。
-            </div>
-          </div>
-
-          <div class="rt-card">
-            <span class="rt-num">論点 4：安全性・炎上リスク</span>
-            <h3 class="rt-title">「喝（松岡修造的熱量）」や「いじめ相談」は逆効果・二次被害リスクがある</h3>
-            <div class="rt-critique">
-              <strong>【批判】</strong> 深刻に傷ついている新卒・介護者・子どもにAIが「喝」を入れると、追い詰めてしまい寺院・開発者の信用問題になる。
-            </div>
-            <div class="rt-counter">
-              <strong>【修正設計】</strong> 喝モードは明示的選択制とし、<strong>自傷・いじめ・希死念慮の検知時は強制的に喝を停止</strong>し、穏やか傾聴＋公的窓口案内へ切り替える安全設計を必須とする。
-            </div>
-          </div>
-
-          <div class="rt-card">
-            <span class="rt-num">論点 5：営業の属人性とリードタイム</span>
-            <h3 class="rt-title">新卒予算は年1回（9〜12月確定→4月導入）。初年度4社成約は非現実的</h3>
-            <div class="rt-critique">
-              <strong>【批判】</strong> 専任営業なしで年間15〜40社のB2B開拓は不可能。また寺院イベントも「野口先生・佛日庵の縁」に依存しており他寺へすぐ横展開できない。
-            </div>
-            <div class="rt-counter">
-              <strong>【修正設計】</strong> Year 1は「法人1〜2社の有償パイロット」＋「鎌倉リアルイベントの継続」に絞り、3年目SOMも<strong>現実的な年商1,300万〜1,550万円</strong>へ下方修正する。
+          <div class="arch-card track">
+            <div class="arch-title">🔀 コンテンツ層の差し替え（Track A / Track B）</div>
+            <p style="font-size: 12.5px; color: #78350f; margin-bottom: 8px;">
+              上記の「共通コア」から知識グラフ・用語・参照リンクだけを切り離し、対象に応じて2通りで展開します。
+            </p>
+            <div class="track-split">
+              <div class="track-box">
+                <strong>Track A：円覚寺・聖地モデル</strong>
+                鎌倉・円覚寺の法話や知識グラフ、リアル坐禅体験と直結。圧倒的ブランド力とPR力がある一方、宗教色NGの組織には入りにくい。
+              </div>
+              <div class="track-box">
+                <strong>Track B：脱・円覚寺（一般化エンジン）</strong>
+                宗教色を外した「東洋的内省×石の庭」。大手企業・自治体・公立学校・他観光地へのOEM横展開が可能。
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- 2. ボトムアップ TAM / SAM / SOM -->
-      <section class="section" id="market-tam">
+      <!-- 2. 統合PMFマトリックス（本ページの主役） -->
+      <section class="section" id="matrix">
         <h2 class="section-title">
-          <span class="pill blue">Market Size</span>
-          ボトムアップ算出による TAM / SAM / SOM（根拠と計算式）
-        </h2>
-
-        <div class="tam-grid">
-          <div class="tam-card tam">
-            <div class="tam-label">TAM（広義の周辺市場全体）</div>
-            <div class="tam-value">約 2.0兆円規模</div>
-            <span class="tam-old">※ただし95%以上は健診・ジム・汎用研修であり直接の競合外</span>
-            <div class="tam-formula">
-              <strong>算出根拠（一次調査）：</strong><br>
-              ・国内健康経営関連市場：<strong>1兆4,712億円</strong>（2025年予測 / シード・プランニング）<br>
-              ・国内企業向け研修サービス市場：<strong>約6,000〜6,100億円</strong>（矢野経済研究所）<br>
-              ・国内メンタルヘルス起因の経済損失：<strong>約7.6兆円</strong>（経産省資料）
-            </div>
-          </div>
-
-          <div class="tam-card sam">
-            <div class="tam-label">SAM（『心庭』が実際に戦える有効市場）</div>
-            <div class="tam-value">約 25億〜50億円 / 年</div>
-            <span class="tam-old">旧試算：450億〜850億円（トップダウン過大評価を修正）</span>
-            <div class="tam-formula">
-              <strong>ボトムアップ計算式：</strong><br>
-              ① <strong>B2B 新卒メンタル/内省領域：約15億〜30億円</strong><br>
-              　新卒外部研修に予算を持つ中堅・大手企業 約15,000社 × 内省デジタル/リトリート枠 10万〜20万円/社<br>
-              　<span style="font-size:11px;color:#64748b;">（※社員1人あたり年間研修費平均 3.6〜4.0万円 / eラーニング相場 5,000〜1万円/人）</span><br>
-              ② <strong>O2O 禅体験・高付加価値観光：約5億〜15億円</strong><br>
-              　鎌倉延べ観光客 約2,000万人のうち有料内省体験層 約0.5〜1%（10万〜20万人）× 単価1,500円＝鎌倉だけで1.5〜3億円（全国主要禅寺拡張で5〜15億円）<br>
-              ③ <strong>ケアラー離職防止枠：約5億円前後</strong>
-            </div>
-          </div>
-
-          <div class="tam-card som">
-            <div class="tam-label">SOM（3年以内に現実的に狙う売上）</div>
-            <div class="tam-value">年商 1,300万〜1,550万円</div>
-            <span class="tam-old">旧試算：3,000万〜5,000万円（営業工数を考慮し下方修正）</span>
-            <div class="tam-formula">
-              <strong>3年目 到達根拠（専任営業0〜1名体制）：</strong><br>
-              ・<strong>B2B法人：</strong> 15〜20社 × 平均50万円 ＝ <strong>750万〜1,000万円</strong><br>
-              ・<strong>寺院O2O（粗利ベース）：</strong> 3,500名 × 純増1,000円 ＝ <strong>350万円</strong><br>
-              ・<strong>健保・ケアラーパイロット：</strong> 1〜2団体 ＝ <strong>200万円</strong>
-            </div>
-          </div>
-        </div>
-
-        <div class="source-box">
-          <strong>📚 数値根拠・出典一覧：</strong>
-          <ul>
-            <li>健康経営関連市場（2025年 1兆4,712億円 / 2035年 1兆9,764億円）：シード・プランニング調査</li>
-            <li>企業向け研修サービス市場（約6,000億〜6,100億円）：矢野経済研究所調査</li>
-            <li>従業員1人あたり年間教育研修費（36,036円〜39,753円）：産労総合研究所「教育研修費用の実態調査」</li>
-            <li>新卒外部研修相場（公開講座 2万〜3.5万円/人、講師派遣 5万〜60万円/回、eラーニング 5,000〜1万円/人）：国内研修業界標準相場</li>
-            <li>メンタルヘルス起因の経済損失（約7.6兆円）：経済産業省資料（2026年3月公表等）</li>
-            <li>鎌倉市年間延べ観光客数（約2,000万人）：鎌倉市観光統計</li>
-          </ul>
-        </div>
-      </section>
-
-      <!-- 3. 現実的売上＆ユニットエコノミクス -->
-      <section class="section" id="revenue">
-        <h2 class="section-title">
-          <span class="pill">Unit Economics</span>
-          現実的売上シミュレーション ＆ コスト構造（粗利ベース）
+          <span class="pill blue">PMF Matrix</span>
+          ② 統合PMFマトリックス（セグメント × ニーズ × 必要な固有機能 × マネタイズ）
         </h2>
         <div class="table-wrap">
-          <table>
+          <table class="pmf-matrix">
             <thead>
               <tr>
-                <th>年次</th>
-                <th>案件数・単価の積み上げ（現実ライン）</th>
-                <th>アプリ側 想定売上</th>
-                <th>主なコスト（API・会場・原価）</th>
-                <th>想定営業粗利</th>
+                <th class="col-user">ユーザーセグメント</th>
+                <th class="col-need">切実なニーズ（なぜ必要か）</th>
+                <th class="col-func">ニーズを満たす専用機能（開発要件）</th>
+                <th class="col-biz">マネタイズ構造（誰が・どう払うか）</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td><strong>Year 1</strong><br><span class="seg-sub">検証・種まき期</span></td>
-                <td>
-                  ・法人パイロット：<strong>30万円 × 2社</strong> ＝ 60万円<br>
-                  ・お寺イベント連動：<strong>4回 × 40名 × 1,000円</strong> ＝ 16万円<br>
-                  ・木札/お守り物販・任意お布施：20万円
-                </td>
-                <td><strong>96万〜150万円</strong></td>
-                <td>
-                  ・LLM API費用：月1万〜3万円（年20万円）<br>
-                  ・木札等製作原価・決済手数料：約15万円<br>
-                  ・開発/保守は既存体制（外注費除く）
-                </td>
-                <td><strong style="color:#059669;">約 60万〜115万円</strong><br><span class="seg-sub">（※開発人件費除く実費黒字化）</span></td>
-              </tr>
-              <tr>
-                <td><strong>Year 2</strong><br><span class="seg-sub">PMF確立期</span></td>
-                <td>
-                  ・B2B法人（リトリート＋専用コード）：<strong>45万円 × 7社</strong> ＝ 315万円<br>
-                  ・寺院・観光O2O：<strong>1,500名 × 1,000円</strong> ＝ 150万円
-                </td>
-                <td><strong>465万〜550万円</strong></td>
-                <td>
-                  ・LLM API・インフラ費：年40万円<br>
-                  ・研修講師/寺院レベニューシェア（売上の30〜40%）：約150万円
-                </td>
-                <td><strong style="color:#059669;">約 275万〜360万円</strong></td>
-              </tr>
-              <tr>
-                <td><strong>Year 3</strong><br><span class="seg-sub">SOM到達期</span></td>
-                <td>
-                  ・B2B法人契約：<strong>50万円 × 18社</strong> ＝ 900万円<br>
-                  ・複数寺院・観光O2O：<strong>3,500名 × 1,000円</strong> ＝ 350万円<br>
-                  ・健保/ケアラー団体連携：<strong>150万円 × 1〜2団体</strong> ＝ 200万円
-                </td>
-                <td><strong>1,450万円</strong><br><span class="seg-sub">（レンジ：1,300万〜1,550万円）</span></td>
-                <td>
-                  ・LLM API・システム保守：年100万円<br>
-                  ・寺院/講師シェア・物販原価：約450万円
-                </td>
-                <td><strong style="color:#059669;">約 900万円</strong><br><span class="seg-sub">（事業として自走・専任1名確保可能ライン）</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- 4. セグメント評価 & ポジショニング -->
-      <section class="section" id="segments">
-        <h2 class="section-title">
-          <span class="pill purple">Segments</span>
-          ターゲット・セグメント評価 ＆ 競合ポジショニング
-        </h2>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th style="width: 22%;">セグメント</th>
-                <th style="width: 24%;">抱えている痛み（Pain）</th>
-                <th style="width: 22%;">導入の障壁（レッドチーム指摘）</th>
-                <th style="width: 18%;">課金パッケージ</th>
-                <th style="width: 14%;">優先度</th>
-              </tr>
-            </thead>
-            <tbody>
+              <!-- S1 -->
               <tr>
                 <td>
+                  <span class="seg-badge b-pri1">最優先：B2B主力</span>
                   <span class="seg-name">S1. 企業人事・新卒／若手</span>
-                  <span class="seg-sub">（B2B リトリート×内省）</span>
+                  <span class="track-tag">Track B（無宗教版）<br>※幹部研修は Track A</span>
                 </td>
-                <td>配属不安・早期離職。会社の相談窓口やSlackログは人事に見られる不安がある。</td>
-                <td>予算決定が年1回（秋〜冬）。効果測定レポートがないと継続予算が下りない。</td>
-                <td><strong>円覚寺リトリート研修＋専用コード（30〜50万円/社）</strong></td>
-                <td><span class="tag-pri pri-1">◎ 最優先</span></td>
+                <td>
+                  <ul class="cell-list">
+                    <li>配属不安やリアリティショックによる早期離職を防ぎたい。</li>
+                    <li>会社の相談窓口やSlackは「人事に見られる」ため本音が言えない。</li>
+                    <li>人事側は「導入効果」の根拠がないと予算を出せない。</li>
+                  </ul>
+                </td>
+                <td>
+                  <ul class="cell-list">
+                    <li><strong>30秒「今日の小石」＋振り返り通知：</strong> 重い問答だけでなく日常のワンショット離脱を防ぐ。</li>
+                    <li><strong>匿名オプトイン効果測定：</strong> 対話本文は端末に秘匿したまま「利用回数・前後気分スコア」のみ人事へ集計出力。</li>
+                    <li><strong>法人専用コード＋「喝」選択モード：</strong> 挑戦を後押ししたい若手向けに熱量ある対話を切替可能に。</li>
+                  </ul>
+                </td>
+                <td>
+                  <div class="payer-box">
+                    <strong>支払者：</strong> 企業の人事部（新卒育成・定着予算）
+                  </div>
+                  <ul class="cell-list">
+                    <li>無料PWAとの差別化として<strong>「事前研修＋専用ワーク＋限定コード3ヶ月利用」</strong>のパッケージで販売。</li>
+                    <li><strong>想定単価：</strong> 30万〜50万円 / 社</li>
+                  </ul>
+                </td>
               </tr>
+
+              <!-- S2 -->
               <tr>
                 <td>
-                  <span class="seg-name">S2. 寺院イベント・観光</span>
-                  <span class="seg-sub">（O2O 佛日庵モデル）</span>
+                  <span class="seg-badge b-pri2">最優先：PR・起点</span>
+                  <span class="seg-name">S2. 寺院イベント・鎌倉観光</span>
+                  <span class="track-tag">Track A（円覚寺・聖地モデル）</span>
                 </td>
-                <td>坐禅や法話の感動が日常に戻ると数日で風化する。</td>
-                <td>単価が低い（1,000〜1,500円）ため、これ単体では開発費を回収しにくい。</td>
-                <td><strong>参加費包含＋限定QR石＋銘入り木札/お布施</strong></td>
-                <td><span class="tag-pri pri-2">◎ 起点</span></td>
+                <td>
+                  <ul class="cell-list">
+                    <li>坐禅会や法話で得た感動が、日常に戻ると数日で風化してしまう。</li>
+                    <li>「この日・この聖地で考えたこと」を形として持ち帰りたい。</li>
+                  </ul>
+                </td>
+                <td>
+                  <ul class="cell-list">
+                    <li><strong>会場限定QR「特別の石」授与：</strong> 現地参加者だけが庭に置けるデジタル御朱印。</li>
+                    <li><strong>境内スポット連動・多言語ガイド：</strong> 拝観ルートと問答を結びつける観光UX。</li>
+                    <li><strong>記念物販・任意お布施リンク：</strong> 石に刻んだ銘の木札予約や感謝の喜捨ボタン。</li>
+                  </ul>
+                </td>
+                <td>
+                  <div class="payer-box">
+                    <strong>支払者：</strong> イベント参加者・観光客個人
+                  </div>
+                  <ul class="cell-list">
+                    <li>月額課金は世界観に反するため廃止。<strong>「イベント参加費（+500〜1,500円包含）」</strong>または<strong>「木札物販（1,500〜3,000円）・任意お布施」</strong>で収益化。</li>
+                  </ul>
+                </td>
               </tr>
+
+              <!-- S3 -->
               <tr>
                 <td>
-                  <span class="seg-name">S3. 孫世代ケアラー</span>
-                  <span class="seg-sub">（20〜30代 介護離職予防）</span>
+                  <span class="seg-badge b-pri3">次期主力：Year 2〜</span>
+                  <span class="seg-name">S3. 孫世代・ビジネスケアラー</span>
+                  <span class="track-tag">Track B（汎用ケア版）</span>
                 </td>
-                <td>同世代に仲間がおらず孤立。深夜に相談できる相手がいない。</td>
-                <td>個人課金は重荷。対象者へのリーチ（集客）コストが高い。</td>
-                <td><strong>企業健保・自治体・介護支援団体へのB2B2C</strong></td>
-                <td><span class="tag-pri pri-3">○ Year2〜</span></td>
+                <td>
+                  <ul class="cell-list">
+                    <li>20〜30代で祖父母や親の介護を担い、同世代に仲間がおらず孤立している。</li>
+                    <li>深夜の介護合間に、罪悪感や迷いを誰にも気兼ねなく吐き出したい。</li>
+                  </ul>
+                </td>
+                <td>
+                  <ul class="cell-list">
+                    <li><strong>24時間「穏やか（共感）」特化モード：</strong> 追い詰めない優しい聴き役に徹する語調制御。</li>
+                    <li><strong>介護・両立テーマ知識グラフ：</strong> 介護休職や葛藤に寄り添う問いかけ群への差し替え。</li>
+                    <li><strong>地域包括支援センター等への誘導：</strong> 抱え込みを防ぐ公的サポート接続。</li>
+                  </ul>
+                </td>
+                <td>
+                  <div class="payer-box">
+                    <strong>支払者：</strong> 介護離職を防ぎたい企業健保・自治体
+                  </div>
+                  <ul class="cell-list">
+                    <li>疲弊した個人からの直接課金は不向き。<strong>企業健保・自治体へのB2B2C福利厚生導入</strong>として年間契約（150万〜200万円 / 団体）。</li>
+                  </ul>
+                </td>
               </tr>
+
+              <!-- S4 -->
               <tr>
                 <td>
-                  <span class="seg-name">S4. 子ども・いじめ対策</span>
-                  <span class="seg-sub">（教育現場・放課後ケア）</span>
+                  <span class="seg-badge b-pri4">中長期：Year 3〜</span>
+                  <span class="seg-name">S4. 子ども・学生（いじめ相談）</span>
+                  <span class="track-tag">Track B（やさしい版）</span>
                 </td>
-                <td>親にも先生にも言えない悩み。</td>
-                <td>誤応答時の法的・倫理的リスクが極めて高い。教育委員会の審査が長い。</td>
-                <td><strong>自治体・CSR協賛（安全設計完了後）</strong></td>
-                <td><span class="tag-pri pri-4">△ Year3〜</span></td>
+                <td>
+                  <ul class="cell-list">
+                    <li>親にも先生にも履歴を知られずに、つらい気持ちの一次整理をしたい。</li>
+                    <li>既存の電話・LINE窓口は心理的ハードルが高い。</li>
+                  </ul>
+                </td>
+                <td>
+                  <ul class="cell-list">
+                    <li><strong>「やさしいことば」モード：</strong> 漢字・抽象表現を減らし、学校や友達の文脈へ変換。</li>
+                    <li><strong>危機検知セーフティネット：</strong> 自傷・いじめ・希死念慮の検知時は禅問答を即停止し、チャイルドライン等の専門窓口を提示。</li>
+                  </ul>
+                </td>
+                <td>
+                  <div class="payer-box">
+                    <strong>支払者：</strong> 教育委員会・自治体・CSR協賛企業
+                  </div>
+                  <ul class="cell-list">
+                    <li>子ども本人は完全無料。安全設計と審査体制を整えた上で、<strong>自治体・教育現場への公費導入／CSR協賛</strong>で運用。</li>
+                  </ul>
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
 
+        <div class="safety-note">
+          <strong>⚠️ 「喝（松岡修造的熱量）モード」の適用ルール：</strong> 熱量ある後押しは <strong>S1（若手挑戦）やS2（体験エンタメ）</strong> には強い差別化になりますが、<strong>S3（介護疲弊）・S4（いじめ）および全セグメントの危機検知時</strong> には二次被害を防ぐためシステム側で強制無効化します。
+        </div>
+      </section>
+
+      <!-- 3. 競合ポジショニング図 -->
+      <section class="section" id="positioning">
+        <h2 class="section-title">
+          <span class="pill purple">Positioning</span>
+          ③ 競合ポジショニング・マトリックス（なぜ一般B2C月額課金を避けるのか）
+        </h2>
         <div class="map-container">
-          <svg class="map-svg" viewBox="0 0 800 420" xmlns="http://www.w3.org/2000/svg">
-            <rect x="60" y="30" width="340" height="175" fill="#f1f5f9" rx="8"/>
-            <rect x="400" y="30" width="340" height="175" fill="#fffbeb" rx="8"/>
-            <rect x="60" y="205" width="340" height="175" fill="#f8fafc" rx="8"/>
-            <rect x="400" y="205" width="340" height="175" fill="#f0fdf4" rx="8"/>
-            <line x1="400" y1="20" x2="400" y2="395" stroke="#64748b" stroke-width="2"/>
-            <line x1="50" y1="205" x2="750" y2="205" stroke="#64748b" stroke-width="2"/>
-            <text x="400" y="16" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">▲ 法人・組織・リアル研修連動（B2B / O2O）</text>
-            <text x="400" y="412" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">▼ 個人利用中心（B2C サブスク / 無料）</text>
-            <text x="55" y="195" text-anchor="start" font-size="12" font-weight="700" fill="#475569">◀ 科学的ケア・汎用SaaS</text>
-            <text x="745" y="195" text-anchor="end" font-size="12" font-weight="700" fill="#92400e">聖地体験・禅・当事者意識アート ▶</text>
+          <svg class="map-svg" viewBox="0 0 800 390" xmlns="http://www.w3.org/2000/svg">
+            <rect x="60" y="28" width="340" height="162" fill="#f1f5f9" rx="8"/>
+            <rect x="400" y="28" width="340" height="162" fill="#fffbeb" rx="8"/>
+            <rect x="60" y="190" width="340" height="162" fill="#f8fafc" rx="8"/>
+            <rect x="400" y="190" width="340" height="162" fill="#f0fdf4" rx="8"/>
+            <line x1="400" y1="20" x2="400" y2="365" stroke="#64748b" stroke-width="2"/>
+            <line x1="50" y1="190" x2="750" y2="190" stroke="#64748b" stroke-width="2"/>
+            <text x="400" y="15" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0f172a">▲ 法人・組織・リアル体験連動（B2B / O2O）</text>
+            <text x="400" y="382" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0f172a">▼ 個人利用中心（B2C サブスク / 単発利用）</text>
+            <text x="55" y="182" text-anchor="start" font-size="11.5" font-weight="700" fill="#475569">◀ 科学的ケア・汎用SaaS</text>
+            <text x="745" y="182" text-anchor="end" font-size="11.5" font-weight="700" fill="#92400e">東洋的内省・Ownershipアート ▶</text>
 
-            <circle cx="170" cy="295" r="24" fill="#cbd5e1" stroke="#64748b" stroke-width="1.5"/>
-            <text x="170" y="299" text-anchor="middle" font-size="11" font-weight="700" fill="#1e293b">Calm等</text>
-            <text x="170" y="332" text-anchor="middle" font-size="10" fill="#64748b">（レッドオーシャン）</text>
+            <circle cx="170" cy="270" r="22" fill="#cbd5e1" stroke="#64748b" stroke-width="1.5"/>
+            <text x="170" y="274" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1e293b">Calm等</text>
+            <text x="170" y="305" text-anchor="middle" font-size="10" fill="#64748b">レッドオーシャン</text>
 
-            <circle cx="240" cy="135" r="25" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
-            <text x="240" y="139" text-anchor="middle" font-size="11" font-weight="700" fill="#1e40af">Upmind</text>
-            <text x="240" y="172" text-anchor="middle" font-size="10" fill="#1e40af">健康経営・自律神経</text>
+            <circle cx="245" cy="122" r="23" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+            <text x="245" y="126" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1e40af">Upmind</text>
+            <text x="245" y="157" text-anchor="middle" font-size="9.5" fill="#1e40af">健康経営・自律神経</text>
 
-            <circle cx="150" cy="95" r="25" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
-            <text x="150" y="99" text-anchor="middle" font-size="11" font-weight="700" fill="#1e40af">Awarefy</text>
-            <text x="150" y="132" text-anchor="middle" font-size="10" fill="#1e40af">CBT×福祉施設</text>
+            <circle cx="145" cy="88" r="23" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+            <text x="145" y="92" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1e40af">Awarefy</text>
+            <text x="145" y="123" text-anchor="middle" font-size="9.5" fill="#1e40af">CBT×福祉施設</text>
 
-            <circle cx="530" cy="290" r="24" fill="#e2e8f0" stroke="#475569" stroke-width="1.5"/>
-            <text x="530" y="294" text-anchor="middle" font-size="10.5" font-weight="700" fill="#334155">仏教AI系</text>
-            <text x="530" y="326" text-anchor="middle" font-size="10" fill="#64748b">単発Q&amp;A中心</text>
+            <circle cx="530" cy="268" r="22" fill="#e2e8f0" stroke="#475569" stroke-width="1.5"/>
+            <text x="530" y="272" text-anchor="middle" font-size="10" font-weight="700" fill="#334155">仏教AI系</text>
+            <text x="530" y="302" text-anchor="middle" font-size="9.5" fill="#64748b">単発Q&amp;A中心</text>
 
-            <rect x="465" y="60" width="245" height="90" rx="14" fill="#fef3c7" stroke="#d97706" stroke-width="3" stroke-dasharray="6 3"/>
-            <text x="587" y="88" text-anchor="middle" font-size="14.5" font-weight="800" fill="#92400e">★ 『心庭』の空白地帯</text>
-            <text x="587" y="110" text-anchor="middle" font-size="11.5" font-weight="700" fill="#78350f">円覚寺（聖地）× Ownershipアート</text>
-            <text x="587" y="130" text-anchor="middle" font-size="11" fill="#78350f">新卒リトリート研修 / 寺院O2O</text>
+            <rect x="465" y="54" width="245" height="86" rx="14" fill="#fef3c7" stroke="#d97706" stroke-width="3" stroke-dasharray="6 3"/>
+            <text x="587" y="81" text-anchor="middle" font-size="14" font-weight="800" fill="#92400e">★ 『心庭』の空白地帯</text>
+            <text x="587" y="102" text-anchor="middle" font-size="11" font-weight="700" fill="#78350f">Track A（聖地O2O）× Track B（法人/ケア）</text>
+            <text x="587" y="121" text-anchor="middle" font-size="10.5" fill="#78350f">端末内完結 × Ownership（覚悟の石）</text>
           </svg>
         </div>
       </section>
 
-      <!-- 5. 機能優先順位マトリックス -->
-      <section class="section" id="features">
+      <!-- 4. 市場規模・現実的売上根拠 -->
+      <section class="section" id="market">
         <h2 class="section-title">
-          <span class="pill green">Features</span>
-          『アプリ改善イデア集』× レッドチーム対策 2×2開発マトリックス
+          <span class="pill green">Market &amp; Unit Economics</span>
+          ④ ボトムアップ市場規模（TAM / SAM / SOM）と売上・粗利試算
         </h2>
-        <div class="matrix-2x2">
-          <div class="q-card q-1">
-            <span class="q-badge">第1象限：効果 大 × コスト 小</span>
-            <h3 class="q-title">① 今すぐ実装すべき改良（Phase 1）</h3>
-            <ul class="q-list">
-              <li><strong>文字サイズ拡大＆「標準／大」トグル：</strong>和室・屋外での視認性改善。</li>
-              <li><strong>プロフィール前の「導入1問」：</strong>「今心に引っかかっていること」を先に聞き、AI文脈の質を上げる。</li>
-              <li><strong>語調の洗練（女性ユーザー視点）：</strong>断定的・機械的な表現を排し、余韻ある丁寧な日本語へ調整。</li>
-            </ul>
+        <div class="tam-grid">
+          <div class="tam-card tam">
+            <div class="tam-label">TAM（周辺市場全体）</div>
+            <div class="tam-value">約 2.0兆円</div>
+            <div class="tam-formula">
+              国内健康経営市場 1兆4,712億円（2025年予測 / シード・プランニング）＋ 企業研修市場 約6,000〜6,100億円（矢野経済研究所）。※健診・ジム等を除くため直接の獲得対象は下記SAM。
+            </div>
           </div>
 
-          <div class="q-card q-2">
-            <span class="q-badge">第2象限：効果 大 × コスト 中</span>
-            <h3 class="q-title">② 離脱防止と収益化の核（Phase 1〜2）</h3>
-            <ul class="q-list">
-              <li><strong>「今日の小石」＆振り返りループ：</strong>石を作った後のワンショット離脱を防ぐ30秒チェックイン機能。</li>
-              <li><strong>「穏やか vs 喝」選択＋安全ガードレール：</strong>危険語検知時は強制的に傾聴＋相談窓口へ切り替える。</li>
-              <li><strong>法人・イベント限定QRコード機能：</strong>無料版と差別化する限定石・限定法話アンロック。</li>
-            </ul>
+          <div class="tam-card sam">
+            <div class="tam-label">SAM（実質戦える有効市場）</div>
+            <div class="tam-value">約 25億〜50億円 / 年</div>
+            <div class="tam-formula">
+              <strong>S1（B2B新卒）：</strong> 外部研修予算を持つ企業 約15,000社 × 内省デジタル枠 10〜20万円 ＝ <strong>15〜30億円</strong>（1人年研修費平均 3.6〜4.0万円：産労総合研究所）<br>
+              <strong>S2（O2O観光）：</strong> 鎌倉延べ約2,000万人の有料体験層 0.5〜1% × 1,500円 ＝ 1.5〜3億円（全国禅寺拡張で <strong>5〜15億円</strong>）<br>
+              <strong>S3（ケアラー枠）：</strong> <strong>約5億円前後</strong>
+            </div>
           </div>
 
-          <div class="q-card q-3">
-            <span class="q-badge">第3象限：効果 大 × コスト 大</span>
-            <h3 class="q-title">③ 中長期拡張（Phase 2〜3）</h3>
-            <ul class="q-list">
-              <li><strong>匿名オプトイン効果測定：</strong>対話本文は端末内に残したまま、気分の前後変化スコアのみ法人レポート化。</li>
-              <li><strong>「やさしいことば（子ども・学生）」モード：</strong>公的相談窓口連携を前提とした教育向け展開。</li>
-            </ul>
-          </div>
-
-          <div class="q-card q-4">
-            <span class="q-badge">第4象限：今はやらない（Avoid）</span>
-            <h3 class="q-title">④ 避けるべき施策</h3>
-            <ul class="q-list">
-              <li><strong>一般B2Cの月額980円課金：</strong>Calm等との消耗戦になり、LTVより獲得コスト（CPA）が上回る。</li>
-              <li><strong>全国寺院への無差別営業：</strong>まずは円覚寺・鎌倉圏のブランドが効く領域で型を作る。</li>
-            </ul>
+          <div class="tam-card som">
+            <div class="tam-label">SOM（3年目の現実的目標）</div>
+            <div class="tam-value">年商 1,300万〜1,550万円</div>
+            <div class="tam-formula">
+              専任営業0〜1名・年1回の法人予算サイクルを前提とした現実値：<br>
+              ・Year 1：<strong>96〜150万円</strong>（粗利 60〜115万円）<br>
+              ・Year 2：<strong>465〜550万円</strong>（粗利 275〜360万円）<br>
+              ・Year 3：<strong>1,450万円</strong>（S1: 50万円×18社 ＋ S2: 3,500名×1,000円 ＋ S3: 200万円 → <strong>営業粗利 約900万円</strong>）
+            </div>
           </div>
         </div>
+        <p class="source-note">
+          ※コスト控除前提：LLM API・インフラ費（年20〜100万円）、寺院・講師レベニューシェアおよび物販製作原価（売上の約30〜40%相当）を差し引いた上で粗利を算出。
+        </p>
       </section>
 
-      <!-- 6. POC計画＆撤退基準 -->
+      <!-- 5. リスク検証・POC計画 -->
       <section class="section" id="poc">
         <h2 class="section-title">
-          <span class="pill red">POC &amp; Kill Criteria</span>
-          POC（概念実証）3ステップ計画：合格基準と「撤退・ピボット基準」
+          <span class="pill red">POC &amp; Red Team</span>
+          ⑤ 主要リスク検証と POC 3ステップ（合格基準 ＆ 撤退・ピボット基準）
         </h2>
-        <div class="poc-grid">
+        <div class="rt-poc-grid">
           <div class="poc-card">
             <div>
-              <span class="poc-tag">POC-1：UX・継続性検証（1ヶ月）</span>
-              <h3 class="poc-title">佛日庵モニター体験テスト</h3>
-              <div class="poc-meta">
-                <strong>対象：</strong> ワークショップ参加者・モニター 30〜50名<br>
-                <strong>検証：</strong> 文字拡大＋導入1問＋「振り返り/小石」実装後の完了率と1週間後再訪率を測定。
+              <span class="poc-tag">POC-1：UX・継続性（1ヶ月）</span>
+              <h3 class="poc-title">共通基盤＋「今日の小石」検証</h3>
+              <div class="rt-warn">
+                <strong>レッドチーム懸念：</strong> 「覚悟の石」を1個作って満足してしまい、翌日から開かなくなる（ワンショット離脱）。
               </div>
+              <p style="font-size: 12.5px; color: #475569; margin-top: 8px;">
+                対象：モニター30〜50名。文字拡大・導入1問・30秒チェックイン実装後の完了率と再訪率を測定。
+              </p>
             </div>
             <div>
-              <div class="poc-gate">
-                <strong>✅ 合格基準（Go）</strong>
-                ・対話〜覚悟の石 完了率：<strong>75%以上</strong><br>
-                ・1週間後の再訪率：<strong>25%以上</strong><br>
-                ・満足度（「勧めたい」）：<strong>70%以上</strong>
-              </div>
-              <div class="poc-kill">
-                <strong>🛑 撤退・ピボット基準（Kill）</strong>
-                再訪率が<strong>15%未満</strong>の場合、「日常利用アプリ」の訴求を諦め、<strong>「イベント当日限定のデジタル御朱印ツール」</strong>へ割り切る。
-              </div>
+              <div class="poc-gate"><strong>✅ Go：</strong> 完了率 75%以上 ／ 1週間後再訪率 25%以上</div>
+              <div class="poc-kill" style="margin-top:6px;"><strong>🛑 Kill：</strong> 再訪率 15%未満なら「日常アプリ」を諦め、イベント当日限定ツールへ割り切る。</div>
             </div>
           </div>
 
           <div class="poc-card">
             <div>
-              <span class="poc-tag">POC-2：O2O課金・転換検証（1〜2ヶ月）</span>
-              <h3 class="poc-title">坐禅会・法話イベント連動テスト</h3>
-              <div class="poc-meta">
-                <strong>対象：</strong> 円覚寺・佛日庵等のリアルイベント参加者 50〜100名<br>
-                <strong>検証：</strong> 会場限定QRで「特別の石」授与後、任意デジタルお布施または銘入り木札予約への転換率を測定。
+              <span class="poc-tag">POC-2：S2 寺院O2O課金（1〜2ヶ月）</span>
+              <h3 class="poc-title">佛日庵イベント連動・授与品テスト</h3>
+              <div class="rt-warn">
+                <strong>レッドチーム懸念：</strong> 任意お布施・物販の転換率が伸びず、運営・製作原価割れを起こすリスク。
               </div>
+              <p style="font-size: 12.5px; color: #475569; margin-top: 8px;">
+                対象：イベント参加者50〜100名。限定QR石の読み込み率と、任意お布施／銘入り木札予約への転換率を測定。
+              </p>
             </div>
             <div>
-              <div class="poc-gate">
-                <strong>✅ 合格基準（Go）</strong>
-                ・限定QR読み込み率：<strong>70%以上</strong><br>
-                ・お布施/物販 転換率：<strong>15%以上</strong>（純増1,000円+/人）
-              </div>
-              <div class="poc-kill">
-                <strong>🛑 撤退・ピボット基準（Kill）</strong>
-                転換率が<strong>5%未満</strong>の場合、個別課金/物販モデルを廃止し、<strong>「イベント参加費に最初から含める（+500円）」</strong>モデルへ統一。
-              </div>
+              <div class="poc-gate"><strong>✅ Go：</strong> QR読込 70%以上 ／ 課金転換 15%以上（純増1,000円+/人）</div>
+              <div class="poc-kill" style="margin-top:6px;"><strong>🛑 Kill：</strong> 転換率 5%未満なら個別課金を廃止し、参加費事前包含（+500円）モデルへ統一。</div>
             </div>
           </div>
 
           <div class="poc-card">
             <div>
-              <span class="poc-tag">POC-3：B2B導入検証（2〜3ヶ月）</span>
+              <span class="poc-tag">POC-3：S1 法人導入（2〜3ヶ月）</span>
               <h3 class="poc-title">企業人事・新卒パイロット実証</h3>
-              <div class="poc-meta">
-                <strong>対象：</strong> 協力企業 1〜2社（新卒・若手社員 20〜50名）<br>
-                <strong>検証：</strong> 事前リトリート/説明＋30日間利用＋匿名効果アンケートを実施し、次期有償契約の可否を確認。
+              <div class="rt-warn">
+                <strong>レッドチーム懸念：</strong> 「無料公開PWAになぜ50万円払うのか」「効果測定できない」という人事の壁。
               </div>
+              <p style="font-size: 12.5px; color: #475569; margin-top: 8px;">
+                対象：協力企業1〜2社（20〜50名）。リトリート/説明＋専用コード30日利用＋匿名スコア集計をテスト。
+              </p>
             </div>
             <div>
-              <div class="poc-gate">
-                <strong>✅ 合格基準（Go）</strong>
-                ・月2回以上の継続利用率：<strong>45%以上</strong><br>
-                ・人事の<strong>次期有償契約（30〜50万円）合意</strong>
-              </div>
-              <div class="poc-kill">
-                <strong>🛑 撤退・ピボット基準（Kill）</strong>
-                2社とも「無料なら使うが予算は出ない」となった場合、直接B2B営業から撤退し、<strong>大手研修会社のOEMコンテンツ提供</strong>へ転換。
-              </div>
+              <div class="poc-gate"><strong>✅ Go：</strong> 月2回以上利用 45%以上 ／ 次期有償契約（30〜50万円）合意</div>
+              <div class="poc-kill" style="margin-top:6px;"><strong>🛑 Kill：</strong> 2社とも予算NGなら直販を撤退し、大手研修会社へのOEMコンテンツ提供へ転換。</div>
             </div>
           </div>
-        </div>
-      </section>
-
-      <!-- 7. 2トラック戦略：円覚寺版 vs 一般化版 -->
-      <section class="section" id="dualtrack">
-        <h2 class="section-title">
-          <span class="pill purple">Dual-Track</span>
-          2トラック戦略：「円覚寺版」と「脱・円覚寺（一般化エンジン）」の使い分け
-        </h2>
-
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th style="width: 18%;">比較軸</th>
-                <th style="width: 41%;">Track A：円覚寺・聖地協業モデル</th>
-                <th style="width: 41%;">Track B：脱・円覚寺（一般化プラットフォーム）</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>コアコンセプト</strong></td>
-                <td>鎌倉・円覚寺の法話・知識グラフ・リアル坐禅体験と直結した「聖地O2O体験」。</td>
-                <td>宗教色を外した<strong>「東洋的内省 × Ownershipアート（石を据える）× 端末内完結プライバシー」</strong>の汎用エンジン。</td>
-              </tr>
-              <tr>
-                <td><strong>最大の強み</strong></td>
-                <td>圧倒的な信頼感・PR力・独自性。AwarefyやCalmが絶対に真似できない「本物の聖地」。</td>
-                <td>宗教的制約（特定宗派NGの企業・自治体・公立学校）を突破でき、<strong>他寺院・観光地・企業へのOEM横展開</strong>が可能。</td>
-              </tr>
-              <tr>
-                <td><strong>レッドチーム警戒点（弱点）</strong></td>
-                <td>寺社側の承認・配慮が必要で、露骨な営利課金や急速な機能実験がしにくい。</td>
-                <td>「円覚寺」という看板を外すと、単なるAIコーチング（ChatGPTラッパー）に見えやすく<strong>コモディティ化リスク</strong>が高い。</td>
-              </tr>
-              <tr>
-                <td><strong>適したターゲット市場</strong></td>
-                <td>・鎌倉観光 / 坐禅会・法話イベント<br>・鎌倉リトリート型 企業幹部研修<br>・お守り・木札・デジタル御朱印</td>
-                <td>・一般企業の新卒オンボーディング（無宗教版）<br>・自治体/学校（いじめ相談・子ども向け）<br>・介護/健保（孫ケアラー支援）<br>・他社/他地域へのホワイトラベルOEM</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="rt-counter" style="border: 1px solid #a7f3d0; padding: 16px 20px; border-radius: 12px; font-size: 13px;">
-          <strong>💡 技術＆事業のおすすめ方針：「コアエンジン共通化 × テーマパック差し替え設計」</strong><br>
-          アプリ内部を <strong>① 共通コア（対話の揺らぎ制御・石の庭・端末保存）</strong> と <strong>② 差し替え可能なテーマパック（知識ネットワーク・参照記事URL・語調・ビジュアル）</strong> に分離しておくことで、開発コストを増やさずに両トラックを展開できます。<br>
-          ・<strong>初動（知名度・PR）：</strong> Track A（円覚寺版）で「鎌倉×AI」の圧倒的な実績と熱量を作る。<br>
-          ・<strong>スケール（B2B・自治体・OEM）：</strong> Track B（一般化版）で宗教的制約を外し、企業人事・介護・教育・他施設へ横展開する。
         </div>
       </section>
 
     </div>
 
     <footer>
-      <strong>臨済宗大本山 円覚寺『心庭』PMF戦略（レッドチーム検証済・改訂版）</strong><br>
-      参考資料：facilitator_guide.html（市場調査）× アプリ改善イデア集.txt（現場の声）× 国内公的・調査機関統計
+      <strong>臨済宗大本山 円覚寺『心庭』PMF戦略（MECE統合マトリックス・レッドチーム検証済）</strong><br>
+      参考：facilitator_guide.html（競合調査）× アプリ改善イデア集.txt（現場の声）× シード・プランニング / 矢野経済研究所 / 産労総合研究所 / 経産省 / 鎌倉市統計
     </footer>
   </div>
 
